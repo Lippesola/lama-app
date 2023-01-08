@@ -1,0 +1,170 @@
+<template>
+  <q-layout view="lHh Lpr lFf">
+    <q-header bordered>
+      <q-toolbar>
+        <q-btn
+          flat
+          dense
+          round
+          icon="fa-solid fa-bars"
+          aria-label="Menu"
+          @click="toggleLeftDrawer"
+        />
+
+        <q-toolbar-title>
+          LAMA - Lippesola Administration und Mitarbeiter Anmeldung
+        </q-toolbar-title>
+
+        <q-btn
+          flat
+          dense
+          round
+        >
+          <q-avatar v-if="!avatar" color="secondary" text-color="white" icon="fa-solid fa-user">
+          </q-avatar>
+          <q-avatar v-if="avatar" color="primary" text-color="white">
+            <img :src="avatar" />
+          </q-avatar>
+          <q-menu>
+            <q-list style="min-width: 150px">
+              <q-item clickable to="/profile" v-close-popup>
+                <q-item-section>Persönliche Daten</q-item-section>
+              </q-item>
+              <q-item clickable to="/avatar" v-close-popup>
+                <q-item-section>Profilbild</q-item-section>
+              </q-item>
+              <q-item clickable @click="toggleDarkMode">
+                <q-item-section>{{ $q.dark.isActive ? 'Light-Mode' : 'Dark-Mode' }}</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item clickable v-close-popup>
+                <q-item-section>Logout</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer
+      v-model="leftDrawerOpen"
+      show-if-above
+      bordered
+    >
+      <q-list>
+        <q-item-label
+          header
+        >
+          MA-Bereich
+        </q-item-label>
+
+        <EssentialLink
+          v-for="link in essentialLinks"
+          :key="link.title"
+          v-bind="link"
+        />
+        <q-separator inset spaced="xl" />
+        <q-item-label
+          header
+        >
+          LT-Bereich
+        </q-item-label>
+        <EssentialLink
+          v-for="link in leaderLinks"
+          :key="link.title"
+          v-bind="link"
+        />
+        
+      </q-list>
+      <div class="fixed-bottom" style="opacity:.4">
+        <q-btn
+          no-caps
+          flat
+          @click="changelog = true"
+        >
+        v1.0.0
+        </q-btn>
+      </div>
+    </q-drawer>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+  </q-layout>
+</template>
+
+<script>
+import { defineComponent, getCurrentInstance, ref } from 'vue'
+import EssentialLink from 'components/EssentialLink.vue'
+import { settings } from '../boot/settings'
+import { useQuasar } from 'quasar'
+import iconSet from 'quasar/icon-set/fontawesome-v6'
+import { api } from 'src/boot/axios'
+import { Buffer } from 'buffer'
+const linksList = [
+  {
+    title: 'Home',
+    icon: 'fa-solid fa-house-chimney',
+    link: '/'
+  },
+  {
+    title: 'Dein SOLA ' + settings.currentYear,
+    icon: 'fa-solid fa-campground',
+    link: '/engagement'
+  },
+  {
+    title: 'Todos',
+    icon: 'fa-solid fa-tasks',
+    link: '/tasks'
+  }
+];
+const leaderLinksList = [
+  {
+    title: 'Freischaltung',
+    icon: 'fa-solid fa-user-plus',
+    link: '/leader/activation'
+  }
+]
+
+export default defineComponent({
+  name: 'MainLayout',
+
+  components: {
+    EssentialLink
+  },
+
+  setup () {
+    const $q = useQuasar()
+    const { proxy } = getCurrentInstance()
+    const uuid = proxy.$keycloak.tokenParsed.sub
+
+    const leftDrawerOpen = ref(false)
+    const avatar = ref('');
+    $q.dark.set('auto')
+    // $q.dark.set(window.localStorage.getItem('darkmode') == 'true')
+
+    // changed icons
+    $q.iconSet = iconSet
+
+    api.get('/avatar/' + uuid, {
+      responseType: 'blob'
+    }).then(function(response) {
+      avatar.value = URL.createObjectURL(response.data, 'binary').toString('base64')
+    })
+
+    return {
+      essentialLinks: linksList,
+      leaderLinks: leaderLinksList,
+      leftDrawerOpen,
+      avatar,
+      toggleDarkMode () {
+        $q.dark.toggle()
+        window.localStorage.setItem('darkmode', $q.dark.isActive);
+      },
+      toggleLeftDrawer () {
+        leftDrawerOpen.value = !leftDrawerOpen.value
+      }
+    }
+  },
+})
+</script>
