@@ -394,7 +394,7 @@ export default {
       wishSelect[item.id] = ref('')
     }))
 
-    api.get('/userEngagement/' + settings.currentYear + '/' + uuid)
+    api.get('/userEngagement/' + uuid + '/' + settings.currentYear)
     .then(function(response) {
       Object.entries(participationList).forEach((entry => {
         const [index, item] = entry
@@ -442,7 +442,7 @@ export default {
 
         console.log(body);
 
-        api.post('/userEngagement/' + settings.currentYear + '/' + uuid, body)
+        api.post('/userEngagement/' + uuid + '/' + settings.currentYear, body)
         .then(function() {
           $q.notify({
             color: 'green-4',
