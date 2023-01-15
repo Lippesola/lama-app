@@ -16,16 +16,16 @@ import { api } from 'src/boot/axios'
 import { settings } from 'src/boot/settings'
 
 export default defineComponent({
-  name: 'ActivationPage',
+  name: 'UserList',
   components: {
     UserItem
   },
   setup() {
     const userList = ref([])
-    api.get('/userYear?year=' + settings.currentYear, '&status=' + 1).then(function(response) {
+    api.get('/userYear?year=' + settings.currentYear + '&status=' + 1).then(function(response) {
       Object.entries(response.data).forEach((entry => {
           const [index, item] = entry
-          if (!item.status) {
+          if (item.status) {
             userList.value.push({uuid: item.uuid})
           }
         }))
