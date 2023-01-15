@@ -1,8 +1,19 @@
-# Mitarbeiter-Bereich (mab-fe)
+# LAMA APP
+Lippesola Administration und Mitarbeiter Anmeldung Frontend
 
-Mitarbeiter Bereich vom Lippesola
 
-## Install the dependencies
+## Environment Variables
+
+|Environment Variable|Description|Example / possible values|
+|------|------|-------|
+|KEYCLOAK_CLIENTID|OIDC Client ID|lama|
+|KEYCLOAK_URL| Keycloak Base URL| https://keycloak.example.com/auth|
+|KEYCLOAK_REALM| Realm in Keycloak to use| `Lippesola`|
+|LAMA_API_URL| Backend URL of LAMA| https://api.lama.example.com, https://example.com/lamaapi|
+
+
+## Build it yourself
+### Install the dependencies
 ```bash
 yarn
 # or
@@ -30,14 +41,11 @@ yarn format
 npm run format
 ```
 
-
+### Customize the configuration if needed
+See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
 
 ### Build the app for production
 ```bash
 quasar build
 ```
 
-## Customize the configuration
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
-
-## Environment Variables
