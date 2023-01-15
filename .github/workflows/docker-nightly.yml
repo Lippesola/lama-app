@@ -16,5 +16,7 @@ jobs:
       run: docker build . --file Dockerfile --tag ghcr.io/lippesola/lama-app:nightly
     - name: Login to ghcr.io
       run: docker login ghcr.io -u lippesola -p $GITHUB_TOKEN
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
     - name: Push the Docker image
       run: docker push ghcr.io/lippesola/lama-app:nightly
