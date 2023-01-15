@@ -2,7 +2,7 @@ import { boot } from 'quasar/wrappers'
 import axios from 'axios'
 
 var api = axios.create({
-  baseURL: process.env.LAMA_API_URL || 'http://localhost:8080'
+  baseURL: globalConfig.api.url
 })
 
 export default boot(({ app }) => {

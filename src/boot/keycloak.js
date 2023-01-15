@@ -31,9 +31,9 @@ export default boot(async ({ app, router, store }) => {
 	      onLoad: 'check-sso'
 	    },
 	    config: {
-	      url: process.env.KEYCLOAK_URL || 'https://account.lippesola.de/auth/',
-	      realm: process.env.KEYCLOAK_REALM || 'Lippesola.de',
-	      clientId: process.env.KEYCLOAK_CLIENTID || 'lama-app',
+	      url: globalConfig.keycloak.url,
+	      realm: globalConfig.keycloak.realm,
+	      clientId: globalConfig.keycloak.clientId,
 	    },
 	    onReady() {
 	      registerTokenInterceptor()
