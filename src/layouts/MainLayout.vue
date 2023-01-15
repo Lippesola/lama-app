@@ -27,10 +27,10 @@
           </q-avatar>
           <q-menu>
             <q-list style="min-width: 150px">
-              <q-item clickable to="/profile" v-close-popup>
+              <q-item clickable to="/l/profile" v-close-popup>
                 <q-item-section>Persönliche Daten</q-item-section>
               </q-item>
-              <q-item clickable to="/avatar" v-close-popup>
+              <q-item clickable to="/l/avatar" v-close-popup>
                 <q-item-section>Profilbild</q-item-section>
               </q-item>
               <q-item clickable @click="toggleDarkMode">
@@ -105,24 +105,34 @@ const linksList = [
   {
     title: 'Home',
     icon: 'fa-solid fa-house-chimney',
-    link: '/'
+    link: '/l/'
+  },
+  {
+    title: 'Dein Profil',
+    icon: 'fa-solid fa-user',
+    link: '/l/profile'
   },
   {
     title: 'Dein SOLA ' + settings.currentYear,
     icon: 'fa-solid fa-campground',
-    link: '/engagement'
+    link: '/l/engagement'
   },
   {
-    title: 'Todos',
-    icon: 'fa-solid fa-tasks',
-    link: '/tasks'
-  }
+    title: 'MA-Liste',
+    icon: 'fa-solid fa-users',
+    link: '/l/userlist'
+  },
+  // {
+  //   title: 'Todos',
+  //   icon: 'fa-solid fa-tasks',
+  //   link: '/l/tasks'
+  // }
 ];
 const leaderLinksList = [
   {
     title: 'Freischaltung',
     icon: 'fa-solid fa-user-plus',
-    link: '/leader/activation'
+    link: '/l/leader/activation'
   }
 ]
 
@@ -140,8 +150,12 @@ export default defineComponent({
 
     const leftDrawerOpen = ref(false)
     const avatar = ref('');
-    $q.dark.set('auto')
-    // $q.dark.set(window.localStorage.getItem('darkmode') == 'true')
+
+    if (window.localStorage.getItem('darkmode') === null) {
+      $q.dark.set('auto')
+    } else {
+      $q.dark.set(window.localStorage.getItem('darkmode') === 'true')
+    }
 
     // changed icons
     $q.iconSet = iconSet
@@ -150,7 +164,7 @@ export default defineComponent({
       responseType: 'blob'
     }).then(function(response) {
       avatar.value = URL.createObjectURL(response.data, 'binary').toString('base64')
-    })
+    }).catch(function(e){console.log(e)})
 
     return {
       essentialLinks: linksList,

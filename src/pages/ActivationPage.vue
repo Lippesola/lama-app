@@ -1,12 +1,34 @@
 <template>
   <div class="q-pa-md text-h4">Mitarbeiterfreischaltung</div>
-    <div class="q-pa-md">
+  <div class="q-pa-md" style="max-width: 600px">
+    <q-list separator>
       <UserItem
         v-for="item in userList"
         :key="item"
         v-bind="item"
       />
-    </div>
+      <UserItem
+        v-for="item in userList"
+        :key="item"
+        v-bind="item"
+      />
+      <UserItem
+        v-for="item in userList"
+        :key="item"
+        v-bind="item"
+      />
+      <UserItem
+        v-for="item in userList"
+        :key="item"
+        v-bind="item"
+      />
+      <UserItem
+        v-for="item in userList"
+        :key="item"
+        v-bind="item"
+      />
+    </q-list>
+  </div>
 </template>
 
 <script>

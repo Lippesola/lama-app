@@ -11,7 +11,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
-import UserItem from 'src/components/UserActivationItem.vue'
+import UserItem from 'src/components/UserItem.vue'
 import { api } from 'src/boot/axios'
 import { settings } from 'src/boot/settings'
 
@@ -22,7 +22,7 @@ export default defineComponent({
   },
   setup() {
     const userList = ref([])
-    api.get('/userYear?year=' + settings.currentYear, '&status=' + 1 + '&bundle=name').then(function(response) {
+    api.get('/userYear?year=' + settings.currentYear, '&status=' + 1).then(function(response) {
       Object.entries(response.data).forEach((entry => {
           const [index, item] = entry
           if (!item.status) {
