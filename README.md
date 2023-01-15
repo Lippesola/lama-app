@@ -1,5 +1,5 @@
 # LAMA APP
-## Lippesola Administration und Mitarbeiter Anmeldung Frontend
+Lippesola Administration und Mitarbeiter Anmeldung Frontend
 
 ### Environment Variables
 
