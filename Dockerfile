@@ -1,12 +1,12 @@
 # develop stage
 FROM node:18 as develop-stage
 WORKDIR /
-RUN npm global add @quasar/cli
+RUN npm i -g add @quasar/cli
 COPY . .
 
 # build stage
 FROM develop-stage as build-stage
-RUN npm
+RUN npm i
 RUN quasar build
 
 # production stage
