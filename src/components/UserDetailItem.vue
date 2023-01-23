@@ -5,7 +5,7 @@
     </q-item-section>
 
     <q-item-section>
-      <q-item-label lines="1">{{ value }}</q-item-label>
+      <q-item-label>{{ value }}</q-item-label>
       <q-item-label caption>{{ label }}</q-item-label>
     </q-item-section>
 

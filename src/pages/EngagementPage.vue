@@ -22,23 +22,23 @@
       />
     </q-list>
     <q-separator class="q-my-lg" />
-  <div>
-    <span class="q-pr-md">
-      Legende:
-    </span>
-    <span class="q-pa-md">
-      <q-icon color="positive" name="fa-solid fa-circle"></q-icon>
-      Ja
-    </span>
-    <span class="q-pa-md">
-      <q-icon color="warning" name="fa-solid fa-circle"></q-icon>
-      Vielleicht
-    </span>
-    <span class="q-pa-md">
-      <q-icon color="negative" name="fa-solid fa-circle"></q-icon>
-      Nein
-    </span>
-  </div>
+    <div>
+      <span class="q-pr-md">
+        Legende:
+      </span>
+      <span class="q-pa-md">
+        <q-icon color="positive" name="fa-solid fa-circle"></q-icon>
+        Ja
+      </span>
+      <span class="q-pa-md">
+        <q-icon color="warning" name="fa-solid fa-circle"></q-icon>
+        Vielleicht
+      </span>
+      <span class="q-pa-md">
+        <q-icon color="negative" name="fa-solid fa-circle"></q-icon>
+        Nein
+      </span>
+    </div>
     <div class="q-pt-md text-h5">Termine</div>
     <q-list class="q-gutter-md row">
       <UserDetailItem
@@ -64,6 +64,14 @@
         v-for="item in $constants.engagement.roles"
         v-bind="roleList[item.id]['value']"
         :key="item.id"
+      />
+    </q-list>
+    <q-list class="q-py-lg row">
+      <UserDetailItem
+        icon="fa-solid fa-file"
+        :value="comment"
+        label="Weitere Anmerkungen"
+        color="primary"
       />
     </q-list>
   </div>
@@ -93,6 +101,7 @@ export default {
     const user = ref({})
     const c = proxy.$constants
     const settings = proxy.$settings
+    const comment = ref('')
 
     let profileList = {}
     let participationList = {}
@@ -125,10 +134,16 @@ export default {
           participationList[item.id]['value']['label'] = c.engagement.participation[item.id]['title']
           participationList[item.id]['value']['icon'] = c.engagement.participation[item.id]['icon']
           participationList[item.id]['value']['color'] = response.data[item.id] === 0 ? 'negative' : response.data[item.id] === 3 ? 'positive' : 'warning'
-          if (item.id === 'build' && response.data[item.id] === 0) {
-            participationList[item.id]['value']['color'] = response.data['teens'] === 0 ? 'negative' : response.data['teens'] === 3 ? 'positive' : 'warning'
-          } else if(item.id === 'cleanup' && response.data[item.id] === 0) {
-            participationList[item.id]['value']['color'] = response.data['kids'] === 0 ? 'negative' : response.data['kids'] === 3 ? 'positive' : 'warning'
+          if (item.id === 'build' || item.id === 'cleanup') {
+            if (response.data[item.id] === 0) {
+              if (item.id === 'build') {
+                participationList[item.id]['value']['color'] = response.data['teens'] === 0 ? 'negative' : response.data['teens'] === 3 ? 'positive' : 'warning'
+              } else {
+                participationList[item.id]['value']['color'] = response.data['kids'] === 0 ? 'negative' : response.data['kids'] === 3 ? 'positive' : 'warning'
+              }
+            } else {
+              participationList[item.id]['value']['color'] = response.data[item.id] === 1 ? 'positive' : 'negative'
+            }
           }
         }
       }))
@@ -150,6 +165,7 @@ export default {
           roleList[item.id]['value']['color'] = response.data[item.id] > 0 ? 'positive' : 'negative'
         }
       }))
+      comment.value = response.data.comment
       loading.value = false
     })
 
@@ -188,6 +204,7 @@ export default {
       dialog,
       loading,
       user,
+      comment
     }
   }
 }

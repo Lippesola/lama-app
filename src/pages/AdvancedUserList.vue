@@ -2,6 +2,7 @@
   <div class="q-pa-md">
     <q-table
       title="userlist"
+      flat
       :rows="rows"
       :columns="columns"
       row-key="name"
@@ -9,6 +10,7 @@
       :pagination="{rowsPerPage: 25}"
       :rows-per-page-options="[25, 50, 100]"
       rows-per-page-label="Ergebnisse pro Seite"
+      @row-click="rowClickHandler"
     >
       <template v-slot:top="props">
         <div class="col-2 q-table__title" style="width:100%">
@@ -67,11 +69,15 @@
       </template>
 
     </q-table>
+    <div class="text-caption q-py-md">
+      Es werden alle Mitarbeiter angezeigt, die sich vollständig angemeldet haben - auch, wenn sie noch nicht freigeschaltet wurden.
+    </div>
   </div>
 </template>
 
 <script>
   import { defineComponent, ref, getCurrentInstance } from 'vue'
+  import { useRouter } from 'vue-router'
   import moment from 'moment'
   export default defineComponent({
   name: 'AdvancedUserList',
@@ -82,6 +88,7 @@
       const api = proxy.$api
       const c = proxy.$constants
       const settings = proxy.$settings
+      const router = useRouter()
 
       const visibleColumns = ref(['firstName', 'lastName', 'teens', 'kids'])
       const profileColumns = []
@@ -137,7 +144,7 @@
 
       const columns = profileColumns.concat(participationColumns, roleColumns, wishColumns)
       
-      api.get('/userYear?year=' + settings.currentYear + '&userBundle').then(function(response) {
+      api.get('/userYear?status=3&status=4&year=' + settings.currentYear + '&userBundle').then(function(response) {
         Object.entries(response.data).forEach((entry => {
           const [index, item] = entry
           let row = item
@@ -151,6 +158,12 @@
         }))
       }).catch(function(e) {})
 
+      function rowClickHandler(evt, row) {
+        router.push({
+          path: '/l/profile/' + row.uuid
+        })
+      }
+
 
       return {
         profileColumns,
@@ -159,7 +172,8 @@
         wishColumns,
         visibleColumns,
         columns,
-        rows
+        rows,
+        rowClickHandler
       }
     }
   })

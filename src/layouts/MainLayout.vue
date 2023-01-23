@@ -78,15 +78,6 @@
         </div>
         
       </q-list>
-      <div class="fixed-bottom" style="opacity:.4">
-        <q-btn
-          no-caps
-          flat
-          @click="changelog = true"
-        >
-        v1.0.0
-        </q-btn>
-      </div>
     </q-drawer>
 
     <q-page-container>
