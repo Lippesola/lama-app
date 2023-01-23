@@ -1,5 +1,5 @@
 <template>
-  <q-item :clickable="link ? true : false" v-ripple :href="link">
+  <q-item bordered :clickable="link ? true : false" v-ripple :href="link">
     <q-item-section avatar top>
       <q-avatar :text-color="color" :icon="icon"/>
     </q-item-section>

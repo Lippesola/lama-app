@@ -24,7 +24,6 @@
           :options="item.options"
           :label="item.title"
           :hint="item.hint"
-          :rules="[val => !!val || 'Eingabe erforderlich']"
         />
       </div>    
       
@@ -43,7 +42,6 @@
           :options="item.options"
           :label="item.title"
           :hint="item.hint"
-          :rules="[val => !!val || 'Eingabe erforderlich']"
         />
       </div>
       
@@ -62,9 +60,17 @@
           :options="item.options"
           :label="item.title"
           :hint="item.hint"
-          :rules="[val => !!val || 'Eingabe erforderlich']"
         />
       </div>
+      
+      <div class="q-pt-xl text-h5">Sonstige Anmerkungen</div>
+      <div class="q-pb-md text-body1"></div>
+      <q-input
+        v-model="comment"
+        outlined
+        type="textarea"
+        :label="'Dinge, die relevant für deine Mitarbeit beim SOLA ' + $settings.currentYear + ' sind.'"
+      />
       <div class="q-pt-lg">
         <q-btn label="Speichern" type="submit" color="primary"/>
       </div>
@@ -81,14 +87,21 @@ import moment from 'moment'
 export default {
   name: 'EditEngagementPage',
   
-  setup() {
+  props: {
+    registrationFlow: {
+      type: Boolean,
+      default: false
+    }
+  },
+  setup(props) {
     const $q = useQuasar()
     const { proxy } = getCurrentInstance()
     const uuid = proxy.$keycloak.tokenParsed.sub
     const c = proxy.$constants
 
     const loading = ref(true)
-
+    
+    const comment = ref('')
     const participationList = c.engagement.participation
     const roleList = c.engagement.roles
     const wishList = c.engagement.wishes
@@ -110,7 +123,7 @@ export default {
       wishSelect[item.id] = ref('')
     }))
 
-    api.get('/userEngagement/' + uuid + '/' + settings.currentYear)
+    api.get('/userYear/' + uuid + '/' + settings.currentYear)
     .then(function(response) {
       Object.entries(participationList).forEach((entry => {
         const [index, item] = entry
@@ -130,6 +143,7 @@ export default {
           wishSelect[item.id]['value'] = wishList[item.id]['options'][response.data[item.id]]
         }
       }))
+      comment.value = response.data.comment
       loading.value = false
     })
     return {
@@ -139,6 +153,7 @@ export default {
       roleSelect,
       wishList,
       wishSelect,
+      comment,
       loading,
       onSubmit() {
         var body = {}
@@ -155,10 +170,9 @@ export default {
           const [index, item] = entry
           body[item.id] = wishSelect[item.id]['value']['value']
         }))
+        body['comment'] = comment.value
 
-        console.log(body);
-
-        api.post('/userEngagement/' + uuid + '/' + settings.currentYear, body)
+        api.post('/userYear/' + uuid + '/' + settings.currentYear, body)
         .then(function() {
           $q.notify({
             color: 'green-4',
@@ -166,6 +180,9 @@ export default {
             icon: 'fa-solid fa-check',
             message: 'Gespeichert'
           })
+          if (props.registrationFlow) {
+            location.href='/r/'
+          }
         })
         .catch(function() {
           $q.notify({

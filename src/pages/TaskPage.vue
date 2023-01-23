@@ -63,12 +63,12 @@ export default {
 
     const tasks = {
       criminalRecord: {
-        date: ref(''),
-        status: ref('')
+        date: ref('01.01.2020'),
+        status: ref(1)
       },
       selfCommitment: {
-        date: ref(''),
-        status: ref('')
+        date: ref('01.01.2010'),
+        status: ref(0)
       }
     }
     const loading = ref(true)
@@ -80,7 +80,7 @@ export default {
         tasks[res.task]['status']['value'] = res.status
       })
       loading.value = false;
-    }).catch(function(e){console.log(e)})
+    }).catch(function(e){})
     return {
       loading,
       tasks

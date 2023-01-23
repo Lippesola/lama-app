@@ -7,7 +7,9 @@ var api = axios.create({
 
 export default boot(({ app }) => {
   app.config.globalProperties.$axios = axios
-  api.defaults.headers.common['Authorization'] = `Bearer ${app.config.globalProperties.$keycloak.token}`
+  if (app.config.globalProperties.$keycloak.authenticated) {
+    api.defaults.headers.common['Authorization'] = `Bearer ${app.config.globalProperties.$keycloak.token}`
+  }
   app.config.globalProperties.$api = api
 })
 

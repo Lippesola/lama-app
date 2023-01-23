@@ -3,16 +3,27 @@
     <ImageDialog
       v-model="dialog"
       :img="avatar"
-      :title="user.firstName + ' ' + user.lastName"
+      :title="(user.nickname || user.firstName) + ' ' + user.lastName"
     />
     <q-avatar v-if="!avatar" rounded size="48px" color="primary" text-color="white" icon="fa-solid fa-user"></q-avatar>
     <q-avatar v-if="avatar" rounded size="48px" color="primary" text-color="white">
       <img class="cursor-pointer" :src="avatar" @click="dialog = true" />
     </q-avatar>
-    {{ user.firstName }} {{ user.lastName }}
+    {{ user.nickname || user.firstName }} {{ user.lastName }}
   </div>
+  <div class="q-pl-md">
+    <div class="q-pt-md text-h5">Profil</div>
+    <q-list class="q-gutter-md row">
+      <UserDetailItem
+        style="width: 400px"
+        v-for="item in $constants.profile"
+        v-bind="profileList[item.id]['value']"
+        :key="item.id"
+      />
+    </q-list>
+    <q-separator class="q-my-lg" />
   <div>
-    <span class="q-pa-md">
+    <span class="q-pr-md">
       Legende:
     </span>
     <span class="q-pa-md">
@@ -28,7 +39,6 @@
       Nein
     </span>
   </div>
-  <div class="q-pl-md">
     <div class="q-pt-md text-h5">Termine</div>
     <q-list class="q-gutter-md row">
       <UserDetailItem
@@ -84,10 +94,15 @@ export default {
     const c = proxy.$constants
     const settings = proxy.$settings
 
+    let profileList = {}
     let participationList = {}
     let roleList = {}
     let wishList = {}
 
+    Object.entries(c.profile).forEach((entry => {
+      const [index, item] = entry;
+      profileList[item.id] = ref({})
+    }))
     Object.entries(c.engagement.participation).forEach((entry => {
       const [index, item] = entry;
       participationList[item.id] = ref({})
@@ -101,7 +116,7 @@ export default {
       wishList[item.id] = ref({})
     }))
 
-    api.get('/userEngagement/' + uuid + '/' + settings.currentYear)
+    api.get('/userYear/' + uuid + '/' + settings.currentYear)
     .then(function(response) {
       Object.entries(c.engagement.participation).forEach((entry => {
         const [index, item] = entry
@@ -137,25 +152,35 @@ export default {
       }))
       loading.value = false
     })
-    
-    // {
-    //   label: "E-Mail",
-    //   value: response.data.mail || 'Nicht angegeben',
-    //   icon: "fa-solid fa-envelope"
-    // }
-    
+
     api.get('/user/' + uuid)
     .then(function(response) {
+      Object.entries(c.profile).forEach((entry => {
+        const [index, item] = entry
+        if (profileList[item.id]) {
+          if (c.profile[item.id]['options']) {
+            profileList[item.id]['value']['value'] = c.profile[item.id]['options'][response.data[item.id]]
+          } else if(item.id === 'birthday') {
+            profileList[item.id]['value']['value'] = new moment(response.data[item.id]).format('DD.MM.YYYY')
+          } else {
+            profileList[item.id]['value']['value'] = response.data[item.id]
+          }
+          profileList[item.id]['value']['label'] = c.profile[item.id]['title']
+          profileList[item.id]['value']['icon'] = c.profile[item.id]['icon']
+          profileList[item.id]['value']['color'] = 'primary'
+        }
+      }))
       user.value = response.data
-    }).catch(function(e){console.log(e)})
+    }).catch(function(e){})
 
     api.get('/avatar/' + uuid, {
       responseType: 'blob'
     }).then(function(response) {
       avatar.value = URL.createObjectURL(response.data, 'binary').toString('base64')
-    }).catch(function(e){console.log(e)})
+    }).catch(function(e){})
 
     return {
+      profileList,
       participationList,
       wishList,
       roleList,

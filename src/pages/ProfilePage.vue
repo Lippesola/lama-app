@@ -18,6 +18,22 @@
       <img class="cursor-pointer" :src="avatar" @click="dialog = true" />
     </q-avatar>
     <span class="q-pl-md"> {{ name }} </span>
+    <span v-if="$keycloak.tokenParsed.groups.includes($settings.currentYear + '_LT')">
+      <q-btn
+        flat
+        color=""
+        class="q-ml-md"
+        icon="fa-solid fa-campground"
+        text-color="primary"
+        :to="'/l/engagement/' + user.uuid"
+      />
+      <q-btn
+        flat
+        icon="fa-solid fa-file-lines"
+        text-color="primary"
+        @click="getMotivation()"
+      />
+    </span>
   </div>
   <q-list>
     <ContactItem
@@ -50,6 +66,7 @@ export default {
     const itemList = ref([])
     const loading = ref(true)
     const uuid = proxy.$route.params.uuid
+    const currentYear = proxy.$settings.currentYear
     const user = ref({})
     const name = ref({})
 
@@ -85,13 +102,13 @@ export default {
           label: "Handynummer",
           value: response.data.mobile || 'Nicht angegeben',
           icon: "fa-solid fa-mobile",
-          link: response.data.mobile ? 'tel:response.data.mobile' : '#'
+          link: response.data.mobile ? 'tel:' + response.data.mobile : '#'
         },
         {
           label: "Telefon",
           value: response.data.phone || 'Nicht angegeben',
           icon: "fa-solid fa-phone",
-          link: response.data.phone ? 'tel:response.data.mobile' : '#'
+          link: response.data.phone ? 'tel:' + response.data.phone : '#'
         },
         {
           label: "Gemeinde",
@@ -104,13 +121,28 @@ export default {
           icon: "fa-solid fa-briefcase",
         },
       ]
-    }).catch(function(e){console.log(e)})
+    }).catch(function(e){})
 
     api.get('/avatar/' + uuid, {
       responseType: 'blob'
     }).then(function(response) {
       avatar.value = URL.createObjectURL(response.data, 'binary').toString('base64')
-    }).catch(function(e){console.log(e)})
+    }).catch(function(e){})
+
+    function getMotivation() {
+      api.get('/userMotivation/' + uuid + '/' + currentYear, {
+        responseType: 'blob'
+      }).then((response) => {
+        const href = URL.createObjectURL(response.data);
+        const link = document.createElement('a');
+        link.href = href;
+        link.setAttribute('download', "MVB.pdf"); 
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+      }).catch((e) => {})
+    }
 
     return {
       avatar,
@@ -118,7 +150,8 @@ export default {
       itemList,
       loading,
       user,
-      name
+      name,
+      getMotivation
     }
   }
 }

@@ -23,27 +23,44 @@
         </q-item>
 
         <q-separator class="q-ma-md" />
-        <div class="q-py-md text-h4">Willkommen bei LAMA</div>
+        <div class="q-py-md text-h4">Warte auf Freischaltung</div>
         <div class="q-pb-md text-body1">
-          LAMA ist ein komplett neues Tool, was extra für das SOLA entwickelt wurde. Es ist leider sehr wahrscheindlich, dass nicht alles von Anfang an so läuft, wie wir es uns wünschen. <br />
-          Wenn du Feedback oder Fragen hast, dann gib die bitte an uns weiter! Nur dann können wir einen MA-Bereich haben, wie ihn sich jeder wünscht.<br />
-          Danke!
+          Hey - Leider wurdest du bis jetzt noch nicht als MA freigeschaltet.<br />
+          Der VB MA arbeitet sehr stark daran, dass das so schnell wie möglich passiert.<br />
+          Bitte gedulde dich noch ein bisschen.
         </div>
-        <q-btn
-          label="Feedback geben"
-          color="primary"
-          href="mailto:micha.preusser@lippesola.de"
-        />
       </div>
     </div>
+    <q-footer class="flex flex-center bg-dark">
+      <q-btn
+          flat
+          label="Impressum"
+          href="https://www.lippesola.de/sola/kontakt/impressum/"
+      />
+      <q-separator vertical inset />
+      <q-btn
+        flat
+        label="Datenschutzerklärung"
+        href="https://www.lippesola.de/sola/datenschutzerklaerung/"
+      />
+      <q-separator vertical inset />
+      <q-btn
+        flat
+        label="Feedback / Fragen"
+        href="mailto:micha.preusser@lippesola.de"
+      />
+    </q-footer>
   </q-page>
-
 </template>
 
 <script>
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-  name: 'IndexPage'
+  name: 'WaitingPage',
+  setup() {
+    return {
+    }
+  }
 })
 </script>

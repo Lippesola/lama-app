@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout :v-if="showLayout" view="lHh Lpr lFf">
     <q-header bordered>
       <q-toolbar>
         <q-btn
@@ -37,7 +37,7 @@
                 <q-item-section>{{ $q.dark.isActive ? 'Light-Mode' : 'Dark-Mode' }}</q-item-section>
               </q-item>
               <q-separator />
-              <q-item clickable v-close-popup>
+              <q-item clickable v-close-popup :href="$keycloakLogout" >
                 <q-item-section>Logout</q-item-section>
               </q-item>
             </q-list>
@@ -64,16 +64,18 @@
           v-bind="link"
         />
         <q-separator inset spaced="xl" />
-        <q-item-label
-          header
-        >
-          LT-Bereich
-        </q-item-label>
-        <EssentialLink
-          v-for="link in leaderLinks"
-          :key="link.title"
-          v-bind="link"
-        />
+        <div v-if="$keycloak.tokenParsed.groups.includes($settings.currentYear + '_LT')">
+          <q-item-label
+            header
+          >
+            LT-Bereich
+          </q-item-label>
+          <EssentialLink
+            v-for="link in leaderLinks"
+            :key="link.title"
+            v-bind="link"
+          />
+        </div>
         
       </q-list>
       <div class="fixed-bottom" style="opacity:.4">
@@ -100,7 +102,7 @@ import { settings } from '../boot/settings'
 import { useQuasar } from 'quasar'
 import iconSet from 'quasar/icon-set/fontawesome-v6'
 import { api } from 'src/boot/axios'
-import { Buffer } from 'buffer'
+import VueKeycloak from '@dsb-norge/vue-keycloak-js'
 const linksList = [
   {
     title: 'Home',
@@ -130,9 +132,14 @@ const linksList = [
 ];
 const leaderLinksList = [
   {
-    title: 'Freischaltung',
-    icon: 'fa-solid fa-user-plus',
+    title: 'MA-Verwaltung',
+    icon: 'fa-solid fa-user-gear',
     link: '/l/leader/activation'
+  },
+  {
+    title: 'MA-Listen',
+    icon: 'fa-solid fa-list-ul',
+    link: '/l/leader/userlist'
   }
 ]
 
@@ -147,9 +154,29 @@ export default defineComponent({
     const $q = useQuasar()
     const { proxy } = getCurrentInstance()
     const uuid = proxy.$keycloak.tokenParsed.sub
+    const c = proxy.$constants
+    const showLayout = ref(false)
+
+    switch (proxy.$status) {
+      case c.userYearStatus.activated:
+        showLayout.value = true
+        break;
+      case c.userYearStatus.pending:
+        location.href="/w"
+        break;
+      case c.userYearStatus.notRegistered:
+      case c.userYearStatus.finishedProfile:
+      case c.userYearStatus.finishedMotivation:
+      case c.userYearStatus.notFound:
+          location.href="/r"
+          break;
+      default:
+        break;
+    }
 
     const leftDrawerOpen = ref(false)
     const avatar = ref('');
+
 
     if (window.localStorage.getItem('darkmode') === null) {
       $q.dark.set('auto')
@@ -164,16 +191,22 @@ export default defineComponent({
       responseType: 'blob'
     }).then(function(response) {
       avatar.value = URL.createObjectURL(response.data, 'binary').toString('base64')
-    }).catch(function(e){console.log(e)})
+    }).catch(function(e){
+
+    })
 
     return {
       essentialLinks: linksList,
       leaderLinks: leaderLinksList,
       leftDrawerOpen,
       avatar,
+      showLayout,
       toggleDarkMode () {
         $q.dark.toggle()
         window.localStorage.setItem('darkmode', $q.dark.isActive);
+      },
+      logout () {
+        VueKeycloak.logout()
       },
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value

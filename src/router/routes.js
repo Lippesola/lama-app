@@ -6,7 +6,6 @@ const routes = [
     children: [
       { path: '', component: () => import('src/pages/LoggedInIndexPage.vue') },
       { path: '404', component: () => import('pages/ErrorNotFound.vue') },
-      { path: 'leader/activation', component: () => import('pages/ActivationPage.vue') },
       { path: 'avatar', component: () => import('pages/AvatarPage.vue') },
       { path: 'engagement', component: () => import('src/pages/EditEngagementPage.vue') },
       { path: 'engagement/:uuid', component: () => import('src/pages/EngagementPage.vue') },
@@ -15,6 +14,25 @@ const routes = [
       { path: 'profile', component: () => import('pages/EditProfilePage.vue') },
       { path: 'profile/:uuid', component: () => import('pages/ProfilePage.vue') },
       { path: 'tasks', component: () => import('pages/TaskPage.vue') },
+      { path: 'leader/activation', component: () => import('pages/ActivationPage.vue') },
+      { path: 'leader/userlist', component: () => import('pages/AdvancedUserList.vue') },
+    ],
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/r/',
+    component: () => import('layouts/RegistrationFlow.vue'),
+    meta: {
+      requiresAuth: true
+    }
+  },
+  {
+    path: '/w/',
+    component: () => import('layouts/NotLoggedIn.vue'),
+    children: [
+      { path: '', component: () => import('src/pages/WaitingPage.vue') },
     ],
     meta: {
       requiresAuth: true
@@ -25,6 +43,7 @@ const routes = [
     component: () => import('layouts/NotLoggedIn.vue'),
     children: [
       { path: '', component: () => import('src/pages/IndexPage.vue') },
+      { path: 'registration', component: () => import('src/pages/RegistrationPage.vue') },
     ]
   },
   

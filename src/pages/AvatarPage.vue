@@ -8,6 +8,7 @@
       outlined
       label="Dateien durchsuchen..."
       @update:model-value="handleUploadAvatar()"
+      accept="image/*"
     />
     <cropper
       class="cropper"
@@ -49,7 +50,6 @@ export default {
     const avatarImg = ref('')
 
     function cropImage({coordinates, canvas}) {
-      console.log(coordinates, canvas)
       avatarUrl = canvas.toDataURL("image/jpeg")
     }
 
