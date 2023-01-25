@@ -24,6 +24,7 @@
           :options="item.options"
           :label="item.title"
           :hint="item.hint"
+          :error="error[item.id]"
         />
       </div>    
       
@@ -42,6 +43,7 @@
           :options="item.options"
           :label="item.title"
           :hint="item.hint"
+          :error="error[item.id]"
         />
       </div>
       
@@ -60,6 +62,7 @@
           :options="item.options"
           :label="item.title"
           :hint="item.hint"
+          :error="error[item.id]"
         />
       </div>
       
@@ -105,6 +108,8 @@ export default {
     const participationList = c.engagement.participation
     const roleList = c.engagement.roles
     const wishList = c.engagement.wishes
+
+    const error = ref({})
 
     let participationSelect = {}
     let roleSelect = {}
@@ -154,22 +159,47 @@ export default {
       wishList,
       wishSelect,
       comment,
+      error,
       loading,
       onSubmit() {
         var body = {}
-
+        let err = false;
         Object.entries(participationList).forEach((entry => {
           const [index, item] = entry
-          body[item.id] = participationSelect[item.id]['value']['value']
+          if (participationSelect[item.id]['value']) {
+            body[item.id] = participationSelect[item.id]['value']['value']
+          } else {
+            error.value[item.id] = true
+            err = true;
+          }
         }))
         Object.entries(roleList).forEach((entry => {
           const [index, item] = entry
-          body[item.id] = roleSelect[item.id]['value']['value']
+          if (roleSelect[item.id]['value']) {
+            body[item.id] = roleSelect[item.id]['value']['value']
+          } else {
+            error.value[item.id] = true
+            err = true;
+          }
         }))
         Object.entries(wishList).forEach((entry => {
           const [index, item] = entry
-          body[item.id] = wishSelect[item.id]['value']['value']
+          if (wishSelect[item.id]['value']) {
+            body[item.id] = wishSelect[item.id]['value']['value']
+          } else {
+            error.value[item.id] = true
+            err = true;
+          }
         }))
+        if (err) {
+          $q.notify({
+            color: 'red-4',
+            textColor: 'white',
+            icon: 'fa-solid fa-circle-xmark ',
+            message: 'Bitte fülle alle Felder aus'
+          })
+          return;
+        };
         body['comment'] = comment.value
 
         api.post('/userYear/' + uuid + '/' + settings.currentYear, body)
