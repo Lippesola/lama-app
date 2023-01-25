@@ -13,6 +13,7 @@ const routes = [
       { path: 'userlist', component: () => import('pages/UserList.vue') },
       { path: 'profile', component: () => import('pages/EditProfilePage.vue') },
       { path: 'profile/:uuid', component: () => import('pages/ProfilePage.vue') },
+      { path: 'settings', component: () => import('pages/SettingsPage.vue') },
       { path: 'tasks', component: () => import('pages/TaskPage.vue') },
       { path: 'leader/activation', component: () => import('pages/ActivationPage.vue') },
       { path: 'leader/userlist', component: () => import('pages/AdvancedUserList.vue') },

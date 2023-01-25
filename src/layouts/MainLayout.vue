@@ -63,8 +63,8 @@
           :key="link.title"
           v-bind="link"
         />
-        <q-separator inset spaced="xl" />
         <div v-if="$keycloak.tokenParsed.groups.includes($settings.currentYear + '_LT')">
+        <q-separator inset spaced="xl" />
           <q-item-label
             header
           >
@@ -72,6 +72,19 @@
           </q-item-label>
           <EssentialLink
             v-for="link in leaderLinks"
+            :key="link.title"
+            v-bind="link"
+          />
+        </div>
+        <div v-if="$keycloak.tokenParsed.groups.includes('admin')">
+        <q-separator inset spaced="xl" />
+          <q-item-label
+            header
+          >
+            Admin-Bereich
+          </q-item-label>
+          <EssentialLink
+            v-for="link in adminLinks"
             :key="link.title"
             v-bind="link"
           />
@@ -133,6 +146,18 @@ const leaderLinksList = [
     link: '/l/leader/userlist'
   }
 ]
+const adminLinksList = [
+  {
+    title: 'Einstellungen',
+    icon: 'fa-solid fa-sliders',
+    link: '/l/settings'
+  },
+  {
+    title: 'REST-API',
+    icon: 'fa-solid fa-terminal',
+    link: '/l/misc'
+  }
+]
 
 export default defineComponent({
   name: 'MainLayout',
@@ -189,6 +214,7 @@ export default defineComponent({
     return {
       essentialLinks: linksList,
       leaderLinks: leaderLinksList,
+      adminLinks: adminLinksList,
       leftDrawerOpen,
       avatar,
       showLayout,
