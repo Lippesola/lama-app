@@ -20,6 +20,7 @@
           color="primary"
           class="q-ma-md"
           :href="$settings.motivationDefault"
+          target="_blank"
           />
           <div class="q-pt-md text-body1">
             Wenn du bislang <strong>mindestens zwei Mal</strong> Mitarbeiter auf dem Sola gewesen bist (Jahre als Teeniehelfer nicht mitgerechnet), dann verwende bitte den folgenden MVB für „alte Hasen“:          </div>
@@ -28,6 +29,7 @@
             color="primary"
             class="q-ma-md"
             :href="$settings.motivationExperts"
+            target="_blank"
           />
           <q-separator class="q-ma-md"/>
           <div class="q-py-md text-h5">Motivationsbogen hochladen</div>

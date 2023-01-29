@@ -153,7 +153,7 @@ export default {
             color: 'red-4',
             textColor: 'white',
             icon: 'fa-solid fa-circle-xmark ',
-            message: errMsg
+            message: "Bitte überprüfe deine Angaben"
           })
           return;
         }
