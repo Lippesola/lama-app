@@ -144,6 +144,19 @@ export default {
       error,
       onSubmit() {
         error.value = {}
+        let err = false
+        if (!gender.value) {error.value['gender'] = true; err = true;}
+        if (!relationship.value) {error.value['relationship'] = true; err = true;}
+        if (!churchContact.value) {error.value['churchContact'] = true; err = true;}
+        if (err) {
+          $q.notify({
+            color: 'red-4',
+            textColor: 'white',
+            icon: 'fa-solid fa-circle-xmark ',
+            message: errMsg
+          })
+          return;
+        }
         api.post('/user/' + uuid, {
           firstName: firstName.value,
           lastName: lastName.value,
