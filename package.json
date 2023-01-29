@@ -13,7 +13,7 @@
   "dependencies": {
     "@dsb-norge/vue-keycloak-js": "^2.1.5-beta",
     "@quasar/extras": "^1.0.0",
-    "axios": "^1.2.1",
+    "axios": "^1.2.3",
     "form-data": "^4.0.0",
     "keycloak-js": "^20.0.3",
     "moment": "^2.29.4",
