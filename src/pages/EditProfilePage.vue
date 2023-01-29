@@ -41,7 +41,7 @@
       color="primary"
     />
     <div class="text-caption q-py-lg">
-      * Die Küche versucht auf Besonderheiten bei der Ernährung aufgrund von Unverträglichkeiten, Allergien o. Ä. einzugehen.
+      * Bitte schreib kein "Alles", "Viel", etc. in das Eingabefeld, sondern nur Dinge, die man ernsthaft beachten muss. Die Küche versucht auf Besonderheiten bei der Ernährung aufgrund von Unverträglichkeiten, Allergien o. Ä. einzugehen.
       Hierbei kann <strong>vegetarisches</strong> und <strong>laktosefreies</strong> Essen angeboten werden.
       Für alle weiteren Fragen schreibst du <q-btn flat dense no-caps text-color="primary" :label="$settings.kitchenLeaderName" :href="'mailto:' + $settings.kitchenLeaderMail" /> am besten direkt.
     </div>
