@@ -66,6 +66,13 @@
           option-value="name"
           style="min-width: 150px"
         />
+        <q-space />
+        <q-btn
+          color="primary"
+          icon="fa-solid fa-download"
+          label="Exportieren"
+          @click="exportList()"
+        />
       </template>
 
     </q-table>
@@ -76,6 +83,7 @@
 </template>
 
 <script>
+  import { exportFile, useQuasar } from 'quasar'
   import { defineComponent, ref, getCurrentInstance } from 'vue'
   import { useRouter } from 'vue-router'
   import moment from 'moment'
@@ -84,6 +92,7 @@
 
     setup () {
 
+      const $q = useQuasar
       const { proxy } = getCurrentInstance()
       const api = proxy.$api
       const c = proxy.$constants
@@ -163,6 +172,38 @@
           path: '/l/profile/' + row.uuid
         })
       }
+      
+      function wrapCsvValue (val, formatFn, row) {
+        let formatted = formatFn !== void 0 ? formatFn(val, row) : val
+        formatted = formatted === void 0 || formatted === null ? '' : String(formatted)
+        formatted = formatted.split('"').join('""')
+        return `"${formatted}"`
+      }
+
+      function exportList() {
+
+        const exportCols = columns.filter((col) => {
+          return visibleColumns.value.includes(col.name)
+        })
+
+        const content = [exportCols.map(col => '"' + col.label + '"').join(';')].concat(
+          rows.value.map(row => exportCols.map(col => wrapCsvValue(typeof col.field === 'function' ? col.field(row) : row[ col.field === void 0 ? col.name : col.field ], col.format, row )).join(';'))
+        ).join('\r\n')
+
+        const status = exportFile(
+          'table-export.csv',
+          "\uFEFF" + content,
+          'text/csv'
+        )
+
+        if (status !== true) {
+          $q.notify({
+            message: 'Die Liste kontte nicht ',
+            color: 'negative',
+            icon: 'warning'
+          })
+        }
+      }
 
 
       return {
@@ -173,7 +214,8 @@
         visibleColumns,
         columns,
         rows,
-        rowClickHandler
+        rowClickHandler,
+        exportList
       }
     }
   })
