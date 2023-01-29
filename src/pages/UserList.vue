@@ -32,7 +32,7 @@
         </template>
       </q-btn-toggle>
     </div>
-    <div class="q-pa-md">
+    <div class="q-pa-md row">
       <UserItem
         v-for="item in userList"
         :key="item"
