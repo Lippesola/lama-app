@@ -10,7 +10,7 @@
         Dein Benutzername sieht normalerweise so aus: <strong>vorname.nachname</strong>
       </q-card-section>
       <q-card-section class="q-pt-none">
-        Falls du dein Passwort vergessen hast, klick auf "LOGIN MIT SOLA ID" und dann auf "Password vergessen?".
+        Falls du dein Passwort vergessen hast, klick auf "LOGIN MIT SOLA ID" und dann auf "Passwort vergessen?".
       </q-card-section>
       <q-card-section class="q-pt-none">
         Bei weiteren Fragen zur SOLA ID, kannst du einfach eine Mail an <q-btn href="mailto:it-support@lippesola.de" label="it-support@lippesola.de" flat dense color="primary" /> schicken.

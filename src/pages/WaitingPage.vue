@@ -26,7 +26,7 @@
         <div class="q-py-md text-h4">Warte auf Freischaltung</div>
         <div class="q-pb-md text-body1">
           Hey - Leider wurdest du bis jetzt noch nicht als MA freigeschaltet.<br />
-          Der VB MA arbeitet sehr stark daran, dass das so schnell wie möglich passiert.<br />
+          Der Verantwortungsbereich Mitarbeiter arbeitet sehr stark daran, dass das so schnell wie möglich passiert.<br />
           Bitte gedulde dich noch ein bisschen.
         </div>
       </div>
