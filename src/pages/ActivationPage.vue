@@ -29,8 +29,15 @@ export default defineComponent({
     api.get('/userYear?year=' + settings.currentYear + '&status=' + c.userYearStatus.pending).then(function(response) {
       Object.entries(response.data).forEach((entry => {
           const [index, item] = entry
-          userList.value.push({uuid: item.uuid, createdAt: item.createdAt})
+          userList.value.push({uuid: item.uuid, updatedAt: item.updatedAt})
         }))
+      userList.value.sort((a, b) => {
+        const as = a.updatedAt;
+        const bs = b.updatedAt;
+        if (as > bs) return 1;
+        if (as < bs) return -1;
+        return 0;
+      })
     }).catch(function(e) {})
     return {
       userList
