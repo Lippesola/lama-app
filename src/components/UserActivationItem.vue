@@ -129,7 +129,7 @@ export default defineComponent({
       type: String,
       required: true
     },
-    createdAt: {
+    updatedAt: {
       type: String,
       required: true
     }
@@ -137,7 +137,7 @@ export default defineComponent({
 
   setup(props) {
     const avatar = ref('')
-    const date = ref('')
+    const date = new moment(props.updatedAt).format('DD.MM.YYYY')
     const imageDialog = ref(false)
     const mail = ref('')
     const name = ref('')
@@ -154,12 +154,6 @@ export default defineComponent({
       name.value = response.data.firstName + ' ' + response.data.lastName
       mail.value = response.data.mail
       m = response.data.gender === 'm'
-      const diff = new moment().diff(new moment(response.data.createdAt), 'days')
-      if (diff === 0) {
-        date.value = 'Heute'
-      } else {
-        date.value = diff === 0 ? 'Heute' : diff === 1 ? 'Gestern' : 'Vor ' + diff + ' Tagen'
-      }
     }).catch(function(e) {})
 
     api.get('/avatar/' + props.uuid, {

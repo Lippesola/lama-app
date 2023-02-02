@@ -4,13 +4,13 @@
       <div class="q-pa-md">
         <q-item class="q-pl-none">
           <q-item-section side>
-            <q-avatar size="75px">
-              <img
+            <img
               alt="LAMA logo"
               src="~assets/lama-logo.svg"
-              style="width: 100%; height: 100%;"
-              >
-            </q-avatar>
+              style="width: 75px; height: 75px;"
+              :class="animate"
+              @click="imageClickHandler()"
+            />
           </q-item-section>
           <q-item-section>
             <q-item-label>
@@ -41,9 +41,21 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
-  name: 'IndexPage'
+  name: 'IndexPage',
+  setup() {
+    const animate = ref('');
+    const animations = ["bounce", "flash", "flip", "pulse", "rubberBand", "shakeX", "shakeY", "headShake", "swing", "tada", "wobble", "jello", "heartBeat"];
+    function imageClickHandler() {
+      animate.value = "animated slower " + animations[Math.floor(Math.random() * animations.length)];
+      setTimeout(() => {animate.value = ''}, 1000);
+    }
+    return {
+      animate,
+      imageClickHandler
+    }
+  }
 })
 </script>
