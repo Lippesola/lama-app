@@ -1,4 +1,7 @@
 <template>
+  <ChangelogDialog
+    v-model="showChangelog"
+  />
   <q-layout :v-if="showLayout" view="lHh Lpr lFf">
     <q-header bordered>
       <q-toolbar>
@@ -75,9 +78,16 @@
             :key="link.title"
             v-bind="link"
           />
-        </div>
-        
+        </div>  
       </q-list>
+      <div class="fixed-bottom" @click="showChangelog = true">
+        <q-btn
+          :label="$version"
+          no-caps
+          flat 
+          text-color="grey"
+        />
+      </div>
     </q-drawer>
 
     <q-page-container>
@@ -89,6 +99,7 @@
 <script>
 import { defineComponent, getCurrentInstance, ref } from 'vue'
 import EssentialLink from 'components/EssentialLink.vue'
+import ChangelogDialog from 'components/ChangelogDialog.vue'
 import { settings } from '../boot/settings'
 import { useQuasar } from 'quasar'
 import iconSet from 'quasar/icon-set/fontawesome-v6'
@@ -138,7 +149,8 @@ export default defineComponent({
   name: 'MainLayout',
 
   components: {
-    EssentialLink
+    EssentialLink,
+    ChangelogDialog
   },
 
   setup () {
@@ -147,6 +159,7 @@ export default defineComponent({
     const uuid = proxy.$keycloak.tokenParsed.sub
     const c = proxy.$constants
     const showLayout = ref(false)
+    const showChangelog = ref(false)
 
     switch (proxy.$status) {
       case c.userYearStatus.activated:
@@ -192,6 +205,7 @@ export default defineComponent({
       leftDrawerOpen,
       avatar,
       showLayout,
+      showChangelog,
       toggleDarkMode () {
         $q.dark.toggle()
         window.localStorage.setItem('darkmode', $q.dark.isActive);
