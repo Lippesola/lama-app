@@ -4,6 +4,7 @@ const version = 'v1.0.6'
 const changelog = {
 	'v1.0.6':
 		[
+			'Zeige VB-Leiter in Mitarbeiterliste',
 			'Versionsnummer in Footer eingefügt',
 			'Changelog hinzugefügt'
 		],

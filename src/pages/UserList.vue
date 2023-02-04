@@ -42,7 +42,7 @@
       <UserItem
         v-for="item in userList"
         :key="item"
-        v-bind="{uuid: item.uuid, firstName: item.firstName, lastName: item.lastName, nickname: item.nickname, showNick: showNick}"
+        v-bind="{uuid: item.uuid, firstName: item.firstName, lastName: item.lastName, nickname: item.nickname, responsibilityList: responibilityList, showNick: showNick}"
       />
     </div>
 </template>
@@ -62,8 +62,10 @@ export default defineComponent({
     const settings = proxy.$settings
     const c = proxy.$constants
     const userList = ref([])
+    const responibilityList = ref([])
     const showNick = ref(true)
     const toggleValue = ref('firstName')
+
     api.get('/user').then(function(response) {
       Object.entries(response.data).forEach((entry => {
           const [index, item] = entry
@@ -71,6 +73,14 @@ export default defineComponent({
         }))
         orderBy('firstName')
     }).catch(function(e) {})
+
+    api.get('/responsibility').then(function(response) {
+      Object.entries(response.data).forEach((entry => {
+          const [index, item] = entry
+          responibilityList.value.push(item)
+        }))
+    }).catch(function(e) {})
+
     function orderBy(orderKey) {
       userList.value.sort((a, b) => {
         const as = a[orderKey].toLowerCase();
@@ -82,6 +92,7 @@ export default defineComponent({
     }
     return {
       userList,
+      responibilityList,
       showNick,
       toggleValue,
       orderBy

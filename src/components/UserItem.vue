@@ -9,6 +9,10 @@
     <q-item-section>
       <q-item-label v-if="!showNick">{{ name }}</q-item-label>
       <q-item-label v-if="showNick">{{ nick }}</q-item-label>
+      
+      <q-item-label caption>
+          {{ responsibilityString }}
+      </q-item-label>
     </q-item-section>
   </q-item>
 </template>
@@ -39,6 +43,10 @@ export default defineComponent({
       type: String,
       defaultValue: ''
     },
+    responsibilityList: {
+      type: Array,
+      defaultValue: []
+    },
     showNick: {
       type: Boolean,
       default: false
@@ -49,6 +57,7 @@ export default defineComponent({
     const avatar = ref('')
     const name = ref('')
     const nick = ref('')
+    const responsibilityString = ref('')
     name.value = props.firstName + ' ' + props.lastName
     nick.value = (props.nickname || props.firstName) + ' ' + props.lastName
 
@@ -58,9 +67,17 @@ export default defineComponent({
       avatar.value = URL.createObjectURL(response.data, 'binary').toString('base64')
     }).catch((e) => {})
 
+    const responsibilities = props.responsibilityList.filter(responsibility => responsibility.uuid === props.uuid);
+    let responsibilityNames = [];
+    responsibilities.forEach((res) => {
+      responsibilityNames.push(res.name)
+    })
+    responsibilityString.value = responsibilityNames.join(", ");
+
     return {
       avatar,
       name,
+      responsibilityString,
       nick
     }
   }
