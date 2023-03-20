@@ -203,7 +203,7 @@ export default defineComponent({
     function acceptDialog() {
       $q.dialog({
         title: 'MA akzeptieren',
-        message: `<p>Möchtest du <strong>${name.value}</strong> wirklich als Mitarbeiter${m ? '' : 'in'} akzeptieren?</p><p>Bedenke, dass ${m ? 'er' : 'sie'} dann automatisch die Cloud, Element und LAMA benutzen kann.</p><p>Bitte schick ${m ? 'ihm' : 'ihr'} nach dem Akzeptieren eine Bestätigungsmail an ${mail.value}`,
+        message: `<p>Möchtest du <strong>${name.value}</strong> wirklich als Mitarbeiter${m ? '' : 'in'} akzeptieren?</p><p>Bedenke, dass ${m ? 'er' : 'sie'} dann automatisch die Cloud, Element und LAMA benutzen kann.</p><p>Nachdem du ${m ? 'ihn' : 'sie'} freigeschaltet hast, bekommt ${m ? 'er' : 'sie'} eine automatische eine Bestätigungsmail zugeschickt.`,
         html: true,
         ok: {
           color: 'positive',

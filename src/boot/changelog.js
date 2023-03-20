@@ -1,7 +1,12 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.0.6'
+const version = 'v1.0.7'
 const changelog = {
+	'v1.0.7':
+		[
+			'Automatisches Versenden von Mails, wenn MA freigeschaltet wurde',
+			'Automatisches Hinzufügen zu Mailing-List bei Freischaltung'
+		],
 	'v1.0.6':
 		[
 			'Zeige VB-Leiter in Mitarbeiterliste',
