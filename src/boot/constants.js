@@ -11,14 +11,13 @@ function date2String(event) {
 
 export default boot( async ({ app }) => {
 
-	if (!app.config.globalProperties.$keycloak.authenticated) return
-	let events = []
+	constants['events'] = {}
 
 	await api.get('/event')
 	.then(response => {
 		Object.entries(response.data).forEach(entry => {
 			const [index, data] = entry;
-			events[data.id] = {
+			constants.events[data.id] = {
 				start: data.start,
 				end: data.end,
 				location: data.location
@@ -152,7 +151,7 @@ export default boot( async ({ app }) => {
 			id: 'prepare1',
 			title: '1. Vorbereitungswochenende (VW)',
 			icon: 'fa-solid fa-calendar',
-			hint: `${date2String(events.prepare1)}`,
+			hint: `${date2String(constants.events.prepare1)}`,
 			options: [
 				{value: 0, label: 'Nein'},
 				{value: 1, label: 'Wahrscheinlich Nein'},
@@ -164,7 +163,7 @@ export default boot( async ({ app }) => {
 			id: 'prepare2',
 			title: '2. Vorbereitungswochenende (VW)',
 			icon: 'fa-solid fa-calendar',
-			hint: `${date2String(events.prepare2)}`,
+			hint: `${date2String(constants.events.prepare2)}`,
 			options: [
 				{value: 0, label: 'Nein'},
 				{value: 1, label: 'Wahrscheinlich Nein'},
@@ -176,7 +175,7 @@ export default boot( async ({ app }) => {
 			id: 'prepare3',
 			title: '3. Vorbereitungswochenende (VW)',
 			icon: 'fa-solid fa-calendar',
-			hint: `${date2String(events.prepare3)}`,
+			hint: `${date2String(constants.events.prepare3)}`,
 			options: [
 				{value: 0, label: 'Nein'},
 				{value: 1, label: 'Wahrscheinlich Nein'},
@@ -188,7 +187,7 @@ export default boot( async ({ app }) => {
 			id: 'training',
 			title: 'Schulungstage',
 			icon: 'fa-solid fa-chalkboard-user',
-			hint: `Vor allem für neue Mitarbeiter empfohlen. ${date2String(events.training)}`,
+			hint: `Vor allem für neue Mitarbeiter empfohlen. ${date2String(constants.events.training)}`,
 			options: [
 				{value: 0, label: 'Nein'},
 				{value: 1, label: 'Wahrscheinlich Nein'},
@@ -200,7 +199,7 @@ export default boot( async ({ app }) => {
 			id: 'build',
 			title: 'Aufbau',
 			icon: 'fa-solid fa-person-digging',
-			hint: `Grundsätzlich gilt: Wer beim Teen-Sola dabei ist, ist auch beim Aufbau dabei. ${date2String(events.build)}`,
+			hint: `Grundsätzlich gilt: Wer beim Teen-Sola dabei ist, ist auch beim Aufbau dabei. ${date2String(constants.events.build)}`,
 			options: [
 				{value: 0, label: 'Automatisch (Wie bei Teens)'},
 				{value: 1, label: 'Ja'},
@@ -211,7 +210,7 @@ export default boot( async ({ app }) => {
 			id: 'teens',
 			title: 'Teen-Sola',
 			icon: 'fa-solid fa-campground',
-			hint: `${date2String(events.teens)}`,
+			hint: `${date2String(constants.events.teens)}`,
 			options: [
 				{value: 0, label: 'Nein'},
 				{value: 1, label: 'Wahrscheinlich Nein'},
@@ -223,7 +222,7 @@ export default boot( async ({ app }) => {
 			id: 'kids',
 			title: 'Kids-Sola',
 			icon: 'fa-solid fa-campground',
-			hint: `${date2String(events.kids)}`,
+			hint: `${date2String(constants.events.kids)}`,
 			options: [
 				{value: 0, label: 'Nein'},
 				{value: 1, label: 'Wahrscheinlich Nein'},
@@ -235,7 +234,7 @@ export default boot( async ({ app }) => {
 			id: 'cleanup',
 			title: 'Abbau',
 			icon: 'fa-solid fa-person-digging',
-			hint: `Grundsätzlich gilt: Wer beim Kids-Sola dabei ist, ist auch beim Abbau dabei. ${date2String(events.cleanup)}`,
+			hint: `Grundsätzlich gilt: Wer beim Kids-Sola dabei ist, ist auch beim Abbau dabei. ${date2String(constants.events.cleanup)}`,
 			options: [
 				{value: 0, label: 'Automatisch (Wie bei Kids)'},
 				{value: 1, label: 'Ja'},

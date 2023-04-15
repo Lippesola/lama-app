@@ -43,6 +43,7 @@ const routes = [
     component: () => import('layouts/NotLoggedIn.vue'),
     children: [
       { path: '', component: () => import('src/pages/IndexPage.vue') },
+      { path: 'supporter', component: () => import('src/pages/RegistrationSupporterPage.vue') },
       { path: 'registration', component: () => import('src/pages/RegistrationPage.vue') },
     ]
   },

@@ -99,6 +99,7 @@ module.exports = configure(function (/* ctx */) {
     framework: {
       cssAddon: true,
       config: {},
+      lang: 'de',
 
       // iconSet: 'material-icons', // Quasar icon set
       // Quasar language pack

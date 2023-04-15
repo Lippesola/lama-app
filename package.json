@@ -17,6 +17,7 @@
     "form-data": "^4.0.0",
     "keycloak-js": "^20.0.3",
     "moment": "^2.29.4",
+    "moment-range": "^4.0.2",
     "quasar": "^2.11.5",
     "vue": "^3.2.47",
     "vue-advanced-cropper": "^2.8.8",

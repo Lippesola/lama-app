@@ -48,7 +48,7 @@
       </div>
       
       <div class="q-pt-xl text-h5">Wo kannst du noch unterstützen?</div>
-      <div class="q-pb-md text-body1">Die untenstehenden Punkte sind unabhängig von dem Team, in dem zu mitarbeitest</div>
+      <div class="q-pb-md text-body1">Die untenstehenden Punkte sind unabhängig von dem Team, in dem du mitarbeitest</div>
       <div class="q-gutter-md row">
         <q-select
           outlined

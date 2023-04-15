@@ -2,6 +2,11 @@ import { boot } from 'quasar/wrappers';
 
 const version = 'v1.0.7'
 const changelog = {
+	'v1.1.0':
+		[
+			'Helferanmeldung hinzugefügt',
+			'Veranstaltungen und Einstellungen auch für nicht eingeloggte Nutzer sichtbar'
+		],
 	'v1.0.7':
 		[
 			'Automatisches Versenden von Mails, wenn MA freigeschaltet wurde',
