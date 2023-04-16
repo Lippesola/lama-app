@@ -19,6 +19,43 @@
         </q-toolbar-title>
 
         <q-btn
+          class="q-mr-md"
+          flat
+          dense
+          round
+          icon="fa-solid fa-grip"
+        >
+          <q-menu>
+            <q-list style="max-width: 300px; display: flex;">
+              <q-item style="flex: 1" clickable href="https://a-z.lippesola.de" v-close-popup>
+                <q-item-section class="flex flex-center">
+                  <q-item-label>
+                    <q-avatar icon="fa-solid fa-book-atlas" />
+                  </q-item-label>
+                  <q-item-label>A-Z</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item style="flex: 1" clickable href="https://cloud.lippesola.de" v-close-popup>
+                <q-item-section class="flex flex-center">
+                  <q-item-label>
+                    <q-avatar icon="fa-solid fa-cloud" />
+                  </q-item-label>
+                  <q-item-label>Cloud</q-item-label>
+                </q-item-section>
+              </q-item>
+              <q-item style="flex: 1" clickable href="https://chat.lippesola.de" v-close-popup>
+                <q-item-section class="flex flex-center">
+                  <q-item-label>
+                    <q-avatar icon="fa-solid fa-envelope" />
+                  </q-item-label>
+                  <q-item-label>Messenger</q-item-label>
+                </q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
+
+        <q-btn
           flat
           dense
           round

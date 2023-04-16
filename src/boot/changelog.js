@@ -1,11 +1,12 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.0.7'
+const version = 'v1.1.0'
 const changelog = {
 	'v1.1.0':
 		[
 			'Helferanmeldung hinzugefügt',
-			'Veranstaltungen und Einstellungen auch für nicht eingeloggte Nutzer sichtbar'
+			'Veranstaltungen und Einstellungen auch für nicht eingeloggte Nutzer sichtbar',
+			'Menü zu anderen Anwendungen eingebunden'
 		],
 	'v1.0.7':
 		[
