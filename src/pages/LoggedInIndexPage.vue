@@ -25,7 +25,7 @@
         <q-separator class="q-ma-md" />
         <div class="q-py-md text-h4">Willkommen bei LAMA</div>
         <div class="q-pb-md text-body1">
-          LAMA ist ein komplett neues Tool, was extra für das SOLA entwickelt wurde. Es ist leider sehr wahrscheindlich, dass nicht alles von Anfang an so läuft, wie wir es uns wünschen. <br />
+          LAMA ist ein komplett neues Tool, was extra für das SOLA entwickelt wurde. Es ist leider sehr wahrscheinlich, dass nicht alles von Anfang an so läuft, wie wir es uns wünschen. <br />
           Wenn du Feedback oder Fragen hast, dann gib die bitte an uns weiter! Nur dann können wir einen MA-Bereich haben, wie ihn sich jeder wünscht.<br />
           Danke!
         </div>
