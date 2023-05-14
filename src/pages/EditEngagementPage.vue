@@ -99,7 +99,7 @@ export default {
   setup(props) {
     const $q = useQuasar()
     const { proxy } = getCurrentInstance()
-    const uuid = proxy.$keycloak.tokenParsed.sub
+    const uuid = proxy.$route.params.uuid || proxy.$keycloak.tokenParsed.sub
     const c = proxy.$constants
 
     const loading = ref(true)

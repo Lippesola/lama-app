@@ -163,11 +163,12 @@ const linksList = [
     icon: 'fa-solid fa-users',
     link: '/l/userlist'
   },
-  // {
-  //   title: 'Todos',
-  //   icon: 'fa-solid fa-tasks',
-  //   link: '/l/tasks'
-  // }
+  {
+    title: 'Papierkram',
+    icon: 'fa-solid fa-file-lines',
+    link: '/l/paperwork',
+    badge: 'paperwork',
+  }
 ];
 const leaderLinksList = [
   {

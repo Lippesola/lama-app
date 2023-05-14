@@ -1,7 +1,14 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.1.0'
+const version = 'v1.2.0'
 const changelog = {
+	'v1.2.0': 
+		[
+			'PDF für kostenlose Führungszeugnisse hinzugefügt',
+			'Übersicht für Unterlagen hinzugefügt',
+			'LTler können MA-Daten bearbeiten',
+			'Spalten in MA-Liste werden gespeichert'
+		],
 	'v1.1.0':
 		[
 			'Helferanmeldung hinzugefügt',

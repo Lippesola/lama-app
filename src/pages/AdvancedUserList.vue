@@ -7,9 +7,8 @@
       :columns="columns"
       row-key="name"
       :visible-columns="visibleColumns"
-      :pagination="{rowsPerPage: 25}"
-      :rows-per-page-options="[25, 50, 100]"
-      rows-per-page-label="Ergebnisse pro Seite"
+      :pagination="{rowsPerPage: -1}"
+      hide-bottom
       @row-click="rowClickHandler"
     >
       <template v-slot:top="props">
@@ -32,6 +31,7 @@
           :options="profileColumns"
           option-value="name"
           style="min-width: 150px"
+          @update:model-value="updateVisibleColumns"
         />
         <q-select
           class="q-pa-md"
@@ -43,6 +43,7 @@
           :options="participationColumns"
           option-value="name"
           style="min-width: 150px"
+          @update:model-value="updateVisibleColumns"
         />
         <q-select
           class="q-pa-md"
@@ -54,6 +55,7 @@
           :options="roleColumns"
           option-value="name"
           style="min-width: 150px"
+          @update:model-value="updateVisibleColumns"
         />
         <q-select
           class="q-pa-md"
@@ -65,6 +67,19 @@
           :options="wishColumns"
           option-value="name"
           style="min-width: 150px"
+          @update:model-value="updateVisibleColumns"
+        />
+        <q-select
+          class="q-pa-md"
+          v-model="visibleColumns"
+          multiple
+          dense
+          display-value="Dokumente"
+          emit-value
+          :options="documentColumns"
+          option-value="name"
+          style="min-width: 150px"
+          @update:model-value="updateVisibleColumns"
         />
         <q-space />
         <q-btn
@@ -99,11 +114,14 @@
       const settings = proxy.$settings
       const router = useRouter()
 
-      const visibleColumns = ref(['firstName', 'lastName', 'teens', 'kids'])
+      
+
+      const visibleColumns = ref(window.localStorage.AdvancedUserListColumns ? JSON.parse(window.localStorage.AdvancedUserListColumns) : ['firstName', 'lastName', 'teens', 'kids'])
       const profileColumns = []
       const participationColumns = []
       const roleColumns = []
       const wishColumns = []
+      const documentColumns = []
 
       const rows = ref([])
 
@@ -150,10 +168,21 @@
           format: (val, row) => `${item.options[val] ? item.options[val]['label'] : ''}`
         })
       }))
+      Object.entries(c.documents).forEach((entry => {
+        const [index, item] = entry;
+        documentColumns.push({
+          name: item.id,
+          label: item.title,
+          field: item.id,
+          sortable: true,
+          align: 'left',
+          format: (val, row) => `${val ? ((new moment(val).isAfter(moment(c.events.kids.end).subtract(5, 'years')) ? 'Ja' : 'Nein')) + ' (' + new moment(val).format('DD.MM.YYYY') + ')' : 'Nein'}`
+        })
+      }))
 
-      const columns = profileColumns.concat(participationColumns, roleColumns, wishColumns)
+      const columns = profileColumns.concat(participationColumns, roleColumns, wishColumns, documentColumns)
       
-      api.get('/userYear?status=3&status=4&year=' + settings.currentYear + '&userBundle').then(function(response) {
+      api.get('/userYear?status=3&status=4&year=' + settings.currentYear + '&userBundle&documentBundle').then(function(response) {
         Object.entries(response.data).forEach((entry => {
           const [index, item] = entry
           let row = item
@@ -161,11 +190,22 @@
             const [index, item] = entry
             row[index] = item
           }))
+          if (item.UserDocument) {
+            Object.entries(item.UserDocument).forEach((entry => {
+              const [index, item] = entry
+              row[index] = item
+            }))
+          }
           delete row.User;
+          delete row.UserDocument;
           row.birthday = new moment(row.birthday).format('DD.MM.YYYY')
           rows.value.push(row)
         }))
       }).catch(function(e) {})
+
+      function updateVisibleColumns (value) {
+        window.localStorage.AdvancedUserListColumns = JSON.stringify(value);
+      }
 
       function rowClickHandler(evt, row) {
         router.push({
@@ -211,9 +251,11 @@
         participationColumns,
         roleColumns,
         wishColumns,
+        documentColumns,
         visibleColumns,
         columns,
         rows,
+        updateVisibleColumns,
         rowClickHandler,
         exportList
       }

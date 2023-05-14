@@ -21,8 +21,30 @@
     <span v-if="$keycloak.tokenParsed.groups.includes($settings.currentYear + '_LT')">
       <q-btn
         flat
-        color=""
         class="q-ml-md"
+        icon="fa-solid fa-pencil"
+        text-color="primary"
+        >
+          <q-menu>
+            <q-list>
+              <q-item clickable :to="'/l/profile/' + uuid + '/edit'" v-close-popup>
+                <q-item-section>Allgemeines Profil</q-item-section>
+              </q-item>
+              <q-item clickable :to="'/l/engagement/' + uuid + '/edit'" v-close-popup>
+                <q-item-section>Mitarbeit auf dem SOLA</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup @click="addDocument('criminalRecord')">
+                <q-item-section>Führungszeugnis</q-item-section>
+              </q-item>
+              <q-item clickable v-close-popup @click="addDocument('selfCommitment')">
+                <q-item-section>Verhaltenskodex</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+      </q-btn>
+      <q-btn
+        flat
+        color=""
         icon="fa-solid fa-campground"
         text-color="primary"
         :to="'/l/engagement/' + user.uuid"
@@ -129,6 +151,51 @@ export default {
       avatar.value = URL.createObjectURL(response.data, 'binary').toString('base64')
     }).catch(function(e){})
 
+    function addDocument(docType) {
+      if (docType !== 'criminalRecord' && docType !== 'selfCommitment') {
+        return
+      }
+      const cr = docType === 'criminalRecord'
+      const date = ref(new moment().format('YYYY-MM-DD'))
+      $q.dialog({
+        title: cr ? 'Führungszeugnis' : 'Verhaltenskodex',
+        message: 'Wann hat ' + name.value + ' ' + (cr ? 'das Führungszeugnis vorgezeigt' : 'den Verhaltenskodex abgegeben') + '?',
+        html: true,
+        prompt: {
+          model: date,
+          type: 'date'
+        },
+        ok: {
+          color: 'positive',
+          push: true,
+        },
+        cancel: {
+          push: true,
+          color: 'negative'
+        },
+      }).onOk(() => {
+        var data = {};
+        data[docType] = date.value
+        api.post('/userDocument/' + uuid, data).then(function(response) {
+          $q.notify({
+            message: 'Dokument hinzugefügt',
+            color: 'positive',
+            icon: 'fa-solid fa-check'
+          })
+        }).catch(function(e){
+          $q.notify({
+            message: 'Fehler beim Hinzufügen des Dokuments',
+            color: 'negative',
+            icon: 'fa-solid fa-times'
+          })
+        })
+      }).onCancel(() => {
+        // console.log('>>>> Cancel')
+      }).onDismiss(() => {
+        // console.log('I am triggered on both OK and Cancel')
+      })
+    }
+
     function getMotivation() {
       api.get('/userMotivation/' + uuid + '/' + currentYear, {
         responseType: 'blob'
@@ -151,6 +218,8 @@ export default {
       loading,
       user,
       name,
+      uuid,
+      addDocument,
       getMotivation
     }
   }

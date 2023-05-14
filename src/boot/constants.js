@@ -429,7 +429,18 @@ export default boot( async ({ app }) => {
 			}
 		}
 	}
-
+	constants['documents'] = {
+		criminalRecord: {
+			id: 'criminalRecord',
+			title: 'Führungszeugnis',
+			icon: 'fa-solid fa-handcuffs'
+		},
+		selfCommitment: {
+			id: 'selfCommitment',
+			title: 'Verhaltenskodex',
+			icon: 'fa-solid fa-file-signature'
+		},
+	}
 	app.config.globalProperties.$constants = constants
 })
 

@@ -7,7 +7,7 @@
   v-if="icon"
   avatar
   >
-  <q-badge class="q-ml-md" v-show="badge > 0" color="orange" text-color="black" :label="badge" on-right/>
+  <q-badge class="q-ml-md" v-show="showBadge > 0" color="orange" text-color="black" :label="showBadge" on-right/>
   <q-icon :name="icon" />
     </q-item-section>
 
@@ -18,7 +18,9 @@
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import { defineComponent, getCurrentInstance, ref } from 'vue'
+import { api } from 'src/boot/axios'
+import moment from 'moment'
 
 export default defineComponent({
   name: 'EssentialLink',
@@ -46,6 +48,26 @@ export default defineComponent({
     badge: {
       type: String,
       default: '0'
+    },
+  },
+  setup(props) {
+    const showBadge = ref(props.badge)
+    const { proxy } = getCurrentInstance()
+    const c = proxy.$constants
+    if (props.badge == 'paperwork') {
+      showBadge.value = 0
+      const { proxy } = getCurrentInstance()
+      const uuid = proxy.$keycloak.tokenParsed.sub
+      api.get('/userDocument/' + uuid)
+      .then(function(response) {
+        const criminalRecordDate = new moment(response.data.criminalRecord)
+        const selfCommitmentDate = new moment(response.data.selfCommitment)
+        showBadge.value += criminalRecordDate.isAfter(moment(c.events.kids.end).subtract(5, 'years')) ? 0 : 1
+        showBadge.value += selfCommitmentDate.isAfter(moment(c.events.kids.end).subtract(5, 'years')) ? 0 : 1
+      }).catch(function(e){})
+    }
+    return {
+      showBadge
     }
   }
 })
