@@ -54,17 +54,25 @@ export default defineComponent({
     const showBadge = ref(props.badge)
     const { proxy } = getCurrentInstance()
     const c = proxy.$constants
+    const settings = proxy.$settings
     if (props.badge == 'paperwork') {
       showBadge.value = 0
       const { proxy } = getCurrentInstance()
       const uuid = proxy.$keycloak.tokenParsed.sub
       api.get('/userDocument/' + uuid)
       .then(function(response) {
-        const criminalRecordDate = new moment(response.data.criminalRecord)
-        const selfCommitmentDate = new moment(response.data.selfCommitment)
-        showBadge.value += criminalRecordDate.isAfter(moment(c.events.kids.end).subtract(5, 'years')) ? 0 : 1
-        showBadge.value += selfCommitmentDate.isAfter(moment(c.events.kids.end).subtract(5, 'years')) ? 0 : 1
-      }).catch(function(e){})
+        showBadge.value += (settings.currentYear < (response.data.criminalRecord + 5)) ? 0 : 1
+        showBadge.value += (settings.currentYear < (response.data.selfCommitment + 5)) ? 0 : 1
+      }).catch(function(e){
+        if (e.response.status === 404) {
+          showBadge.value = 2
+        } else {
+          $q.notify({
+            message: 'Fehler beim Laden der Daten',
+            type: 'negative'
+          })
+        }
+      })
     }
     return {
       showBadge

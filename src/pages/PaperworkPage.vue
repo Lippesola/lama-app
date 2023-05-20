@@ -11,8 +11,8 @@
     </div>
     <div class="q-py-md">
       <div class="q-py-md text-h5">
-        <q-icon v-show="doc.criminalRecord.status.value === 1 && !loading" name="fa-solid fa-check" color="green" />
-        <q-icon v-show="doc.criminalRecord.status.value === 0 && !loading" name="fa-solid fa-times" color="red" />
+        <q-icon v-show="doc.criminalRecord.status.value && !loading" name="fa-solid fa-check" color="green" />
+        <q-icon v-show="!doc.criminalRecord.status.value && !loading" name="fa-solid fa-times" color="red" />
         Führungszeugnis
       </div>
       <div class="text-body1 q-pb-md">
@@ -25,7 +25,7 @@
           href="https://a-z.lippesola.de/Fuehrungszeugnis.html"
         />
       </div>
-      <div v-if="doc.criminalRecord.date.value !== ''" class="text-body1">Du hast dein Führungszeugnis das letzte Mal am {{ doc.criminalRecord.date.value }} vorgezeigt.</div>
+      <div v-if="doc.criminalRecord.year.value" class="text-body1">Du hast dein Führungszeugnis das letzte Mal {{ doc.criminalRecord.year.value }} vorgezeigt.</div>
       <div v-if="doc.criminalRecord.status.value" class="text-body1">Du musst hier nichts weiter machen.</div>
       <div v-if="!doc.criminalRecord.status.value" class="text-body1">Bitte zeige ein Führungszeugnis, was nicht älter als drei Monate ist, bis zum SOLA vor.</div>
       <q-btn
@@ -38,8 +38,8 @@
 
     <div class="q-py-md">
       <div class="q-py-md text-h5">
-        <q-icon v-show="doc.selfCommitment.status.value === 1 && !loading" name="fa-solid fa-check" color="green" />
-        <q-icon v-show="doc.selfCommitment.status.value === 0 && !loading" name="fa-solid fa-times" color="red" />
+        <q-icon v-show="doc.selfCommitment.status.value && !loading" name="fa-solid fa-check" color="green" />
+        <q-icon v-show="!doc.selfCommitment.status.value && !loading" name="fa-solid fa-times" color="red" />
         Verhaltenskodex
       </div>
       <div class="text-body1 q-pb-md">Auch der Verhaltenskodex muss spätestens alle 5 Jahre unterschrieben abgegeben werden. Weitere Infos findest du im
@@ -51,7 +51,7 @@
           href="https://a-z.lippesola.de/Verhaltenskodex.html"
         />
       </div>
-      <div v-if="doc.selfCommitment.date.value !== ''" class="text-body1">Dein letzter Verhaltenskodex ist vom {{ doc.selfCommitment.date.value }}.</div>
+      <div v-if="doc.selfCommitment.year.value" class="text-body1">Dein letzter Verhaltenskodex ist aus dem Jahr {{ doc.selfCommitment.year.value }}.</div>
       <div v-if="doc.selfCommitment.status.value" class="text-body1">Du musst hier nichts weiter machen.</div>
       <div v-if="!doc.selfCommitment.status.value" class="text-body1">Bitte gib bis zum SOLA einen aktuellen unterschriebenen Verhaltenskodex ab.</div>
     </div>
@@ -71,14 +71,15 @@ export default {
     const { proxy } = getCurrentInstance()
     const c = proxy.$constants
     const uuid = proxy.$keycloak.tokenParsed.sub
+    const settings = proxy.$settings;
 
     const doc = {
       criminalRecord: {
-        date: ref(''),
+        year: ref(''),
         status: ref(0)
       },
       selfCommitment: {
-        date: ref(''),
+        year: ref(''),
         status: ref(0)
       }
     }
@@ -103,12 +104,10 @@ export default {
 
     api.get('/userDocument/' + uuid)
     .then(function(response) {
-      const criminalRecordDate = new moment(response.data.criminalRecord)
-      const selfCommitmentDate = new moment(response.data.selfCommitment)
-      doc.criminalRecord.date.value = criminalRecordDate.format('DD.MM.YYYY')
-      doc.selfCommitment.date.value = selfCommitmentDate.format('DD.MM.YYYY')
-      doc.criminalRecord.status.value = criminalRecordDate.isAfter(moment(c.events.kids.end).subtract(5, 'years')) ? 1 : 0
-      doc.selfCommitment.status.value = selfCommitmentDate.isAfter(moment(c.events.kids.end).subtract(5, 'years')) ? 1 : 0
+      doc.criminalRecord.year.value = response.data.criminalRecord
+      doc.selfCommitment.year.value = response.data.selfCommitment
+      doc.criminalRecord.status.value = settings.currentYear < (response.data.criminalRecord + 5)
+      doc.selfCommitment.status.value = settings.currentYear < (response.data.selfCommitment + 5)
       loading.value = false;
     }).catch(function(e){
       if (e.response.status === 404) {

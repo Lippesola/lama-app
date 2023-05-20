@@ -156,14 +156,14 @@ export default {
         return
       }
       const cr = docType === 'criminalRecord'
-      const date = ref(new moment().format('YYYY-MM-DD'))
+      const year = ref(currentYear)
       $q.dialog({
         title: cr ? 'Führungszeugnis' : 'Verhaltenskodex',
         message: 'Wann hat ' + name.value + ' ' + (cr ? 'das Führungszeugnis vorgezeigt' : 'den Verhaltenskodex abgegeben') + '?',
         html: true,
         prompt: {
-          model: date,
-          type: 'date'
+          model: year,
+          type: 'number'
         },
         ok: {
           color: 'positive',
@@ -175,7 +175,7 @@ export default {
         },
       }).onOk(() => {
         var data = {};
-        data[docType] = date.value
+        data[docType] = parseInt(year.value)
         api.post('/userDocument/' + uuid, data).then(function(response) {
           $q.notify({
             message: 'Dokument hinzugefügt',
