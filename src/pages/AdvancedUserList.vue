@@ -176,7 +176,7 @@
           field: item.id,
           sortable: true,
           align: 'left',
-          format: (val, row) => `${val ? ((new moment(val).isAfter(moment(c.events.kids.end).subtract(5, 'years')) ? 'Ja' : 'Nein')) + ' (' + new moment(val).format('DD.MM.YYYY') + ')' : 'Nein'}`
+          format: (val, row) => `${val ? ((settings.currentYear < (val + 5)) ? 'Ja' : 'Nein') + ' (' + val + ')' : 'Nein'}`
         })
       }))
 
