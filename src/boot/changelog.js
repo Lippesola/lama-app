@@ -2,6 +2,10 @@ import { boot } from 'quasar/wrappers';
 
 const version = 'v1.2.1'
 const changelog = {
+	'v1.2.2':
+		[
+			'Sortierung von Geburtstagen in erweiterter Liste behoben'
+		],
 	'v1.2.1': 
 		[
 			'Optionen für Helferanmeldung erweitert'	
