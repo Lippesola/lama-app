@@ -1,7 +1,11 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.2.0'
+const version = 'v1.2.1'
 const changelog = {
+	'v1.2.1': 
+		[
+			'Optionen für Helferanmeldung erweitert'	
+		],
 	'v1.2.0': 
 		[
 			'PDF für kostenlose Führungszeugnisse hinzugefügt',
