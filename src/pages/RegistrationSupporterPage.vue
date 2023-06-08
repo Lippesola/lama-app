@@ -3,7 +3,7 @@
     <div class="q-pa-md" style="max-width: 1024px;" v-if="!registrated">
       <div class="q-py-md text-h4">Helfer-Anmeldung</div>
       <div class="q-pb-md text-body1">
-        Wenn du nicht komplett beim SOLA dabei sein kannst, aber trotzdem gerne helfen möchtest, kannst du dich hier als Helfer anmelden.
+        Wenn du nicht komplett beim SOLA dabei sein kannst und trotzdem gerne helfen möchtest, kannst du dich hier als Helfer anmelden.
       </div>
       <q-form @submit="onSubmit">
         <div class="q-pt-md text-h5">Über dich</div>
@@ -19,9 +19,8 @@
           <q-input outlined hide-bottom-space style="width: 300px" type="text" autocomplete="address-level2" v-model="city" label="Ort"  :error="error.city"/>
           <q-input outlined hide-bottom-space style="width: 300px" type="tel" autocomplete="tel-national" v-model="phone" label="Telefonnummer"  :error="error.phone"/>
           <q-input outlined hide-bottom-space style="width: 300px" type="tel" autocomplete="tel" v-model="mobile" label="Handynummer"  :error="error.mobile"/>
-          <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="church" label="Gemeinde"  :error="error.church"/>
           <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="job" label="Beruf"  :error="error.job"/>
-          <q-select outlined hide-bottom-space style="width: 300px" multiple :options="nutritionOptions" v-model="nutrition" label="Ernährung" hint="Beachte bitte die Fußnote *" :error="error.churchContact"/>
+          <q-select outlined hide-bottom-space style="width: 300px" multiple :options="nutritionOptions" v-model="nutrition" label="Ernährung" hint="Beachte bitte die Fußnote *" :error="error.nutrition"/>
         </div>
         <div class="text-caption q-py-lg">
           * Die Küche versucht auf Besonderheiten bei der Ernährung aufgrund von Unverträglichkeiten, Allergien o. Ä. einzugehen.
@@ -32,6 +31,8 @@
         <div class="q-pt-md text-h5">Art der Unterstützung</div>
         <div class="q-pb-md text-body1">Auf welche Weise könntest du uns beim SOLA unterstützen? Gib gerne mehrere Optionen an.</div>
         <div class="q-gutter-md row">
+          <q-select outlined hide-bottom-space style="width: 300px" multiple :options="driverOptions" v-model="driver" label="Fahrer" hint="Was kannst / darfst du fahren?" :error="error.nutrition"/>
+          <q-select outlined hide-bottom-space style="width: 300px" multiple :options="vehicleOptions" v-model="vehicle" label="Fahrzeug" hint="Was Fahrzeuge kannst du mitbringen / besorgen?" :error="error.nutrition"/>
           <q-item v-for="supportTypeOption in supportTypeOptions" tag="label" :key="supportTypeOption.name" v-ripple style="width: 300px;">
             <q-item-section avatar>
               <q-checkbox v-model="supportType[supportTypeOption.name]" color="primary" />
@@ -136,6 +137,16 @@ export default {
       {value:'vegetarian', label:"Vegetarisch"},
       {value:'lactose', label:"Laktosefrei"}
     ]
+    const driverOptions = [
+      {value:'car', label:"PKW"},
+      {value:'trailer', label:"Anhänger bis 3,5 t"},
+      {value:'truck', label:"LKW bis 7,5 t"},
+    ]
+    const vehicleOptions = [
+      {value:'trailer', label:"Anhänger"},
+      {value:'car', label:"Zugfahrzeug"},
+      {value:'van', label:"Transporter"},
+    ]
     const firstName = ref('')
     const lastName = ref('')
     const birthday = ref('1999-01-01')
@@ -149,29 +160,38 @@ export default {
     const church = ref('')
     const job = ref('')
     const nutrition = ref([])
+    const driver = ref([])
+    const vehicle = ref([])
 
     const supportType = ref({
-      kitchen: false,
       tasks: false,
-      driver: false,
       deco: false,
       material: false,
       training: false,
       workshops: false,
       seminars: false,
+      infrastructure: false,
+      kitchen: false,
+      media: false,
+      prayer: false,
       games: false,
+      nightwatch: false,
       other: false
     })
     const supportTypeOptions = [
-      {name: 'tasks', label: 'Praktische Aufgaben', description: 'Z.B. Aufbau, Abbau, Reinigung, Strom- oder Wasserinstallation, ...'},
-      {name: 'driver', label: 'Fahrer', description: 'Materialien transportieren, Fahrdienst, Einkaufen, ...'},
+      {name: 'tasks', label: 'Praktische Aufgaben', description: 'Z.B. Aufbau, Abbau, Instandhaltung des Materials, Strom- oder Wasserinstallation, ...'},
       {name: 'deco', label: 'Deko', description: 'Planung, Herstellung, vor Ort dekorieren, ...'},
-      {name: 'material', label: 'Material', description: 'Materialien besorgen, Materialien transportieren, ...'},
+      {name: 'material', label: 'Material', description: 'Material Materialien für das SOLA besorgen'},
       {name: 'training', label: 'Schulungen', description: 'Schulungen für die Mitarbeiter bei Vorbereitungswochenenden'},
       {name: 'workshops', label: 'Workshops', description: 'Workshops für die Kids auf dem Platz'},
       {name: 'seminars', label: 'Seminare', description: 'Seminare für die Teens auf dem Platz'},
-      {name: 'games', label: 'Geländespiele', description: 'Bei den Geländespielen vor Ort helfen und mitmachen'},
-      {name: 'other', label: 'Sonstiges', description: 'Sonstiges, was du gerne machen würdest (bitte angeben)'}
+      {name: 'infrastructure', label: 'Springer', description: 'Das Springerteam auf dem Platz oder bei den Vorbereitungen unterstützen'},
+      {name: 'kitchen', label: 'Küche', description: 'Das Küchenteam auf dem Platz oder bei den Vorbereitungen unterstützen'},
+      {name: 'media', label: 'Medienteam', description: 'Das Medienteam auf dem Platz oder bei den Vorbereitungen unterstützen'},
+      {name: 'prayer', label: 'Gebetsteam', description: 'Das Gebetsteam auf dem Platz oder bei den Vorbereitungen unterstützen'},
+      {name: 'games', label: 'Geländespiele', description: 'Bei den Geländespielen auf dem Platz helfen, z.B. eine Station betreuen oder einen Schergen spielen.'},
+      {name: 'nightwatch', label: 'Nachtwache', description: 'Die Nachtwache auf dem Platz übernehmen'},
+      {name: 'other', label: 'Sonstiges', description: 'Sonstiges, was du gerne machen würdest (bitte im Textfeld angeben)'}
     ]    
     const supportOther = ref('')
 
@@ -179,6 +199,7 @@ export default {
     const dateOptions = ref([])
     const events = [
       c.events.prepare3,
+      c.events.prebuild,
       c.events.training,
       c.events.build,
       c.events.teens,
@@ -186,10 +207,12 @@ export default {
       c.events.cleanup
     ]
     events.forEach(event => {
-      const range = moment.range(event.start, event.end)
-      Array.from(range.by('day')).forEach(day => {
-        dateOptions.value.push(day.format('YYYY/MM/DD'))
-      })
+      if (event) {
+        const range = moment.range(event.start, event.end)
+        Array.from(range.by('day')).forEach(day => {
+          dateOptions.value.push(day.format('YYYY/MM/DD'))
+        })
+      }
     })
 
     const calStart = new moment(c.events.prepare3.start).format('YYYY/MM')
@@ -208,6 +231,8 @@ export default {
         return;
       }
       const nutritionValue = nutrition.value.map(n => n.value);
+      const driverValue = driver.value.map(n => n.value);
+      const vehicleValue = vehicle.value.map(n => n.value);
       const supportTypeValue = Object.keys(supportType.value).filter(key => supportType.value[key]);
 
       api.post('/supporterYear', {
@@ -225,14 +250,24 @@ export default {
         job: job.value,
         vegetarian: nutritionValue.includes('vegetarian'),
         lactose: nutritionValue.includes('lactose'),
+        supportTypeDriverCar: driverValue.includes('car'),
+        supportTypeDriverTrailer: driverValue.includes('trailer'),
+        supportTypeDriverTruck: driverValue.includes('truck'),
+        supportTypeVehicleTrailer: vehicleValue.includes('trailer'),
+        supportTypeVehicleCar: vehicleValue.includes('car'),
+        supportTypeVehicleVan: vehicleValue.includes('van'),
         supportTypeTasks: supportTypeValue.includes('tasks'),
-        supportTypeDriver: supportTypeValue.includes('driver'),
         supportTypeDeco: supportTypeValue.includes('deco'),
         supportTypeMaterial: supportTypeValue.includes('material'),
         supportTypeTraining: supportTypeValue.includes('training'),
         supportTypeWorkshops: supportTypeValue.includes('workshops'),
         supportTypeSeminars: supportTypeValue.includes('seminars'),
+        supportTypeInfrastructure: supportTypeValue.includes('infrastructure'),
+        supportTypeKitchen: supportTypeValue.includes('kitchen'),
+        supportTypeMedia: supportTypeValue.includes('media'),
+        supportTypePrayer: supportTypeValue.includes('prayer'),
         supportTypeGames: supportTypeValue.includes('games'),
+        supportTypeNightwatch: supportTypeValue.includes('nightwatch'),
         supportTypeOther: supportTypeValue.includes('other'),
         supportOther: supportOther.value,
         days: days.value
@@ -266,6 +301,8 @@ export default {
       registrated,
       genderOptions,
       nutritionOptions,
+      driverOptions,
+      vehicleOptions,
       firstName,
       lastName,
       birthday,
@@ -279,6 +316,8 @@ export default {
       church,
       job,
       nutrition,
+      driver,
+      vehicle,
       supportType,
       supportTypeOptions,
       supportOther,
