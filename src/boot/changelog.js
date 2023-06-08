@@ -1,6 +1,6 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.2.1'
+const version = 'v1.2.2'
 const changelog = {
 	'v1.2.2':
 		[
