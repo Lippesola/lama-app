@@ -441,6 +441,147 @@ export default boot( async ({ app }) => {
 			icon: 'fa-solid fa-file-signature'
 		},
 	}
+
+	constants['genderOptions'] = [
+		{
+			value:'m',
+			label:"Männlich"
+		},
+		{
+			value:'w',
+			label:"Weiblich"
+		}
+	]
+
+	constants['nutritionOptions'] = [
+		{
+			value:'vegetarian',
+			label:"Vegetarisch"
+		},
+		{
+			value:'lactose',
+			label:"Laktosefrei"
+		}
+	]
+
+
+	constants['driverOptions'] = [
+		{
+			value:'car',
+			backendName: 'supportTypeDriverCar',
+			label:"PKW"
+		},
+		{
+			value:'trailer',
+			backendName: 'supportTypeDriverTrailer',
+			label:"Anhänger bis 3,5 t"
+		},
+		{
+			value:'truck',
+			backendName: 'supportTypeDriverTruck',
+			label:"LKW bis 7,5 t"
+		},
+	]
+
+	constants['vehicleOptions'] = [
+		{
+			value:'trailer',
+			backendName: 'supportTypeVehicleTrailer',
+			label:"Anhänger"
+		},
+		{
+			value:'car',
+			backendName: 'supportTypeVehicleCar',
+			label:"Zugfahrzeug"
+		},
+		{
+			value:'van',
+			backendName: 'supportTypeVehicleVan',
+			label:"Transporter"
+		},
+	]
+
+	constants['supporterTasks'] = [
+		{
+			name: 'tasks',
+			backendName: 'supportTypeTasks',
+			label: 'Praktische Aufgaben',
+			description: 'Z.B. Aufbau, Abbau, Instandhaltung des Materials, Strom- oder Wasserinstallation, ...'
+		},
+		{
+			name: 'deco',
+			backendName: 'supportTypeDeco',
+			label: 'Deko',
+			description: 'Planung, Herstellung, vor Ort dekorieren, ...'
+		},
+		{
+			name: 'material',
+			backendName: 'supportTypeMaterial',
+			label: 'Material',
+			description: 'Material Materialien für das SOLA besorgen'
+		},
+		{
+			name: 'training',
+			backendName: 'supportTypeTraining',
+			label: 'Schulungen',
+			description: 'Schulungen für die Mitarbeiter bei Vorbereitungswochenenden'
+		},
+		{
+			name: 'workshops',
+			backendName: 'supportTypeWorkshops',
+			label: 'Workshops',
+			description: 'Workshops für die Kids auf dem Platz'
+		},
+		{
+			name: 'seminars',
+			backendName: 'supportTypeSeminars',
+			label: 'Seminare',
+			description: 'Seminare für die Teens auf dem Platz'
+		},
+		{
+			name: 'infrastructure',
+			backendName: 'supportTypeInfrastructure',
+			label: 'Springer',
+			description: 'Das Springerteam auf dem Platz oder bei den Vorbereitungen unterstützen'
+		},
+		{
+			name: 'kitchen',
+			backendName: 'supportTypeKitchen',
+			label: 'Küche',
+			description: 'Das Küchenteam auf dem Platz oder bei den Vorbereitungen unterstützen'
+		},
+		{
+			name: 'media',
+			backendName: 'supportTypeMedia',
+			label: 'Medienteam',
+			description: 'Das Medienteam auf dem Platz oder bei den Vorbereitungen unterstützen'
+		},
+		{
+			name: 'prayer',
+			backendName: 'supportTypePrayer',
+			label: 'Gebetsteam',
+			description: 'Das Gebetsteam auf dem Platz oder bei den Vorbereitungen unterstützen'
+		},
+		{
+			name: 'games',
+			backendName: 'supportTypeGames',
+			label: 'Geländespiele',
+			description: 'Bei den Geländespielen auf dem Platz helfen, z.B. eine Station betreuen oder einen Schergen spielen.'
+		},
+		{
+			name: 'nightwatch',
+			backendName: 'supportTypeNightwatch',
+			label: 'Nachtwache',
+			description: 'Die Nachtwache auf dem Platz übernehmen'
+		},
+		{
+			name: 'other',
+			backendName: 'supportTypeOther',
+			label: 'Sonstiges',
+			description: 'Sonstiges, was du gerne machen würdest (bitte im Textfeld angeben)'
+		}
+	]
+
 	app.config.globalProperties.$constants = constants
 })
 
