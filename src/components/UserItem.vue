@@ -7,9 +7,7 @@
       </q-avatar>
     </q-item-section>
     <q-item-section>
-      <q-item-label v-if="!showNick">{{ name }}</q-item-label>
-      <q-item-label v-if="showNick">{{ nick }}</q-item-label>
-      
+      <q-item-label>{{ showNick ? nick : name }} <i v-if="todayBirthday" class="fa-solid fa-cake-candles text-orange"></i></q-item-label>
       <q-item-label caption>
           {{ responsibilityString }}
       </q-item-label>
@@ -23,6 +21,7 @@
 <script>
 import { api } from 'src/boot/axios';
 import { defineComponent, ref } from 'vue'
+import moment from 'moment'
 
 export default defineComponent({
   name: 'UserItem',
@@ -47,6 +46,10 @@ export default defineComponent({
       type: Array,
       defaultValue: []
     },
+    birthday: {
+      type: String,
+      defaultValue: ''
+    },
     showNick: {
       type: Boolean,
       default: false
@@ -58,8 +61,11 @@ export default defineComponent({
     const name = ref('')
     const nick = ref('')
     const responsibilityString = ref('')
+    const todayBirthday = ref(false)
     name.value = props.firstName + ' ' + props.lastName
     nick.value = (props.nickname || props.firstName) + ' ' + props.lastName
+    const birthdayMoment = moment(props.birthday).format('DDMM');
+    todayBirthday.value = birthdayMoment === moment(new Date).format('DDMM');
 
     api.get('/avatar/' + props.uuid, {
       responseType: 'blob'
@@ -78,7 +84,8 @@ export default defineComponent({
       avatar,
       name,
       responsibilityString,
-      nick
+      nick,
+      todayBirthday
     }
   }
 })

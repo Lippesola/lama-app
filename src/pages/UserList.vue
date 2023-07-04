@@ -42,7 +42,7 @@
       <UserItem
         v-for="item in userList"
         :key="item"
-        v-bind="{uuid: item.uuid, firstName: item.firstName, lastName: item.lastName, nickname: item.nickname, responsibilityList: responibilityList, showNick: showNick}"
+        v-bind="{uuid: item.uuid, firstName: item.firstName, lastName: item.lastName, nickname: item.nickname, responsibilityList: responibilityList, showNick: showNick, birthday: item.birthday}"
       />
     </div>
 </template>

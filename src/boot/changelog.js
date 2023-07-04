@@ -1,7 +1,11 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.2.4'
+const version = 'v1.2.5'
 const changelog = {
+	'v1.2.5':
+		[
+			'Birthday surprise',
+		],
 	'v1.2.4':
 		[
 			'LTler können jetzt auch Briefe für kostenlose Führungszeugnisse für MAs generieren',
