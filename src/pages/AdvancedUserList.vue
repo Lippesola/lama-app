@@ -132,7 +132,21 @@
           label: item.title,
           field: item.id,
           sortable: true,
-          align: 'left'
+          align: 'left',
+          sort: (a, b, rowA, rowB) => {
+            if (item.id === 'birthday') {
+              a = moment(a).unix()
+              b = moment(b).unix()
+            }
+            if (a === b) return 0
+            return a > b ? 1 : -1
+          },
+          format: (val, row) => {
+            if (item.id === 'birthday') {
+              return moment(val).format('DD.MM.YYYY') + (moment(c.events.teens.start).diff(moment(val), 'years') < 18 ? ' (u18)' : '');
+            }
+            return val;
+          }
         })
       }))
       Object.entries(c.engagement.participation).forEach((entry => {
@@ -198,7 +212,7 @@
           }
           delete row.User;
           delete row.UserDocument;
-          row.birthday = new moment(row.birthday).format('DD.MM.YYYY')
+          //row.birthday = new moment(row.birthday)
           rows.value.push(row)
         }))
       }).catch(function(e) {})
