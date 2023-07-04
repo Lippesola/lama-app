@@ -18,10 +18,9 @@
       <img class="cursor-pointer" :src="avatar" @click="dialog = true" />
     </q-avatar>
     <span class="q-pl-md"> {{ name }} </span>
-    <span v-if="$keycloak.tokenParsed.groups.includes($settings.currentYear + '_LT')">
+    <div v-if="$keycloak.tokenParsed.groups.includes($settings.currentYear + '_LT')">
       <q-btn
         flat
-        class="q-ml-md"
         icon="fa-solid fa-pencil"
         text-color="primary"
         >
@@ -55,7 +54,13 @@
         text-color="primary"
         @click="getMotivation()"
       />
-    </span>
+      <q-btn
+        flat
+        icon="fa-solid fa-handcuffs"
+        text-color="primary"
+        @click="getCriminalRecord()"
+      />
+    </div>
   </div>
   <q-list>
     <ContactItem
@@ -210,6 +215,20 @@ export default {
         URL.revokeObjectURL(href);
       }).catch((e) => {})
     }
+    function getCriminalRecord() {
+      api.get('/userCriminalRecord/' + uuid, {
+        responseType: 'blob'
+      }).then((response) => {
+        const href = URL.createObjectURL(response.data);
+        const link = document.createElement('a');
+        link.href = href;
+        link.setAttribute('download', "AntragFZ-" + name.value + ".pdf"); 
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+      }).catch((e) => {})
+    }
 
     return {
       avatar,
@@ -220,6 +239,7 @@ export default {
       name,
       uuid,
       addDocument,
+      getCriminalRecord,
       getMotivation
     }
   }
