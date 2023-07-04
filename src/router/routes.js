@@ -18,6 +18,7 @@ const routes = [
       { path: 'profile/:uuid/edit', component: () => import('pages/EditProfilePage.vue') },
       { path: 'leader/activation', component: () => import('pages/ActivationPage.vue') },
       { path: 'leader/userlist', component: () => import('pages/AdvancedUserList.vue') },
+      { path: 'leader/supporterlist', component: () => import('pages/SupporterList.vue') },
     ],
     meta: {
       requiresAuth: true

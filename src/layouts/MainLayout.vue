@@ -180,6 +180,11 @@ const leaderLinksList = [
     title: 'MA-Listen',
     icon: 'fa-solid fa-list-ul',
     link: '/l/leader/userlist'
+  },
+  {
+    title: 'Helfer-Übersicht',
+    icon: 'fa-solid fa-user-clock',
+    link: '/l/leader/supporterlist'
   }
 ]
 
