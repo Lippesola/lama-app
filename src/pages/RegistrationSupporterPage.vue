@@ -129,24 +129,11 @@ export default {
 
     const registrated = ref(false)
 
-    const genderOptions = [
-      {value:'m', label:"Männlich"},
-      {value:'w', label:"Weiblich"}
-    ]
-    const nutritionOptions = [
-      {value:'vegetarian', label:"Vegetarisch"},
-      {value:'lactose', label:"Laktosefrei"}
-    ]
-    const driverOptions = [
-      {value:'car', label:"PKW"},
-      {value:'trailer', label:"Anhänger bis 3,5 t"},
-      {value:'truck', label:"LKW bis 7,5 t"},
-    ]
-    const vehicleOptions = [
-      {value:'trailer', label:"Anhänger"},
-      {value:'car', label:"Zugfahrzeug"},
-      {value:'van', label:"Transporter"},
-    ]
+    const genderOptions = c.genderOptions
+    const nutritionOptions = c.nutritionOptions
+    const driverOptions = c.driverOptions
+    const vehicleOptions = c.vehicleOptions
+
     const firstName = ref('')
     const lastName = ref('')
     const birthday = ref('1999-01-01')
@@ -178,21 +165,7 @@ export default {
       nightwatch: false,
       other: false
     })
-    const supportTypeOptions = [
-      {name: 'tasks', label: 'Praktische Aufgaben', description: 'Z.B. Aufbau, Abbau, Instandhaltung des Materials, Strom- oder Wasserinstallation, ...'},
-      {name: 'deco', label: 'Deko', description: 'Planung, Herstellung, vor Ort dekorieren, ...'},
-      {name: 'material', label: 'Material', description: 'Material Materialien für das SOLA besorgen'},
-      {name: 'training', label: 'Schulungen', description: 'Schulungen für die Mitarbeiter bei Vorbereitungswochenenden'},
-      {name: 'workshops', label: 'Workshops', description: 'Workshops für die Kids auf dem Platz'},
-      {name: 'seminars', label: 'Seminare', description: 'Seminare für die Teens auf dem Platz'},
-      {name: 'infrastructure', label: 'Springer', description: 'Das Springerteam auf dem Platz oder bei den Vorbereitungen unterstützen'},
-      {name: 'kitchen', label: 'Küche', description: 'Das Küchenteam auf dem Platz oder bei den Vorbereitungen unterstützen'},
-      {name: 'media', label: 'Medienteam', description: 'Das Medienteam auf dem Platz oder bei den Vorbereitungen unterstützen'},
-      {name: 'prayer', label: 'Gebetsteam', description: 'Das Gebetsteam auf dem Platz oder bei den Vorbereitungen unterstützen'},
-      {name: 'games', label: 'Geländespiele', description: 'Bei den Geländespielen auf dem Platz helfen, z.B. eine Station betreuen oder einen Schergen spielen.'},
-      {name: 'nightwatch', label: 'Nachtwache', description: 'Die Nachtwache auf dem Platz übernehmen'},
-      {name: 'other', label: 'Sonstiges', description: 'Sonstiges, was du gerne machen würdest (bitte im Textfeld angeben)'}
-    ]    
+    const supportTypeOptions = c.supporterTasks   
     const supportOther = ref('')
 
     const days = ref([])

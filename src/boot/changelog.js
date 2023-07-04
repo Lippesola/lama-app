@@ -1,7 +1,11 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.2.2'
+const version = 'v1.2.3'
 const changelog = {
+	'v1.2.3':
+		[
+			'Helferanmeldungen sind für LTler sichtbar',
+		],
 	'v1.2.2':
 		[
 			'Sortierung von Geburtstagen in erweiterter Liste behoben'
