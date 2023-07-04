@@ -21,7 +21,7 @@
     "quasar": "^2.12.2",
     "vue": "^3.2.47",
     "vue-advanced-cropper": "^2.8.8",
-    "vue-router": "^4.0.0"
+    "vue-router": "^4.2.2"
   },
   "devDependencies": {
     "@quasar/app-vite": "^1.2.1",
