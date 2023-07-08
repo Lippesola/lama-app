@@ -4,6 +4,7 @@ const version = 'v1.2.5'
 const changelog = {
 	'v1.2.5':
 		[
+			'Ernährungswünsche können im Nachhinein nicht mehr von MA geändert werden',
 			'Birthday surprise',
 		],
 	'v1.2.4':

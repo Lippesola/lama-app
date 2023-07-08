@@ -26,7 +26,7 @@
         <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="church" label="Gemeinde"  :error="error.church"/>
         <q-select outlined hide-bottom-space style="width: 300px" :options="churchContactOptions" v-model="churchContact" label="Gemeindekontakt" hint="Kannst du in deiner Gemeinde Ansprechpartner fürs SOLA sein?" :error="error.churchContact"/>
         <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="job" label="Beruf"  :error="error.job"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="nutrition" label="Ernährung" hint="Bitte lies dir den Hinweis unten durch *"  :error="error.nutrition"/>
+        <q-input outlined hide-bottom-space :disable="!allowEditNutrition" style="width: 300px" type="text" v-model="nutrition" label="Ernährung" hint="Bitte lies dir den Hinweis unten durch *"  :error="error.nutrition"/>
       </div>
       <div class="q-py-md">
         <q-btn label="Speichern" type="submit" color="primary"/>
@@ -40,16 +40,19 @@
       label="Profilbild anpassen"
       color="primary"
     />
-    <div class="text-caption q-py-lg">
+    <div class="text-caption q-py-lg" v-if="allowEditNutrition">
       * Bitte schreib kein "Alles", "Viel", etc. in das Eingabefeld, sondern nur Dinge, die man ernsthaft beachten muss. Die Küche versucht auf Besonderheiten bei der Ernährung aufgrund von Unverträglichkeiten, Allergien o. Ä. einzugehen.
       Hierbei kann <strong>vegetarisches</strong> und <strong>laktosefreies</strong> Essen angeboten werden.
       Für alle weiteren Fragen schreibst du <q-btn flat dense no-caps text-color="primary" :label="$settings.kitchenLeaderName" :href="'mailto:' + $settings.kitchenLeaderMail" /> am besten direkt.
+    </div>
+    <div class="text-caption q-py-lg" v-if="!allowEditNutrition">
+      * Aus organisatorischen Gründen kannst du die Ernährungsdaten jetzt nicht mehr selbst ändern. Wenn du Änderungswünsche hast, melde dich bitte bei <q-btn flat dense no-caps text-color="primary" :label="$settings.kitchenLeaderName" :href="'mailto:' + $settings.kitchenLeaderMail" />.
     </div>
   </div>
 </template>
 
 <script>
-import { getCurrentInstance, ref } from 'vue'
+import { getCurrentInstance, ref, watchEffect } from 'vue'
 import { api } from '../boot/axios'
 import { useQuasar } from 'quasar'
 import 'vue-advanced-cropper/dist/style.css';
@@ -66,7 +69,7 @@ export default {
     const $q = useQuasar()
     const { proxy } = getCurrentInstance()
     const uuid = proxy.$route.params.uuid || proxy.$keycloak.tokenParsed.sub
-
+    const allowEditNutrition = ref(proxy.$route.params.uuid || proxy.$route.path.startsWith('/r'))
     const firstName = ref('')
     const lastName = ref('')
     const nickname = ref('')
@@ -98,7 +101,9 @@ export default {
     const nutrition = ref('')
     const error = ref({})
     const loading = ref(true)
-
+    watchEffect(() => {
+      allowEditNutrition.value = proxy.$route.params.uuid || proxy.$route.path.startsWith('/r');
+    });
     api.get('/user/' + uuid)
     .then(function(response) {
       firstName.value = response.data.firstName
@@ -142,6 +147,7 @@ export default {
       loading,
       props,
       error,
+      allowEditNutrition,
       onSubmit() {
         error.value = {}
         let err = false
