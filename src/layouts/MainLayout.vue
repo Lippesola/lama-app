@@ -168,6 +168,11 @@ const linksList = [
     icon: 'fa-solid fa-file-lines',
     link: '/l/paperwork',
     badge: 'paperwork',
+  },
+  {
+    title: 'Mail-Verteiler',
+    icon: 'fa-solid fa-envelope',
+    link: '/l/mail',
   }
 ];
 const leaderLinksList = [

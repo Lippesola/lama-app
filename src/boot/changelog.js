@@ -1,7 +1,11 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.2.5'
+const version = 'v1.3.0'
 const changelog = {
+	'v1.3.0':
+		[
+			'Die Mail-Verteiler können direkt in LAMA genutzt werden',
+		],
 	'v1.2.5':
 		[
 			'Ernährungswünsche können im Nachhinein nicht mehr von MA geändert werden',

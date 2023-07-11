@@ -10,6 +10,7 @@ const routes = [
       { path: 'engagement', component: () => import('src/pages/EditEngagementPage.vue') },
       { path: 'engagement/:uuid', component: () => import('src/pages/EngagementPage.vue') },
       { path: 'engagement/:uuid/edit', component: () => import('src/pages/EditEngagementPage.vue') },
+      { path: 'mail', component: () => import('pages/MailPage.vue') },
       { path: 'misc', component: () => import('pages/MiscPage.vue') },
       { path: 'userlist', component: () => import('pages/UserList.vue') },
       { path: 'paperwork', component: () => import('pages/PaperworkPage.vue') },
