@@ -35,7 +35,8 @@ module.exports = configure(function (/* ctx */) {
       'axios',
       'constants',
       'settings',
-      'userYearStatus'
+      'userYearStatus',
+      'permissions',
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css

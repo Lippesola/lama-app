@@ -18,7 +18,7 @@
       <img class="cursor-pointer" :src="avatar" @click="dialog = true" />
     </q-avatar>
     <span class="q-pl-md"> {{ name }} </span>
-    <div v-if="$keycloak.tokenParsed.groups.includes($settings.currentYear + '_LT')">
+    <div v-if="isLT || $permissions.userDocument">
       <q-btn
         flat
         icon="fa-solid fa-pencil"
@@ -26,22 +26,23 @@
         >
           <q-menu>
             <q-list>
-              <q-item clickable :to="'/l/profile/' + uuid + '/edit'" v-close-popup>
+              <q-item v-if="isLT" clickable :to="'/l/profile/' + uuid + '/edit'" v-close-popup>
                 <q-item-section>Allgemeines Profil</q-item-section>
               </q-item>
-              <q-item clickable :to="'/l/engagement/' + uuid + '/edit'" v-close-popup>
+              <q-item v-if="isLT" clickable :to="'/l/engagement/' + uuid + '/edit'" v-close-popup>
                 <q-item-section>Mitarbeit auf dem SOLA</q-item-section>
               </q-item>
-              <q-item clickable v-close-popup @click="addDocument('criminalRecord')">
+              <q-item v-if="isLT || $permissions.userDocument" clickable v-close-popup @click="addDocument('criminalRecord')">
                 <q-item-section>Führungszeugnis</q-item-section>
               </q-item>
-              <q-item clickable v-close-popup @click="addDocument('selfCommitment')">
+              <q-item v-if="isLT || $permissions.userDocument" clickable v-close-popup @click="addDocument('selfCommitment')">
                 <q-item-section>Verhaltenskodex</q-item-section>
               </q-item>
             </q-list>
           </q-menu>
       </q-btn>
       <q-btn
+        v-if="isLT"
         flat
         color=""
         icon="fa-solid fa-campground"
@@ -49,12 +50,14 @@
         :to="'/l/engagement/' + user.uuid"
       />
       <q-btn
+        v-if="isLT"
         flat
         icon="fa-solid fa-file-lines"
         text-color="primary"
         @click="getMotivation()"
       />
       <q-btn
+        v-if="isLT"
         flat
         icon="fa-solid fa-handcuffs"
         text-color="primary"
@@ -94,6 +97,7 @@ export default {
     const loading = ref(true)
     const uuid = proxy.$route.params.uuid
     const currentYear = proxy.$settings.currentYear
+    const isLT = proxy.$keycloak.tokenParsed.groups.includes(currentYear + '_LT')
     const user = ref({})
     const name = ref({})
 
@@ -164,7 +168,8 @@ export default {
       const year = ref(currentYear)
       $q.dialog({
         title: cr ? 'Führungszeugnis' : 'Verhaltenskodex',
-        message: 'Wann hat ' + name.value + ' ' + (cr ? 'das Führungszeugnis vorgezeigt' : 'den Verhaltenskodex abgegeben') + '?',
+        message: 'Wann hat ' + name.value + ' ' + (cr ? 'das Führungszeugnis vorgezeigt' : 'den Verhaltenskodex abgegeben') + '?' + 
+          (cr ? '<br/><input outlined label="Selbstverpflichtungserklärung" type="checkbox" id="crSelf" /> <label for="crSelf">Selbsverpflichtungserklärung</label>' : ''),
         html: true,
         prompt: {
           model: year,
@@ -180,7 +185,7 @@ export default {
         },
       }).onOk(() => {
         var data = {};
-        data[docType] = parseInt(year.value)
+        data[docType] = parseInt(cr && document.getElementById('crSelf').checked  ? year.value - 2000 : year.value)
         api.post('/userDocument/' + uuid, data).then(function(response) {
           $q.notify({
             message: 'Dokument hinzugefügt',
@@ -238,6 +243,7 @@ export default {
       user,
       name,
       uuid,
+      isLT,
       addDocument,
       getCriminalRecord,
       getMotivation

@@ -196,7 +196,7 @@
 
       const columns = profileColumns.concat(participationColumns, roleColumns, wishColumns, documentColumns)
       
-      api.get('/userYear?status=3&status=4&year=' + settings.currentYear + '&userBundle&documentBundle').then(function(response) {
+      api.get('/userYear?status=4&year=' + settings.currentYear + '&userBundle&documentBundle').then(function(response) {
         Object.entries(response.data).forEach((entry => {
           const [index, item] = entry
           let row = item

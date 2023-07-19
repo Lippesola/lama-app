@@ -1,6 +1,16 @@
 <template>
 
-  <div class="q-pa-md text-h4">Papierkram</div>
+  <div class="q-pa-md text-h4">
+    Papierkram
+    <q-btn
+      v-if="$permissions.userDocument"
+      flat
+      color="primary"
+      icon="fa-solid fa-users"
+      text-color="primary"
+      :to="'/l/paperworkOverview'"
+    />
+  </div>
   <div class="q-px-md">
     <div class="q-gutter-md q-pb-md row" v-show="loading">
       <q-spinner

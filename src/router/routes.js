@@ -14,6 +14,7 @@ const routes = [
       { path: 'misc', component: () => import('pages/MiscPage.vue') },
       { path: 'userlist', component: () => import('pages/UserList.vue') },
       { path: 'paperwork', component: () => import('pages/PaperworkPage.vue') },
+      { path: 'paperworkOverview', component: () => import('pages/PaperworkOverviewPage.vue') },
       { path: 'profile', component: () => import('pages/EditProfilePage.vue') },
       { path: 'profile/:uuid', component: () => import('pages/ProfilePage.vue') },
       { path: 'profile/:uuid/edit', component: () => import('pages/EditProfilePage.vue') },
