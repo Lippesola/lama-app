@@ -1,7 +1,12 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.3.0'
+const version = 'v1.3.1'
 const changelog = {
+	'v1.3.1':
+		[
+			'Menüpunkte sind trotz Versionsnummer klickbar',
+			'Berechtigungskonzept für Papierkram hinzugefügt',
+		],
 	'v1.3.0':
 		[
 			'Die Mail-Verteiler können direkt in LAMA genutzt werden',

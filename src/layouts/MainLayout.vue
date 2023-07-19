@@ -91,7 +91,7 @@
       show-if-above
       bordered
     >
-      <q-list>
+      <q-list class="q-pb-xl">
         <q-item-label
           header
         >
@@ -117,7 +117,11 @@
           />
         </div>  
       </q-list>
-      <div class="fixed-bottom" @click="showChangelog = true">
+      <div
+        :class="'fixed-bottom menu-footer-' + ($q.dark.isActive ? 'dark' : 'light')"
+        @click="showChangelog = true"
+        style="background-color: $grey-1;"
+      >
         <q-btn
           :label="$version"
           no-caps
