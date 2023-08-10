@@ -11,7 +11,7 @@
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@dsb-norge/vue-keycloak-js": "^2.2.0",
+    "@dsb-norge/vue-keycloak-js": "^2.4.0",
     "@quasar/extras": "^1.16.5",
     "axios": "^1.4.0",
     "form-data": "^4.0.0",
