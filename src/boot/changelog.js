@@ -1,7 +1,11 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.3.1'
+const version = 'v1.4.0'
 const changelog = {
+	'v1.4.0':
+		[
+			'Themenforum hinzugefügt',
+		],
 	'v1.3.1':
 		[
 			'Menüpunkte sind trotz Versionsnummer klickbar',

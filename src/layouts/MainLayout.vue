@@ -177,6 +177,11 @@ const linksList = [
     title: 'Mail-Verteiler',
     icon: 'fa-solid fa-envelope',
     link: '/l/mail',
+  },
+  {
+    title: 'Themenforum',
+    icon: 'fa-solid fa-comments',
+    link: '/l/threads',
   }
 ];
 const leaderLinksList = [

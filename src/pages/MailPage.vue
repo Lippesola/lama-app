@@ -24,7 +24,7 @@
       min-height="15rem"
       :toolbar="toolbarButtons"
     />
-    <q-btn label="Submit" @click="sendMail" color="primary"/>
+    <q-btn label="Senden" @click="sendMail" color="primary"/>
   </div>
 </template>
 
