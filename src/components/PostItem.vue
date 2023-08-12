@@ -51,7 +51,7 @@
     </q-card>
   </q-dialog>
   <q-item class="q-pb-lg" v-if="!removed">
-    <q-item-section top side>
+    <q-item-section top side v-if="!$q.platform.is.mobile">
       <q-item-label caption>
         {{ createdDate }}
       </q-item-label>
@@ -94,11 +94,53 @@
         />
       </q-item-label>
     </q-item-section>
-    <q-separator vertical class="q-mr-md" />
+    <q-separator vertical class="q-mr-md" v-if="!$q.platform.is.mobile"/>
     <q-item-section top>
-      <q-item-label>
-        <div v-html="textRef"></div> 
-      </q-item-label>
+      <q-item-section class="q-pb-lg" v-if="$q.platform.is.mobile">
+        <div class="row">
+          <q-item-label>
+            {{ userName }}
+          </q-item-label>
+          <q-space />
+          <q-item-label>
+            {{ createdDate }}
+          </q-item-label>
+        </div>
+      </q-item-section>
+      <q-item-section>
+        <q-item-label>
+          <div v-html="textRef"></div> 
+        </q-item-label>
+      </q-item-section>
+      <q-item-section class="q-py-md" v-if="$q.platform.is.mobile">
+        <div class="row">
+          <q-item-label caption v-if="editable">
+            <q-btn
+              label="Bearbeiten"
+              icon="fa-solid fa-edit"
+              text-color="primary"
+              flat
+              dense
+              class="q-pa-none"
+              size="sm"
+              @click="dialog = true"
+            />
+          </q-item-label>
+          <q-space />
+          <q-item-label>
+            <q-btn
+              :label="likeCount + (likeCount === 1 ? ' like' : ' likes')"
+              :icon="(liked ? 'fa-solid' : 'fa-regular') + ' fa-heart'"
+              text-color="red"
+              flat
+              dense
+              class="q-pa-none"
+              size="sm"
+              @click="like(!liked)"
+            />
+          </q-item-label>
+        </div>
+      </q-item-section>
     </q-item-section>
   </q-item>
 </template>

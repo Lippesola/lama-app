@@ -1,7 +1,12 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.4.0'
+const version = 'v1.4.1'
 const changelog = {
+	'v1.4.1':
+		[
+			'Mobile Ansicht fürs Themenforum optimiert',
+			'Thementemplate fürs Forum angepasst',
+		],
 	'v1.4.0':
 		[
 			'Themenforum hinzugefügt',

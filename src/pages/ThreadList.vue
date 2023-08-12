@@ -72,7 +72,7 @@ export default defineComponent({
     const dialog = ref(false)
     const ruleDialog = ref(false)
     const title = ref('')
-    const textTemplate = '<p><b>Zeit / Epoche / Ort: </b></p><p>Text</p><p><b>Was ist der Kern / Storyrahmen des Themas?: </b></p><p>Text</p><p><b>Welche geistlichen Aspekte bietet das Thema?: </b></p><p>Text</p><p><b>Wie kann die Story umgesetzt werden? Wodurch lässt sich Atmosphäre erzeugen?: </b></p><p>Text</p><p><b>Sonstiges: </b></p><p>Text</p><p><b>Ansprechpartner / Presenter:</b> Name</p>'
+    const textTemplate = '<p><b>Zeit / Epoche / Ort: </b></p><p>Text</p><p><b>Was ist der Kern / Storyrahmen des Themas?: </b></p><p>Text</p><p><b>Welche geistlichen Aspekte bietet das Thema?: </b></p><p>Text</p><p><b>Wie kann die Story auf dem SOLA praktisch umgesetzt werden? Wodurch lässt sich Atmosphäre erzeugen?: </b></p><p>Text</p><p><b>Sonstiges: </b></p><p>Text</p><p><b>Ansprechpartner / Presenter:</b> Name</p>'
     const editor = ref(textTemplate)
     const toolbarButtons = ref([
       [
