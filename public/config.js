@@ -9,7 +9,7 @@ const globalConfig = {
   },
   keycloak: {
     url: KEYCLOAK_URL || 'https://account.lippesola.de/auth/',
-    realm: KEYCLOAK_REALM || 'Lippesola.de',
+    realm: KEYCLOAK_REALM || 'solaid',
     clientId: KEYCLOAK_CLIENTID || 'lama',
   }
 }

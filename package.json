@@ -13,23 +13,23 @@
   "dependencies": {
     "@dsb-norge/vue-keycloak-js": "^2.4.0",
     "@quasar/extras": "^1.16.5",
-    "axios": "^1.4.0",
+    "axios": "^1.6.0",
     "form-data": "^4.0.0",
     "keycloak-js": "^22.0.1",
     "moment": "^2.29.4",
     "moment-range": "^4.0.2",
     "vue": "^3.3.4",
-    "quasar": "^2.12.4",
+    "quasar": "^2.13.0",
     "vue-advanced-cropper": "^2.8.8",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
     "@quasar/app-vite": "^1.4.3",
     "autoprefixer": "^10.4.14",
-    "eslint": "^8.45.0",
+    "eslint": "^8.53.0",
     "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-vue": "^9.15.1",
     "postcss": "^8.4.31",
+    "eslint-plugin-vue": "^9.18.1",
     "prettier": "^3.0.1"
   },
   "engines": {
