@@ -18,19 +18,19 @@
     "keycloak-js": "^22.0.1",
     "moment": "^2.29.4",
     "moment-range": "^4.0.2",
-    "vue": "^3.3.4",
     "quasar": "^2.13.0",
+    "sortablejs": "^1.15.1",
+    "vue": "^3.3.4",
     "vue-advanced-cropper": "^2.8.8",
     "vue-router": "^4.2.4"
   },
   "devDependencies": {
     "@quasar/app-vite": "^1.4.3",
-    "eslint-config-prettier": "^9.0.0",
     "autoprefixer": "^10.4.16",
     "eslint": "^8.53.0",
     "eslint-config-prettier": "^8.8.0",
-    "postcss": "^8.4.31",
     "eslint-plugin-vue": "^9.18.1",
+    "postcss": "^8.4.31",
     "prettier": "^3.0.1"
   },
   "engines": {

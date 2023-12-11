@@ -1,7 +1,13 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.4.1'
+const version = 'v1.5.0'
 const changelog = {
+	'v1.5.0':
+		[
+			'Motivationsbogen kann jetzt in LAMA direkt ausgefüllt werden',
+			'Möglichkeit, um Features aktivieren und deaktivieren zu können',
+			'Wenn man als Wunsch "Sonstiges" angibt, erscheint jetzt ein extra Feld, um den Wunsch zu spezifizieren',
+		],
 	'v1.4.1':
 		[
 			'Mobile Ansicht fürs Themenforum optimiert',

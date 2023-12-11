@@ -26,7 +26,7 @@
         <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="church" label="Gemeinde"  :error="error.church"/>
         <q-select outlined hide-bottom-space style="width: 300px" :options="churchContactOptions" v-model="churchContact" label="Gemeindekontakt" hint="Kannst du in deiner Gemeinde Ansprechpartner fürs SOLA sein?" :error="error.churchContact"/>
         <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="job" label="Beruf"  :error="error.job"/>
-        <q-input outlined hide-bottom-space :disable="!allowEditNutrition" style="width: 300px" type="text" v-model="nutrition" label="Ernährung" hint="Bitte lies dir den Hinweis unten durch *"  :error="error.nutrition"/>
+        <q-select outlined hide-bottom-space :disable="!allowEditNutrition" style="width: 300px" multiple :options="$constants.nutritionOptions" v-model="nutrition" label="Ernährung" hint="Beachte bitte die Fußnote *" :error="error.nutrition"/>
       </div>
       <div class="q-py-md">
         <q-btn label="Speichern" type="submit" color="primary"/>
@@ -41,8 +41,7 @@
       color="primary"
     />
     <div class="text-caption q-py-lg" v-if="allowEditNutrition">
-      * Bitte schreib kein "Alles", "Viel", etc. in das Eingabefeld, sondern nur Dinge, die man ernsthaft beachten muss. Die Küche versucht auf Besonderheiten bei der Ernährung aufgrund von Unverträglichkeiten, Allergien o. Ä. einzugehen.
-      Hierbei kann <strong>vegetarisches</strong> und <strong>laktosefreies</strong> Essen angeboten werden.
+      * Es kann <strong>vegetarisches</strong> und <strong>laktosefreies</strong> Essen angeboten werden.
       Für alle weiteren Fragen schreibst du <q-btn flat dense no-caps text-color="primary" :label="$settings.kitchenLeaderName" :href="'mailto:' + $settings.kitchenLeaderMail" /> am besten direkt.
     </div>
     <div class="text-caption q-py-lg" v-if="!allowEditNutrition">
@@ -68,6 +67,7 @@ export default {
   setup(props) {
     const $q = useQuasar()
     const { proxy } = getCurrentInstance()
+    const c = proxy.$constants
     const uuid = proxy.$route.params.uuid || proxy.$keycloak.tokenParsed.sub
     const allowEditNutrition = ref(proxy.$route.params.uuid || proxy.$route.path.startsWith('/r'))
     const firstName = ref('')
@@ -98,7 +98,7 @@ export default {
       {value:true, label:"Ja"}
     ]
     const job = ref('')
-    const nutrition = ref('')
+    const nutrition = ref([])
     const error = ref({})
     const loading = ref(true)
     watchEffect(() => {
@@ -121,7 +121,12 @@ export default {
       church.value = response.data.church
       churchContact.value = churchContactOptions[response.data.churchContact ? 1 : 0]
       job.value = response.data.job
-      nutrition.value = response.data.nutrition
+      if (response.data.vegetarian) {
+        nutrition.value.push(c.nutritionOptions[0])
+      }
+      if (response.data.lactose) {
+        nutrition.value.push(c.nutritionOptions[1])
+      }
       loading.value = false
     })
     return {
@@ -163,6 +168,7 @@ export default {
           })
           return;
         }
+        const nutritionValue = nutrition.value.map(n => n.value);
         api.post('/user/' + uuid, {
           firstName: firstName.value,
           lastName: lastName.value,
@@ -179,7 +185,8 @@ export default {
           church: church.value,
           churchContact: churchContact.value.value,
           job: job.value,
-          nutrition: nutrition.value
+          vegetarian: nutritionValue.includes('vegetarian'),
+          lactose: nutritionValue.includes('lactose'),
         })
         .then(function() {
           $q.notify({

@@ -1,105 +1,151 @@
 <template>
-  <q-page class="flex flex-center">
-    <div class="col-sm-6" style="max-width: 768px;">
-      <div class="q-pa-md">
-        <div class="q-py-md text-h4">Motivationsbogen abgeben</div>
-          <div class="q-pb-md text-body1">
-            Um mit deiner Anmeldung fortfahren zu können, benötigen wir einen ausgefüllten Motivationsbogen von dir.
-            Du kannst ihn auf dieser Seite runterladen, bearbeiten und wieder hochladen.
-            Für die Bearbeitung am Computer, brauchst du ein PDF-Reader (bspw Acrobat Reader).
-            Oft kann dein Browser die Bearbeitung aber auch direkt übernehmen.
-            Alternativ kannst du natürlich auch die PDF ausdrucken und handschriftlich ausfüllen.
-          </div>
-          <q-separator class="q-ma-md"/>
-          <div class="q-py-md text-h5">Motivationsbogen herunterladen</div>
-          <div class="text-body1">
-            Wenn du bislang keinmal oder einmal Mitarbeiter auf dem Sola gewesen bist (Jahre als Teeniehelfer nicht mitgerechnet), dann lade dir bitte folgenden Motivationsbogen herunter
-          </div>
-          <q-btn
-          label="Motivationsbogen (PDF)"
+  <div class="flex flex-center">
+    <div class="col-sm- q-pa-md" style="max-width: 768px">
+      <div class="q-py-md text-h4 text-primary">
+        Motivationsbogen
+        <q-btn
+          v-if="registrationFlow"
+          class="q-ml-md"
           color="primary"
-          class="q-ma-md"
-          :href="$settings.motivationDefault"
-          target="_blank"
-          />
-          <div class="q-pt-md text-body1">
-            Wenn du bislang <strong>mindestens zwei Mal</strong> Mitarbeiter auf dem Sola gewesen bist (Jahre als Teeniehelfer nicht mitgerechnet), dann verwende bitte den folgenden MVB für „alte Hasen“:          </div>
-          <q-btn
-            label="Motivationsbogen für alte Hasen (PDF)"
-            color="primary"
-            class="q-ma-md"
-            :href="$settings.motivationExperts"
-            target="_blank"
-          />
-          <q-separator class="q-ma-md"/>
-          <div class="q-py-md text-h5">Motivationsbogen hochladen</div>
-          <q-file
-            v-model="mvb"
-            outlined
-            label="Dateien durchsuchen..."
-            accept=".pdf"
-          />
-          <q-btn
-            label="MVB hochladen"
-            color="primary"
-            class="q-ma-md"
-            :disable="mvb === ''"
-            @click="handleUpload()"
-          />
-        </div>
+          dense
+          flat
+          @click="saveUserMotivation(true)"
+          icon="fa-solid fa-save"
+        />
       </div>
-  </q-page>
+      <div>
+        <q-form @submit="saveUserMotivation">
+          <DynamicInput
+            v-for="item in motivation"
+            class="q-mb-md"
+            :key="item.id"
+            :id="item.id"
+            :type="item.type"
+            :content="item.content"
+            :hint="item.hint"
+            :value="userMotivation[item.id]"
+            @update:value="(value) => updateInput(value, item.id)"
+          />
+        </q-form>
+      </div>
+      <q-btn
+        v-if="registrationFlow"
+        class="q-mt-md q-mr-md"
+        color="primary"
+        label="Zwischenstand speichern"
+        @click="saveUserMotivation(true)"
+      />
+      <q-btn
+        v-if="registrationFlow"
+        class="q-mt-md"
+        color="primary"
+        label="abgeben"
+        @click="saveUserMotivation(false)"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
-import { defineComponent, ref, getCurrentInstance } from 'vue'
-import { useQuasar } from 'quasar'
+import { defineComponent, ref, getCurrentInstance } from "vue";
+import { useQuasar } from "quasar";
+import DynamicInput from "components/DynamicInput.vue";
 
 export default defineComponent({
-  name: 'MotivationPage',
+  name: "MotivationPage",
+  components: {
+    DynamicInput,
+  },
   props: {
     registrationFlow: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
   setup(props) {
-    const $q = useQuasar()
-    const { proxy } = getCurrentInstance()
-    const uuid = proxy.$keycloak.tokenParsed.sub
-    const api = proxy.$api
-    const settings = proxy.$settings
-    const mvb = ref('')
-    function handleUpload() {
-      const formData = new FormData()
-      formData.append('file', mvb.value, 'mvb.pdf')
-      api.post("/userMotivation/" + uuid + '/' + settings.currentYear, formData, {
-        headers: { 'Content-Type': 'multipart/form-data' }
+    const $q = useQuasar();
+    const { proxy } = getCurrentInstance();
+    const uuid = proxy.$keycloak.tokenParsed.sub;
+    const paramUuid = proxy.$route.params.uuid;
+    const api = proxy.$api;
+    const settings = proxy.$settings;
+    const c = proxy.$constants;
+    const motivation = ref([]);
+    const userMotivation = ref({});
+    api
+      .get("userMotivation/" + (paramUuid || uuid))
+      .then((response) => {
+        userMotivation.value = JSON.parse(response.data.motivation);
       })
-      .then(function() {
-        $q.notify({
-          color: 'green-4',
-          textColor: 'white',
-          icon: 'fa-solid fa-check',
-          message: 'Motivationsbogen wurde hochgeladen'
+      .catch((error) => {
+        console.log(error);
+      });
+    api
+      .get("motivation")
+      .then((response) => {
+        motivation.value = response.data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    const saveUserMotivation = (draft) => {
+      api
+        .post("userMotivation/" + uuid, {
+          motivation: JSON.stringify(userMotivation.value),
         })
-        if (props.registrationFlow) {
-          location.href='/r/'
-        }
-      })
-      .catch(function() {
-        $q.notify({
-          color: 'red-4',
-          textColor: 'white',
-          icon: 'fa-solid fa-circle-xmark ',
-          message: 'Fehler'
+        .then((response) => {
+          if (draft) {
+            $q.notify({
+              message: "Änderungen gespeichert",
+              color: "positive",
+              icon: "fa-solid fa-check-circle",
+              position: "bottom",
+            });
+          } else {
+            // status updaten
+            api
+              .post("userYear/" + uuid + "/" + settings.currentYear, {
+                status: c.userYearStatus.finishedMotivation,
+              })
+              .then((response) => {
+                $q.notify({
+                  message: "Motivationsbogen abgegeben",
+                  color: "positive",
+                  icon: "fa-solid fa-check-circle",
+                  position: "bottom",
+                });
+                proxy.$router.push("/l/profile");
+              })
+              .catch((error) => {
+                console.log(error);
+                $q.notify({
+                  message: "Fehler beim Speichern",
+                  color: "negative",
+                  icon: "fa-solid fa-exclamation-circle",
+                  position: "bottom",
+                });
+              });
+          }
         })
-      })
-    }
+        .catch((error) => {
+          console.log(error);
+          $q.notify({
+            message: "Fehler beim Speichern",
+            color: "negative",
+            icon: "fa-solid fa-exclamation-circle",
+            position: "bottom",
+          });
+        });
+    };
+    const updateInput = (value, id) => {
+      userMotivation.value[id] = value;
+    };
     return {
-      handleUpload,
-      mvb
-    }
-  }
-})
+      motivation,
+      userMotivation,
+      saveUserMotivation,
+      updateInput,
+    };
+  },
+});
 </script>

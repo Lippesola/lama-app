@@ -54,7 +54,7 @@
         flat
         icon="fa-solid fa-file-lines"
         text-color="primary"
-        @click="getMotivation()"
+        :to="'/l/motivation/' + user.uuid"
       />
       <q-btn
         v-if="isLT"
@@ -205,21 +205,6 @@ export default {
         // console.log('I am triggered on both OK and Cancel')
       })
     }
-
-    function getMotivation() {
-      api.get('/userMotivation/' + uuid + '/' + currentYear, {
-        responseType: 'blob'
-      }).then((response) => {
-        const href = URL.createObjectURL(response.data);
-        const link = document.createElement('a');
-        link.href = href;
-        link.setAttribute('download', "MVB.pdf"); 
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(href);
-      }).catch((e) => {})
-    }
     function getCriminalRecord() {
       api.get('/userCriminalRecord/' + uuid, {
         responseType: 'blob'
@@ -245,8 +230,7 @@ export default {
       uuid,
       isLT,
       addDocument,
-      getCriminalRecord,
-      getMotivation
+      getCriminalRecord
     }
   }
 }

@@ -14,9 +14,9 @@
         </div>
       </q-page>
     </q-page-container>
-    <q-footer class="transparent">
+    <q-footer class="bg-dark">
       <div class="text-h1">
-        <div class="fixed-bottom q-py-none">
+        <div class="q-py-none">
           <q-linear-progress size="25px" :value="progress" color="primary">
             <div class="flex justify-around">
               <q-icon
@@ -35,7 +35,6 @@
           </q-linear-progress>
         </div>
       </div>
-      -
     </q-footer>
   </q-layout>
 </template>

@@ -146,7 +146,7 @@ import { useQuasar } from 'quasar'
 import iconSet from 'quasar/icon-set/fontawesome-v6'
 import { api } from 'src/boot/axios'
 import VueKeycloak from '@dsb-norge/vue-keycloak-js'
-const linksList = [
+const linksList = ref([
   {
     title: 'Home',
     icon: 'fa-solid fa-house-chimney',
@@ -168,22 +168,11 @@ const linksList = [
     link: '/l/userlist'
   },
   {
-    title: 'Papierkram',
-    icon: 'fa-solid fa-file-lines',
-    link: '/l/paperwork',
-    badge: 'paperwork',
-  },
-  {
     title: 'Mail-Verteiler',
     icon: 'fa-solid fa-envelope',
     link: '/l/mail',
-  },
-  {
-    title: 'Themenforum',
-    icon: 'fa-solid fa-comments',
-    link: '/l/threads',
   }
-];
+]);
 const leaderLinksList = [
   {
     title: 'MA-Verwaltung',
@@ -199,6 +188,11 @@ const leaderLinksList = [
     title: 'Helfer-Übersicht',
     icon: 'fa-solid fa-user-clock',
     link: '/l/leader/supporterlist'
+  },
+  {
+    title: 'Motivationsbogen anpassen',
+    icon: 'fa-solid fa-file-edit',
+    link: '/l/leader/motivation'
   }
 ]
 
@@ -252,6 +246,35 @@ export default defineComponent({
       responseType: 'blob'
     }).then(function(response) {
       avatar.value = URL.createObjectURL(response.data, 'binary').toString('base64')
+    }).catch(function(e){
+
+    })
+    api.get('/feature').then(function(response) {
+      const features = response.data
+      features.forEach(feature => {
+        if (feature.enabled) {
+          switch (feature.id) {
+            case 'paperwork':
+              linksList.value.push({
+                title: 'Papierkram',
+                icon: 'fa-solid fa-file-lines',
+                link: '/l/paperwork',
+                feature: 'paperwork'
+              })
+              break;
+            case 'threads':
+              linksList.value.push({
+                title: 'Themenforum',
+                icon: 'fa-solid fa-comments',
+                link: '/l/threads',
+                feature: 'threads'
+              })
+              break;
+            default:
+              break;
+          }
+        }
+      })
     }).catch(function(e){
 
     })

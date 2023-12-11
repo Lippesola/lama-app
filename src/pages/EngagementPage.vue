@@ -57,6 +57,14 @@
         :key="item.id"
       />
     </q-list>
+    <q-list class="q-gutter-md row">
+      <UserDetailItem
+      icon="fa-solid fa-file"
+      :value="wishOtherText"
+      label="Sonstiges"
+      color="primary"
+      />
+    </q-list>
     <div class="q-pt-md text-h5">Sonstiges</div>
     <q-list class="q-gutter-md row">
       <UserDetailItem
@@ -101,6 +109,7 @@ export default {
     const user = ref({})
     const c = proxy.$constants
     const settings = proxy.$settings
+    const wishOtherText = ref('')
     const comment = ref('')
 
     let profileList = {}
@@ -165,6 +174,7 @@ export default {
           roleList[item.id]['value']['color'] = response.data[item.id] > 0 ? 'positive' : 'negative'
         }
       }))
+      wishOtherText.value = response.data.wishOtherText
       comment.value = response.data.comment
       loading.value = false
     })
@@ -204,6 +214,7 @@ export default {
       dialog,
       loading,
       user,
+      wishOtherText,
       comment
     }
   }

@@ -49,7 +49,7 @@
             dense
             color="primary"
             icon="fa-solid fa-file-arrow-down"
-            @click="getMotivation()"
+            :to="'/l/motivation/' + uuid"
           >
             <q-tooltip>
               MVB herunterladen
@@ -185,21 +185,6 @@ export default defineComponent({
       })
     }
 
-    function getMotivation() {
-      api.get('/userMotivation/' + props.uuid + '/' + settings.currentYear, {
-        responseType: 'blob'
-      }).then((response) => {
-        const href = URL.createObjectURL(response.data);
-        const link = document.createElement('a');
-        link.href = href;
-        link.setAttribute('download', "MVB.pdf"); 
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(href);
-      }).catch((e) => {})
-    }
-
     function acceptDialog() {
       $q.dialog({
         title: 'MA akzeptieren',
@@ -250,7 +235,6 @@ export default defineComponent({
       avatar,
       acceptDialog,
       declineDialog,
-      getMotivation,
       imageDialog,
       date,
       mail,

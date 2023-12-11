@@ -23,14 +23,13 @@
         </q-item>
 
         <q-separator class="q-ma-md" />
-        <div class="q-py-md text-h4">Willkommen bei LAMA</div>
+        <div class="q-py-md text-h4">Willkommen im MA-Bereich, Samurai</div>
         <div class="q-pb-md text-body1">
-          LAMA ist ein komplett neues Tool, was extra für das SOLA entwickelt wurde. Es ist leider sehr wahrscheinlich, dass nicht alles von Anfang an so läuft, wie wir es uns wünschen. <br />
-          Wenn du Feedback oder Fragen hast, dann gib die bitte an uns weiter! Nur dann können wir einen MA-Bereich haben, wie ihn sich jeder wünscht.<br />
-          Danke!
+          Hier kannst du deine persönlichen Daten anpassen, deine Mitarbeit auf dem SOLA verwalten und andere Mitarbeiter finden.
+          Wenn du Fragen oder Feedback zu LAMA hast, klick einfach auf den Button.
         </div>
         <q-btn
-          label="Feedback geben"
+          label="LAMA Hilfe-Button"
           color="primary"
           href="mailto:micha.preusser@lippesola.de"
         />
