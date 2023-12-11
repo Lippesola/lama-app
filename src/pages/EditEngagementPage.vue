@@ -53,7 +53,7 @@
       </div>
 
       <q-input
-        v-if="wishSelect['wishOther']['value']['value']"
+        v-if="wishSelect?.wishOther?.value?.value"
         v-model="wishOtherText"
         type="textarea"
         outlined

@@ -1,7 +1,11 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.5.0'
+const version = 'v1.5.1'
 const changelog = {
+	'v1.5.1':
+		[
+			'Kleine Verbesserungen'
+		],
 	'v1.5.0':
 		[
 			'Motivationsbogen kann jetzt in LAMA direkt ausgefüllt werden',
