@@ -1,8 +1,11 @@
 <template>
   <div>
-    <div v-if="type.split('.')[0] == 'input' || type.split('.')[0] == 'checkbox'">
+    <div
+      v-if="type.split('.')[0] == 'input' || type.split('.')[0] == 'checkbox'"
+    >
       <div class="q-pb-sm">
-        <label :for="id">{{ hint }}</label>
+        <label :for="id" v-html="hint">
+        </label>
       </div>
       <div>
         <q-input
@@ -13,29 +16,30 @@
           :label="content"
           outlined
           :model-value="value"
-          @change="e => emitValue(e)" 
+          @change="(e) => emitValue(e)"
         />
         <q-checkbox
           v-else-if="type.split('.')[0] == 'checkbox'"
           :name="id"
           :label="content"
           :model-value="!!value"
-          @update:model-value="e => emitValue(e)"
+          @update:model-value="(e) => emitValue(e)"
         />
       </div>
     </div>
     <div v-else>
-      <p
-        v-if="type.split('.')[0] == 'p'"
-        :name="id"
-        v-html="content"
-      ></p>
+      <p v-if="type.split('.')[0] == 'p'" :name="id" v-html="content"></p>
       <div
         v-else-if="type.split('.')[0] == 'h5'"
         class="text-h5 q-pt-md text-secondary"
         :name="id"
         v-html="content"
       ></div>
+      <q-separator
+        v-else-if="type.split('.')[0] == 'separator'"
+        :name="id"
+        :inset="true"
+      />
     </div>
   </div>
 </template>
@@ -75,6 +79,6 @@ export default defineComponent({
     emitValue(value) {
       this.$emit("update:value", value);
     },
-  }
+  },
 });
 </script>

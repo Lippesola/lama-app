@@ -1,7 +1,11 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.5.1'
+const version = 'v1.5.2'
 const changelog = {
+	'v1.5.2':
+		[
+			'Weitere Möglichkeiten, um MVB anzupassen'
+		],
 	'v1.5.1':
 		[
 			'Kleine Verbesserungen'

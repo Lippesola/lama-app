@@ -18,6 +18,8 @@
                   ? "Textfeld (mehrzeilig)"
                   : item.type === "checkbox"
                   ? "Checkbox"
+                  : item.type === "separator"
+                  ? "Trennlinie"
                   : item.type
               }}
               <q-space />
@@ -36,21 +38,23 @@
             <div v-else-if="item.type === 'p'">
               <q-editor
                 v-model="item.content"
-                min-height="15rem"
-                :toolbar="toolbarButtons"
+                :toolbar="pToolbarButtons"
               />
             </div>
             <div v-else-if="item.type.split('.')[0] === 'input'">
-              <q-input
+              <q-editor
                 v-model="item.hint"
-                filled
                 label="Hinweistext"
-                class="q-pb-sm"
+                class="q-mb-sm"
+                :toolbar="inputHintToolbarButtons"
               />
               <q-input v-model="item.content" filled label="Label" />
             </div>
             <div v-else-if="item.type === 'checkbox'">
               <q-input v-model="item.content" filled label="Option" />
+            </div>
+            <div v-else-if="item.type === 'separator'">
+              <q-separator />
             </div>
           </q-card-section>
         </q-card>
@@ -72,6 +76,13 @@
       direction="up"
       vertical-actions-align="right"
     >
+      <q-fab-action
+        @click="addNewEntry('separator')"
+        icon="fa-solid fa-minus"
+        label="Trennlinie"
+        color="secondary"
+        text-color="black"
+      />
       <q-fab-action
         @click="addNewEntry('checkbox')"
         icon="fa-solid fa-check-square"
@@ -121,10 +132,13 @@ export default defineComponent({
   setup() {
     const $q = useQuasar();
     const motivation = ref([]);
-    const toolbarButtons = ref([
+    const pToolbarButtons = ref([
       ["bold", "italic", "underline", "strike"],
       ["undo", "redo"],
       ["unordered", "ordered", "outdent", "indent"],
+    ]);
+    const inputHintToolbarButtons = ref([
+      ["bold", "italic", "underline", "strike"],
     ]);
     api
       .get("/motivation")
@@ -169,7 +183,8 @@ export default defineComponent({
 
     return {
       motivation,
-      toolbarButtons,
+      pToolbarButtons,
+      inputHintToolbarButtons,
       saveMotivation,
       addNewEntry,
     };
