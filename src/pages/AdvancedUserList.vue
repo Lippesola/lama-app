@@ -12,8 +12,16 @@
       @row-click="rowClickHandler"
     >
       <template v-slot:top="props">
-        <div class="col-2 q-table__title" style="width:100%">
+        <div class="col-2 q-table__title row" style="width:100%">
           MA-Liste
+          <q-select
+            flat round dense
+            :icon="'fa-solid ' + (props.inFullscreen ? 'fa-compress' : 'fa-expand')"
+            class="q-ml-md"
+            v-model="selectedYear"
+            :options="yearOptions"
+            @update:model-value="getUserList"
+          />
           <q-btn
             flat round dense
             :icon="'fa-solid ' + (props.inFullscreen ? 'fa-compress' : 'fa-expand')"
@@ -113,7 +121,7 @@
       const c = proxy.$constants
       const settings = proxy.$settings
       const router = useRouter()
-
+      const selectedYear = ref(settings.currentYear)
       
 
       const visibleColumns = ref(window.localStorage.AdvancedUserListColumns ? JSON.parse(window.localStorage.AdvancedUserListColumns) : ['firstName', 'lastName', 'teens', 'kids'])
@@ -124,6 +132,12 @@
       const documentColumns = []
 
       const rows = ref([])
+
+      const yearOptions = ref(proxy.$keycloak.tokenParsed.groups.filter((g) => {
+        return g.includes('_LT') && g.split('_')[0] >= 2023;
+      }).map((g) => {
+        return g.split('_')[0]
+      }));
 
       Object.entries(c.profile).forEach((entry => {
         const [index, item] = entry;
@@ -190,32 +204,36 @@
           field: item.id,
           sortable: true,
           align: 'left',
-          format: (val, row) => `${val ? ((settings.currentYear < (val + 5)) ? 'Ja' : 'Nein') + ' (' + val + ')' : 'Nein'}`
+          format: (val, row) => `${val ? ((selectedYear.value < (val + 5)) ? 'Ja' : 'Nein') + ' (' + val + ')' : 'Nein'}`
         })
       }))
 
       const columns = profileColumns.concat(participationColumns, roleColumns, wishColumns, documentColumns)
-      
-      api.get('/userYear?status=4&year=' + settings.currentYear + '&userBundle&documentBundle').then(function(response) {
-        Object.entries(response.data).forEach((entry => {
-          const [index, item] = entry
-          let row = item
-          Object.entries(item.User).forEach((entry => {
+      getUserList();
+
+      function getUserList() {
+        api.get('/userYear?status=4&year=' + selectedYear.value + '&userBundle&documentBundle').then(function(response) {
+          rows.value = [];  
+          Object.entries(response.data).forEach((entry => {
             const [index, item] = entry
-            row[index] = item
-          }))
-          if (item.UserDocument) {
-            Object.entries(item.UserDocument).forEach((entry => {
+            let row = item
+            Object.entries(item.User).forEach((entry => {
               const [index, item] = entry
               row[index] = item
             }))
-          }
-          delete row.User;
-          delete row.UserDocument;
-          //row.birthday = new moment(row.birthday)
-          rows.value.push(row)
-        }))
-      }).catch(function(e) {})
+            if (item.UserDocument) {
+              Object.entries(item.UserDocument).forEach((entry => {
+                const [index, item] = entry
+                row[index] = item
+              }))
+            }
+            delete row.User;
+            delete row.UserDocument;
+            //row.birthday = new moment(row.birthday)
+            rows.value.push(row)
+          }))
+        }).catch(function(e) {})
+      }
 
       function updateVisibleColumns (value) {
         window.localStorage.AdvancedUserListColumns = JSON.stringify(value);
@@ -269,8 +287,11 @@
         visibleColumns,
         columns,
         rows,
+        yearOptions,
+        selectedYear,
         updateVisibleColumns,
         rowClickHandler,
+        getUserList,
         exportList
       }
     }

@@ -1,7 +1,11 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.5.2'
+const version = 'v1.5.3'
 const changelog = {
+	'v1.5.3':
+		[
+			'LTler können MA aus dem vergangenen Jahr einsehen',
+		],
 	'v1.5.2':
 		[
 			'Weitere Möglichkeiten, um MVB anzupassen'
