@@ -20,7 +20,7 @@
     "moment-range": "^4.0.2",
     "quasar": "^2.14.1",
     "sortablejs": "^1.15.1",
-    "vue": "^3.3.4",
+    "vue": "^3.4.14",
     "vue-advanced-cropper": "^2.8.8",
     "vue-router": "^4.2.5"
   },
