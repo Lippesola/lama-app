@@ -115,7 +115,18 @@
             :key="link.title"
             v-bind="link"
           />
-        </div>  
+        </div>
+        <div v-if="!$keycloak.tokenParsed.groups.includes($settings.currentYear + '_LT')">
+          <EssentialLink
+            v-if="$permissions.participator"
+            key="tnlist-permssion"
+            v-bind="{
+                title: 'TN-Liste',
+                icon: 'fa-solid fa-children',
+                link: '/l/leader/participatorlist'
+              }"
+          />
+        </div>
       </q-list>
       <div
         :class="'fixed-bottom menu-footer-' + ($q.dark.isActive ? 'dark' : 'light')"
@@ -125,7 +136,7 @@
         <q-btn
           :label="$version"
           no-caps
-          flat 
+          flat
           text-color="grey"
         />
       </div>
@@ -181,8 +192,13 @@ const leaderLinksList = [
   },
   {
     title: 'MA-Listen',
-    icon: 'fa-solid fa-list-ul',
+    icon: 'fa-solid fa-users-rectangle',
     link: '/l/leader/userlist'
+  },
+  {
+    title: 'TN-Listen',
+    icon: 'fa-solid fa-children',
+    link: '/l/leader/participatorlist'
   },
   {
     title: 'Helfer-Übersicht',

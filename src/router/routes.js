@@ -26,6 +26,9 @@ const routes = [
       { path: 'leader/motivation', component: () => import('pages/EditMotivationFormPage.vue') },
       { path: 'leader/userlist', component: () => import('pages/AdvancedUserList.vue') },
       { path: 'leader/supporterlist', component: () => import('pages/SupporterList.vue') },
+      { path: 'leader/participator/:orderId/:positionId', component: () => import('pages/ParticipatorPage.vue') },
+      { path: 'leader/participatorlist', component: () => import('pages/ParticipatorList.vue') },
+
     ],
     meta: {
       requiresAuth: true
@@ -57,7 +60,7 @@ const routes = [
       { path: 'registration', component: () => import('src/pages/RegistrationPage.vue') },
     ]
   },
-  
+
   // Always leave this as last one,
   // but you can also remove it
   {

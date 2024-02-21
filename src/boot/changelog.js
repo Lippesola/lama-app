@@ -1,7 +1,13 @@
 import { boot } from 'quasar/wrappers';
 
-const version = 'v1.5.4'
+const version = 'v1.6.0'
 const changelog = {
+  'v1.6.0':
+    [
+      'TN-Liste für LT hinzugefügt',
+      'TN können nun über LAMA freigeschaltet werden',
+      'Eltern von freigeschalteten Teilnehmern bekommen eine Bestätigungsmail',
+    ],
 	'v1.5.4':
 		[
 			'2. VW zur Helferanmeldung hinzugefügt',
@@ -59,11 +65,11 @@ const changelog = {
 		[
 			'Sortierung von Geburtstagen in erweiterter Liste behoben'
 		],
-	'v1.2.1': 
+	'v1.2.1':
 		[
-			'Optionen für Helferanmeldung erweitert'	
+			'Optionen für Helferanmeldung erweitert'
 		],
-	'v1.2.0': 
+	'v1.2.0':
 		[
 			'PDF für kostenlose Führungszeugnisse hinzugefügt',
 			'Übersicht für Unterlagen hinzugefügt',
