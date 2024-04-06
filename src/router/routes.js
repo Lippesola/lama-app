@@ -7,6 +7,7 @@ const routes = [
       { path: '', component: () => import('src/pages/LoggedInIndexPage.vue') },
       { path: '404', component: () => import('pages/ErrorNotFound.vue') },
       { path: 'avatar', component: () => import('pages/AvatarPage.vue') },
+      { path: 'avatar/:uuid', component: () => import('pages/AvatarPage.vue') },
       { path: 'engagement', component: () => import('src/pages/EditEngagementPage.vue') },
       { path: 'engagement/:uuid', component: () => import('src/pages/EngagementPage.vue') },
       { path: 'engagement/:uuid/edit', component: () => import('src/pages/EditEngagementPage.vue') },
