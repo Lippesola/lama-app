@@ -1,7 +1,8 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.6.1";
+const version = "v1.6.2";
 const changelog = {
+  "v1.6.2": ["TN können nun auf die Warteliste gesetzt werden"],
   "v1.6.1": ["Admins können nun Fotos für andere MA hochladen"],
   "v1.6.0": [
     "TN-Liste für LT hinzugefügt",
