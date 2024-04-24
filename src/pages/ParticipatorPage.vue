@@ -33,7 +33,7 @@
     </q-expansion-item>
     <div>
       <q-btn
-        v-if="participator.status !== 1"
+        v-if="!participator.status || participator.status == 3"
         label="Freischalten"
         color="primary"
         @click="confirmBooking"
@@ -139,7 +139,7 @@ export default defineComponent({
     function confirmBooking() {
       $q.dialog({
         title: "Freischalten",
-        message: "Soll der " + participator.value.firstName + " freigeschaltet werden?" + (participator.value.status === 2 ? " Der Teilnehmer wird von der Warteliste genommen." : ""),
+        message: "Soll " + participator.value.firstName + " freigeschaltet werden?" + (participator.value.status === 3 ? " Der Teilnehmer wird von der Warteliste genommen." : ""),
         cancel: true,
         persistent: true,
       }).onOk(() => {
@@ -155,7 +155,7 @@ export default defineComponent({
         cancel: true,
         persistent: true,
       }).onOk(() => {
-        participator.value.status = 2;
+        participator.value.status = 3;
         updateParticipator();
       });
     }
