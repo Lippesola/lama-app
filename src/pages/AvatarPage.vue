@@ -1,6 +1,7 @@
 <template>
 
-  <div class="q-pa-md text-h4">Dein Profil</div>
+  <div class="q-pa-md text-h4" v-if="isSelf">Dein Profil</div>
+  <div class="q-pa-md text-h4" v-else>Profil von {{ firstName }} {{ lastName }}</div>
   <div class="q-pa-md">
     <div class="q-py-md text-h5">Profilbild hochladen</div>
     <q-file
@@ -39,15 +40,27 @@ export default {
     Cropper
   },
 
-  
+
   setup() {
     const $q = useQuasar()
     const { proxy } = getCurrentInstance()
-    const uuid = proxy.$keycloak.tokenParsed.sub
+    const isSelf = !proxy.$route.params.uuid
+    const uuid = proxy.$route.params.uuid || proxy.$keycloak.tokenParsed.sub
 
     let avatarUrl = ''
     const croppedAvatarImg = ref('')
     const avatarImg = ref('')
+
+    const firstName = ref('')
+    const lastName = ref('')
+
+    if (!isSelf) {
+      api.get('/user/' + uuid)
+      .then(function(response) {
+        firstName.value = response.data.firstName
+        lastName.value = response.data.lastName
+      })
+    }
 
     function cropImage({coordinates, canvas}) {
       avatarUrl = canvas.toDataURL("image/jpeg")
@@ -78,8 +91,8 @@ export default {
       })
     }
 
-    function handleUploadAvatar() { 
-      if (avatarImg.value) { 
+    function handleUploadAvatar() {
+      if (avatarImg.value) {
         croppedAvatarImg.value = URL.createObjectURL(avatarImg.value);
       }
     }
@@ -102,8 +115,11 @@ export default {
       handleUploadAvatar,
       submitUploadAvatar,
       cropImage,
+      isSelf,
+      firstName,
+      lastName
     }
   }
-  
+
 }
 </script>

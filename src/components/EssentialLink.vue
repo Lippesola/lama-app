@@ -61,7 +61,7 @@ export default defineComponent({
       const uuid = proxy.$keycloak.tokenParsed.sub
       api.get('/userDocument/' + uuid)
       .then(function(response) {
-        showBadge.value += (settings.currentYear < (response.data.criminalRecord + 5)) ? 0 : 1
+        showBadge.value += ((settings.currentYear < (response.data.criminalRecord + 5)) || (response.data.criminalRecord == settings.currentYear - 2000)) ? 0 : 1
         showBadge.value += (settings.currentYear < (response.data.selfCommitment + 5)) ? 0 : 1
       }).catch(function(e){
         if (e.response.status === 404) {

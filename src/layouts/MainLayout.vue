@@ -275,7 +275,8 @@ export default defineComponent({
                 title: 'Papierkram',
                 icon: 'fa-solid fa-file-lines',
                 link: '/l/paperwork',
-                feature: 'paperwork'
+                feature: 'paperwork',
+                badge: 'paperwork'
               })
               break;
             case 'threads':

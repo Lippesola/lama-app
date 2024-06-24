@@ -32,10 +32,11 @@
           dense
           label="Mitarbeiter A-Z"
           color="primary"
-          href="https://a-z.lippesola.de/Fuehrungszeugnis.html"
+          href="https://a-z.lippesola.de/doc/informationen-zum-thema-erweitertes-fuhrungszeugnis-MjS4xxTxBd"
         />
       </div>
-      <div v-if="doc.criminalRecord.year.value" class="text-body1">Du hast dein Führungszeugnis das letzte Mal {{ doc.criminalRecord.year.value }} vorgezeigt.</div>
+      <div v-if="doc.criminalRecord.year.value && doc.criminalRecord.year.value >= 2000" class="text-body1">Du hast dein Führungszeugnis das letzte Mal {{ doc.criminalRecord.year.value }} vorgezeigt.</div>
+      <div v-if="doc.criminalRecord.year.value && doc.criminalRecord.year.value < 2000" class="text-body1">Du hast 20{{ doc.criminalRecord.year.value }} eine Selbsverpflichtungserklärung unterschrieben. Diese ist nur ein Jahr lang gültig.</div>
       <div v-if="doc.criminalRecord.status.value" class="text-body1">Du musst hier nichts weiter machen.</div>
       <div v-if="!doc.criminalRecord.status.value" class="text-body1">Bitte zeige ein Führungszeugnis, was nicht älter als drei Monate ist, bis zum SOLA vor.</div>
       <q-btn
@@ -58,7 +59,7 @@
           dense
           label="Mitarbeiter A-Z"
           color="primary"
-          href="https://a-z.lippesola.de/Verhaltenskodex.html"
+          href="https://a-z.lippesola.de/doc/verhaltenskodex-th7qatXUkb"
         />
       </div>
       <div v-if="doc.selfCommitment.year.value" class="text-body1">Dein letzter Verhaltenskodex ist aus dem Jahr {{ doc.selfCommitment.year.value }}.</div>
@@ -102,7 +103,7 @@ export default {
         const href = URL.createObjectURL(response.data);
         const link = document.createElement('a');
         link.href = href;
-        link.setAttribute('download', "AntragFuehrungszeugnis.pdf"); 
+        link.setAttribute('download', "AntragFuehrungszeugnis.pdf");
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -116,7 +117,7 @@ export default {
     .then(function(response) {
       doc.criminalRecord.year.value = response.data.criminalRecord
       doc.selfCommitment.year.value = response.data.selfCommitment
-      doc.criminalRecord.status.value = settings.currentYear < (response.data.criminalRecord + 5)
+      doc.criminalRecord.status.value = settings.currentYear < (response.data.criminalRecord + 5) || response.data.criminalRecord == settings.currentYear - 2000
       doc.selfCommitment.status.value = settings.currentYear < (response.data.selfCommitment + 5)
       loading.value = false;
     }).catch(function(e){
@@ -136,6 +137,6 @@ export default {
       getLetter
     }
   }
-  
+
 }
 </script>
