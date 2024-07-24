@@ -127,6 +127,17 @@
               }"
           />
         </div>
+        <div v-if="!$keycloak.tokenParsed.groups.includes($settings.currentYear + '_LT')">
+          <EssentialLink
+            v-if="$permissions.participator"
+            key="grouplist-permssion"
+            v-bind="{
+                title: 'Gruppeneinteilung',
+                icon: 'fa-solid fa-users-rays',
+                link: '/l/leader/groups'
+              }"
+          />
+        </div>
       </q-list>
       <div
         :class="'fixed-bottom menu-footer-' + ($q.dark.isActive ? 'dark' : 'light')"
@@ -209,6 +220,11 @@ const leaderLinksList = [
     title: 'Motivationsbogen anpassen',
     icon: 'fa-solid fa-file-edit',
     link: '/l/leader/motivation'
+  },
+  {
+    title: 'Gruppeneinteilung',
+    icon: 'fa-solid fa-users-rays',
+    link: '/l/leader/groups'
   }
 ]
 

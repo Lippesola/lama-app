@@ -29,6 +29,7 @@ const routes = [
       { path: 'leader/supporterlist', component: () => import('pages/SupporterList.vue') },
       { path: 'leader/participator/:orderId/:positionId', component: () => import('pages/ParticipatorPage.vue') },
       { path: 'leader/participatorlist', component: () => import('pages/ParticipatorList.vue') },
+      { path: 'leader/groups', component: () => import('pages/GroupPage.vue') },
 
     ],
     meta: {
