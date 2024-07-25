@@ -84,16 +84,32 @@
             :key="wish"
           >
             <q-item>
-              <q-item-section>
-                <q-item-label>
+              <q-item-section
+                :class="wish.ignored ? 'disabled' : ''"
+              >
+                <q-item-label
+                  :style="'text-decoration: ' + (wish.ignored ? 'line-through' : 'none')"
+                >
                   {{ wish.name }}
                 </q-item-label>
               </q-item-section>
-              <q-item-section side>
+              <q-item-section side
+                :class="wish.ignored ? 'disabled' : ''"
+              >
                 <q-icon
                   :name="'fas fa-' + (typeof wish.groupId !== 'undefined' ? groupList[wish.groupId].groupNumber : 'question')"
                   :color="typeof wish.groupId !== 'undefined' ? wish.groupId === wishDialogModel.participator.groupId ? 'green' : 'red' : 'blue'"
                   size="xs"
+                />
+              </q-item-section>
+              <q-item-section side>
+                <q-btn
+                  flat
+                  dense
+                  size="xs"
+                  :icon="wish.ignored ? 'far fa-eye' : 'far fa-eye-slash'"
+                  :title="wish.ignored ? 'Ignorieren aufheben' : 'Ignorieren'"
+                  @click="ignoreWish(v.p, wish)"
                 />
               </q-item-section>
             </q-item>
@@ -182,15 +198,18 @@
                 </q-item-section>
               </q-item>
             </div>
-            <div class="q-pa-xs text-caption">
+            <div
+              class="q-pa-xs text-caption"
+              v-if="info.u.count && info.p.count && info.p.m && info.p.f && info.u.m && info.u.f"
+            >
               <div>
-                {{ info.p.count / info.u.count }} TN pro MA
+                {{ (info.p.count / info.u.count).toFixed(2) }} TN pro MA
               </div>
               <div>
-                {{ info.p.m / info.u.m }} TN pro MA <q-icon name="fas fa-mars" color="blue"/>
+                {{ (info.p.m / info.u.m).toFixed(2) }} TN pro MA <q-icon name="fas fa-mars" color="blue"/>
               </div>
               <div>
-                {{ info.p.f / info.u.f }} TN pro MA <q-icon name="fas fa-venus" color="pink"/>
+                {{ (info.p.f / info.u.f).toFixed(2) }} TN pro MA <q-icon name="fas fa-venus" color="pink"/>
               </div>
 
             </div>
@@ -212,7 +231,7 @@
                 style="border: 1px solid grey; border-radius: 5px;"
                 :to="'/l/profile/' + user.uuid"
               >
-                <q-item-section>
+                <q-item-section no-wrap>
                   <q-item-label>
                     {{ user.User.firstName }} {{ user.User.lastName }}
                     <q-icon
@@ -226,20 +245,24 @@
                     <q-icon
                       :name="'fas fa-' + (user.User.gender === 'w' ? 'venus' : 'mars')"
                       :color="user.User.gender === 'w' ? 'pink' : 'blue'"
-                      :title="user.User.gende === 'w' ? 'weiblich' : 'männlich'"
+                      :title="user.User.gender === 'w' ? 'weiblich' : 'männlich'"
                     />
                     <q-icon
                       :name="'fas fa-guitar'"
-                      :color="user.User.UserYears[0].guitar ? user.User.UserYears[0].guitar === 3 ? 'green' : 'orange' : 'red'"
+                      :color="getSkillColor(user.User.UserYears[0].guitar)"
+                      :title="$constants.engagement.roles.guitar.options.find(o => o.value === user.User.UserYears[0].guitar).label"
                       class="q-pl-xs"
                     />
                   </q-item-label>
                 </q-item-section>
-                <q-item-section side>
-                  <q-item-label>
+                <q-item-section side no-wrap>
+                  <q-item-label :title="getFormattedBirthday(user.User)">
                     {{ getAge(user.User) }}
                   </q-item-label>
-                  <q-item-label caption>
+                  <q-item-label caption
+                    style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;"
+                    :title="user.User.church"
+                  >
                     {{ user.User.church }}
                   </q-item-label>
                 </q-item-section>
@@ -326,7 +349,7 @@
                             :style="'color: ' + wishes.color"
                             class="q-pl-sm"
                           >
-                            {{ wishes.fulfilledWishes.length }}/{{ wishes.wishes.length }}
+                            {{ wishes.unignoredFulfilledWishes.length }}/{{ wishes.unignoredWishes.length }}
                           </span>
                         </q-item-label>
                       </q-item-section>
@@ -487,6 +510,7 @@ export default defineComponent({
         for (let p in participators.value) {
           participators.value[p].groupId = 0;
           participators.value[p].preferenceId = 0;
+          participators.value[p].ignoredWishes = '';
         }
         groupList.value = response.data;
         groupList.value.forEach((group, groupIndex) => {
@@ -495,6 +519,7 @@ export default defineComponent({
               const pId = getParticipatorId(participator);
               participators.value[pId].groupId = group.id;
               participators.value[pId].preferenceId = preference.id;
+              participators.value[pId].ignoredWishes = participator.ignoredWishes;
               groupList.value[groupIndex].Preferences[preferenceIndex].Participators[participatorIndex] = participators.value[pId];
             })
           });
@@ -562,7 +587,11 @@ export default defineComponent({
       if (participator.wishes === "Ja") {
         for (let i = 1; i <= 5; i++) {
           if (participator["wish" + i]) {
-            wishes.push({name: participator["wish" + i]});
+            wishes.push({
+              name: participator["wish" + i],
+              wishIndex: i,
+              ignored: participator.ignoredWishes?.includes(i)
+            });
           }
         }
       }
@@ -574,16 +603,18 @@ export default defineComponent({
           }
         }
       });
-      const fulfilledWishes = wishes.filter(wish => wish.groupId === participator.groupId);
-      const unknownWishes = wishes.filter(wish => typeof wish.groupId === 'undefined');
 
-      if (wishes.length === 0) {
+      const unignoredWishes = wishes.filter(wish => !wish.ignored);
+      const unignoredFulfilledWishes = wishes.filter(wish => !wish.ignored && wish.groupId === participator.groupId);
+      const unignoredUnknownWishes = wishes.filter(wish => !wish.ignored && typeof wish.groupId === 'undefined');
+
+      if (unignoredWishes.length === 0) {
         color = 'grey';
-      } else if (wishes.length === fulfilledWishes.length) {
+      } else if (unignoredWishes.length === unignoredFulfilledWishes.length) {
         color = 'green';
-      } else if (unknownWishes.length > 0) {
+      } else if (unignoredUnknownWishes.length > 0) {
         color = 'blue';
-      } else if (fulfilledWishes.length > 0) {
+      } else if (unignoredFulfilledWishes.length > 0) {
         color = 'orange';
       } else {
         color = 'red';
@@ -591,7 +622,8 @@ export default defineComponent({
 
       return {
         'wishes': wishes,
-        'fulfilledWishes': fulfilledWishes,
+        'unignoredWishes': unignoredWishes,
+        'unignoredFulfilledWishes': unignoredFulfilledWishes,
         'color': color
       }
     };
@@ -639,6 +671,40 @@ export default defineComponent({
       }
     }
 
+    const getSkillColor = (skill) => {
+      let color = '';
+      switch (skill) {
+        case 0:
+          color = 'red';
+          break;
+        case 1:
+          color = 'orange';
+          break;
+        case 2:
+          color = 'yellow';
+          break;
+        case 3:
+          color = 'green';
+          break;
+        default:
+          color = 'grey';
+          break;
+      }
+      return color;
+    }
+
+    const ignoreWish = (p, w) => {
+      let ignoredWishes = p.ignoredWishes?.split('-').filter(a => a && !isNaN(a)) || [];
+      if (w.ignored) {
+        ignoredWishes.splice(ignoredWishes.indexOf(w.wishIndex.toString()), 1);
+      } else {
+        ignoredWishes.push(w.wishIndex);
+      }
+      api.post('/participator/' + p.orderId + '/' + p.positionId, {
+        ignoredWishes: ignoredWishes.join('-')
+      }).then(refreshGroups);
+    }
+
     getParticipators();
 
     return {
@@ -669,6 +735,8 @@ export default defineComponent({
       getParticipators,
       getParticipatorsInfoByObj,
       getUserInfoByGroup,
+      getSkillColor,
+      ignoreWish,
       refreshGroups
     };
   },

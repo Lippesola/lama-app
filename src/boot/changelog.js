@@ -1,7 +1,16 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.7.0";
+const version = "v1.7.1";
 const changelog = {
+  "v1.7.1": [
+    "Nachkommastellen von TN/MA-Verhältnis auf 2 Stellen begrenzt",
+    "Die Skills von Gitarrenspielern werden in der Gruppenliste richtig angezeigt",
+    "Geschlechter von MA werden in der Gruppenliste richtig angezeigt",
+    "In der Gruppenübersicht ist die Gemeinde von MA ist in der Länge begrenzt",
+    "MA-Geburtstag in Gruppenübersicht hinzugefügt",
+    "Verhältnis von TN/MA in Gruppenübersicht ausgeblendet, wenn keine TN vorhanden",
+    "Wünsche von TN können ignoriert werden"
+  ],
   "v1.7.0": ["Gruppeneinteilung für TN hinzugefügt"],
   "v1.6.4": ["Zeitangabe bei Führungszeugnis mit Selbsverpflichtung behoben"],
   "v1.6.3": ["Hotfix: Status von TN angepasst"],
