@@ -506,7 +506,7 @@ export default defineComponent({
     };
 
     const refreshGroups = () => {
-      api.get('/group?year=' + settings.currentYear + '&week=' + week.value.value + '&participatorBundle').then((response) => {
+      api.get('/group?year=' + settings.currentYear + '&week=' + week.value.value + '&participatorBundle&userBundle').then((response) => {
         for (let p in participators.value) {
           participators.value[p].groupId = 0;
           participators.value[p].preferenceId = 0;

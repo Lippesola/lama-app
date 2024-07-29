@@ -67,6 +67,12 @@
           style="min-width: 150px"
           @update:model-value="updateVisibleColumns"
         />
+        <q-btn
+          :label="visibleColumns.includes('groups') ? 'Gruppen ausblenden' : 'Gruppen einblenden'"
+          flat
+          dense
+          @click="showGroups"
+        />
         <q-space />
         <q-btn
           color="primary"
@@ -147,14 +153,24 @@ export default defineComponent({
     function getParticipatorList() {
       api
         .get("/participator")
-        .then(function (response) {
+        .then(function (participatorResponse) {
           allRows.value = [];
-          Object.entries(response.data).forEach((entry) => {
-            const [index, item] = entry;
-            item.id = index;
-            allRows.value.push(item);
-          });
-          filterParticipatorList();
+          api.get('/group?year=' + settings.currentYear)
+            .then(function (groupResponse) {
+              Object.entries(participatorResponse.data).forEach((entry) => {
+                const [index, item] = entry;
+                item.id = index;
+                const group = groupResponse.data.find((group) => {
+                  return item.groupId === group.id;
+                });
+                item.group = group ? group.groupNumber + ' - ' + group.title : '';
+                allRows.value.push(item);
+              });
+              filterParticipatorList();
+            })
+            .catch(function (e) {
+              console.log(e);
+            });
         })
         .catch(function (e) {});
     }
@@ -194,6 +210,13 @@ export default defineComponent({
               },
             });
           });
+          allColumns.value.push({
+            name: 'group',
+            label: 'Gruppen',
+            field: 'group',
+            sortable: true,
+            align: 'left',
+          })
           visibleColumns.value.forEach((col) => {
             columns.value.push(
               allColumns.value.find((c) => {
@@ -205,6 +228,15 @@ export default defineComponent({
         .catch(function (e) {
           console.log(e);
         });
+    }
+
+    function showGroups() {
+      if (visibleColumns.value.includes("group")) {
+        visibleColumns.value.splice(visibleColumns.value.indexOf("group"), 1);
+      } else {
+        visibleColumns.value.push("group");
+      }
+      updateVisibleColumns(visibleColumns.value);
     }
 
     function updateVisibleColumns(value) {
@@ -287,6 +319,7 @@ export default defineComponent({
       getParticipatorList,
       filterParticipatorList,
       exportList,
+      showGroups
     };
   },
 });
