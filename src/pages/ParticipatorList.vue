@@ -68,7 +68,7 @@
           @update:model-value="updateVisibleColumns"
         />
         <q-btn
-          :label="visibleColumns.includes('groups') ? 'Gruppen ausblenden' : 'Gruppen einblenden'"
+          :label="visibleColumns.includes('group') ? 'Gruppen ausblenden' : 'Gruppen einblenden'"
           flat
           dense
           @click="showGroups"

@@ -1,7 +1,11 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.7.2";
+const version = "v1.7.3";
 const changelog = {
+  "v1.7.3": [
+    "Die Dokumente-Übersicht berücksichtigt nur noch Mitarbeiter des aktuellen Jahres",
+    "Rechtschreibfehler auf TN-Liste behoben",
+  ],
   "v1.7.2": ["In der Teilnehmerliste können jetzt auch Gruppen angezeigt werden"],
   "v1.7.1": [
     "Nachkommastellen von TN/MA-Verhältnis auf 2 Stellen begrenzt",

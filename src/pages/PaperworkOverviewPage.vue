@@ -73,7 +73,7 @@ export default defineComponent({
         sortable: true
       },
     ])
-    api.get('/userYear?status=4&userBundle&documentBundle').then(function(response) {
+    api.get('/userYear?year=' + settings.currentYear + '&status=4&userBundle&documentBundle').then(function(response) {
       Object.entries(response.data).forEach((entry => {
           const [index, item] = entry
           userList.value.push(item)
