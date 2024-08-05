@@ -76,7 +76,7 @@
       >
         <q-card-section>
           <div class="text-subtitle1">
-            Wünsche von {{ wishDialogModel.participator.firstName }} {{ wishDialogModel.participator.lastName }} (Gruppe {{ wishDialogModel.participator.groupId }})
+            Wünsche von {{ wishDialogModel.participator.firstName }} {{ wishDialogModel.participator.lastName }} (Gruppe {{ groupList.find(g => wishDialogModel.participator.groupId === g.id)?.groupNumber }})
           </div>
           <q-separator />
           <q-list
@@ -97,7 +97,7 @@
                 :class="wish.ignored ? 'disabled' : ''"
               >
                 <q-icon
-                  :name="'fas fa-' + (typeof wish.groupId !== 'undefined' ? groupList[wish.groupId].groupNumber : 'question')"
+                  :name="'fas fa-' + (typeof wish.groupId !== 'undefined' ? groupList.find(g => wish.groupId === g.id)?.groupNumber : 'question')"
                   :color="typeof wish.groupId !== 'undefined' ? wish.groupId === wishDialogModel.participator.groupId ? 'green' : 'red' : 'blue'"
                   size="xs"
                 />
@@ -517,6 +517,7 @@ export default defineComponent({
           group.Preferences.forEach((preference, preferenceIndex) => {
             preference.Participators.forEach((participator, participatorIndex) => {
               const pId = getParticipatorId(participator);
+              console.log(pId);
               participators.value[pId].groupId = group.id;
               participators.value[pId].preferenceId = preference.id;
               participators.value[pId].ignoredWishes = participator.ignoredWishes;
