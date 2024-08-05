@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.7.3";
+const version = "v1.7.4";
 const changelog = {
+  "v1.7.4": [
+    "Fehlerbehebung, dass in der Gruppeneinteilung falsche IDs genutzt wurden",
+  ],
   "v1.7.3": [
     "Die Dokumente-Übersicht berücksichtigt nur noch Mitarbeiter des aktuellen Jahres",
     "Rechtschreibfehler auf TN-Liste behoben",
