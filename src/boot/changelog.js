@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.7.4";
+const version = "v1.7.5";
 const changelog = {
+  "v1.7.5": [
+    "Textvorlage wurde aus Themenforum entfernt",
+  ],
   "v1.7.4": [
     "Fehlerbehebung, dass in der Gruppeneinteilung falsche IDs genutzt wurden",
   ],
