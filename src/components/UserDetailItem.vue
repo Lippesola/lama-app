@@ -8,17 +8,6 @@
       <q-item-label>{{ value }}</q-item-label>
       <q-item-label caption>{{ label }}</q-item-label>
     </q-item-section>
-
-    <!-- Button Section -->
-    <q-item-section side>
-      <q-btn 
-        flat roundet
-        color="white"
-        icon="fa-solid arrow-up-right-from-square"
-        label="test"
-        @click="copyToClipboard(value, label)"
-      />
-    </q-item-section>
   </q-item>
 </template>
 
