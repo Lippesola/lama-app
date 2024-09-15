@@ -48,7 +48,7 @@ export default defineComponent({
         })
       }).catch(() => {
         this.$q.notify({
-          message: 'Failed to copy',
+          message: 'Kopieren fehlgeschlagen',
           color: 'negative',
           position: 'top'
         })
