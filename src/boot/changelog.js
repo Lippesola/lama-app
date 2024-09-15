@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.7.5";
+const version = "v1.7.6";
 const changelog = {
+  "v1.7.6": [
+    "Daten im Mitarbeiterprofil werden nun per Klick kopiert",
+  ],
   "v1.7.5": [
     "Textvorlage wurde aus Themenforum entfernt",
   ],
