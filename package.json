@@ -23,7 +23,7 @@
     "sortablejs": "^1.15.2",
     "vue": "^3.5.5",
     "vue-advanced-cropper": "^2.8.8",
-    "vue-router": "^4.4.0"
+    "vue-router": "^4.4.5"
   },
   "devDependencies": {
     "@quasar/app-vite": "^1.9.5",
