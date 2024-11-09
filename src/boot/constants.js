@@ -343,7 +343,7 @@ export default boot(async ({ app }) => {
         id: "band",
         title: "Band",
         icon: "fa-solid fa-music",
-        hint: `Möchtest du in der Band mitwirken?`,
+        hint: `Möchtest du in der Band mitwirken? Wenn ja: gib bitte bei "Sonstige Anmerkungen" an, wie du dich einbringen möchtest.`,
         options: [
           { value: 0, label: "Nein" },
           { value: 1, label: "Ja" },
@@ -440,6 +440,18 @@ export default boot(async ({ app }) => {
         title: "Gebetsteam",
         icon: "fa-solid fa-praying-hands",
         hint: `Neben Gebeten für das SOLA, hat das Gebetsteam ein offenes Ohr für alle, organisiert die freiwillige Gebetszeit und schaut, was sonst noch gebraucht wird`,
+        options: [
+          { value: 0, label: "Nein" },
+          { value: 1, label: "Ja, als weitere Alternative" },
+          { value: 2, label: "Ja, als Alternative" },
+          { value: 3, label: "Ja" },
+        ],
+      },
+      wishAcademy: {
+        id: "wishAcademy",
+        title: "SOLA-Akademie",
+        icon: "fa-solid fa-praying-hands",
+        hint: `Die SOLA-Akademie findet während des Teen-SOLAs statt und dient dazu, ältere Teens auf die Mitarbeit bei den Kids in diesem Jahr vorzubereiten.`,
         options: [
           { value: 0, label: "Nein" },
           { value: 1, label: "Ja, als weitere Alternative" },

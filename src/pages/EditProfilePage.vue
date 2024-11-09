@@ -22,6 +22,7 @@
         <q-input outlined hide-bottom-space style="width: 300px" type="text" autocomplete="address-level2" v-model="city" label="Ort"  :error="error.city"/>
         <q-input outlined hide-bottom-space style="width: 300px" type="tel" autocomplete="tel-national" v-model="phone" label="Telefonnummer"  :error="error.phone"/>
         <q-input outlined hide-bottom-space style="width: 300px" type="tel" autocomplete="tel" v-model="mobile" label="Handynummer"  :error="error.mobile"/>
+        <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="plate" label="KFZ-Kennzeichen" hint="Dient der Parkplatzzuweisung auf dem Lagerplatz" :error="error.plate"/>
         <q-select outlined hide-bottom-space style="width: 300px" :options="relationshipOptions" v-model="relationship" label="Beziehungsstatus"  :error="error.relationship"/>
         <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="church" label="Gemeinde"  :error="error.church"/>
         <q-select outlined hide-bottom-space style="width: 300px" :options="churchContactOptions" v-model="churchContact" label="Gemeindekontakt" hint="Kannst du in deiner Gemeinde Ansprechpartner fürs SOLA sein?" :error="error.churchContact"/>
@@ -32,7 +33,7 @@
         <q-btn label="Speichern" type="submit" color="primary"/>
       </div>
     </q-form>
-    <q-btn 
+    <q-btn
       v-if="!props.registrationFlow"
       flat
       dense
@@ -91,6 +92,7 @@ export default {
     const city = ref('')
     const phone = ref('')
     const mobile = ref('')
+    const plate = ref('')
     const church = ref('')
     const churchContact = ref('')
     const churchContactOptions = [
@@ -118,6 +120,7 @@ export default {
       city.value = response.data.city
       phone.value = response.data.phone
       mobile.value = response.data.mobile
+      plate.value = response.data.plate
       church.value = response.data.church
       churchContact.value = churchContactOptions[response.data.churchContact ? 1 : 0]
       job.value = response.data.job
@@ -144,6 +147,7 @@ export default {
       city,
       phone,
       mobile,
+      plate,
       church,
       churchContact,
       churchContactOptions,
@@ -182,6 +186,7 @@ export default {
           city: city.value,
           phone: phone.value,
           mobile: mobile.value,
+          plate: plate.value,
           church: church.value,
           churchContact: churchContact.value.value,
           job: job.value,
@@ -218,6 +223,6 @@ export default {
       }
     }
   }
-  
+
 }
 </script>
