@@ -26,10 +26,14 @@ export default defineComponent({
     const { proxy } = getCurrentInstance()
     const c = proxy.$constants
     const settings = proxy.$settings
-    api.get('/userYear?year=' + settings.currentYear + '&status=' + c.userYearStatus.pending).then(function(response) {
+    api.get('/userYear?year=' + settings.currentYear + '&status=' + c.userYearStatus.pending + '&assigneeBundle').then(function(response) {
       Object.entries(response.data).forEach((entry => {
           const [index, item] = entry
-          userList.value.push({uuid: item.uuid, updatedAt: item.updatedAt})
+          userList.value.push({
+            uuid: item.uuid,
+            updatedAt: item.updatedAt,
+            AssigneeModel: item.AssigneeModel
+          })
         }))
       userList.value.sort((a, b) => {
         const as = a.updatedAt;

@@ -80,14 +80,36 @@ export default defineComponent({
       .catch((error) => {
         console.log(error);
       });
-    api
-      .get("motivation")
+    api.get("userYear/additionalInfo/" + (paramUuid || uuid))
       .then((response) => {
-        motivation.value = response.data;
+        const isNew = response.data.isNew;
+        const isLeader = response.data.isLeader;
+
+        api
+          .get("motivation")
+          .then((response) => {
+            const data = response.data;
+            data.forEach(element => {
+              if (isLeader) {
+                if (element.showForLeader) {
+                  motivation.value.push(element)
+                }
+                return;
+              }
+              if (isNew && element.showForNew) {
+                motivation.value.push(element)
+                return;
+              }
+              if (!isNew && element.showForExisting) {
+                motivation.value.push(element)
+                return;
+              }
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       })
-      .catch((error) => {
-        console.log(error);
-      });
     const saveUserMotivation = (draft) => {
       api
         .post("userMotivation/" + uuid, {

@@ -23,12 +23,34 @@
                   : item.type
               }}
               <q-space />
+              <q-checkbox
+                v-model="item.showForNew"
+                class="q-mx-sm"
+                label="Neue MA"
+                checked-icon="fa-regular fa-circle-check"
+                unchecked-icon="fa-regular fa-circle-xmark"
+              />
+              <q-checkbox
+                v-model="item.showForExisting"
+                class="q-mx-sm"
+                label="Alte Hasen"
+                checked-icon="fa-regular fa-circle-check"
+                unchecked-icon="fa-regular fa-circle-xmark"
+              />
+              <q-checkbox
+                v-model="item.showForLeader"
+                class="q-mx-sm"
+                label="LT"
+                checked-icon="fa-regular fa-circle-check"
+                unchecked-icon="fa-regular fa-circle-xmark"
+              />
               <q-btn
                 flat
                 dense
                 round
                 size="sm"
                 icon="fa-solid fa-trash"
+                class="q-ml-md"
                 @click="motivation.splice(motivation.indexOf(item), 1)"
               />
             </div>

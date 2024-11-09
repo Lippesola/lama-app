@@ -4,10 +4,10 @@
     :img="avatar"
     :title="name"
   />
-  
+
   <q-item class="q-px-none" v-if="show === 'true'">
 
-    
+
     <q-list style="width:100%">
       <q-item class="q-px-none">
         <q-item-section side>
@@ -23,6 +23,30 @@
         </q-item-section>
         <q-item-section top side>
           <q-item-label caption>{{ date }}</q-item-label>
+          <q-item-label caption>
+            <q-avatar
+              v-if="assigneeAvatar"
+              class="cursor-pointer"
+              size="32px"
+              :title="assignee.firstName + ' ' + assignee.lastName"
+              @click="toggleAssignee"
+            >
+              <img
+                v-if="assigneeAvatar"
+                :src="assigneeAvatar"
+              />
+            </q-avatar>
+            <q-avatar
+              v-if="!assigneeAvatar"
+              class="cursor-pointer"
+              size="32px"
+              :color="assignee ? 'primary' : 'grey-9'"
+              text-color="white"
+              :title="assignee ? (assignee.firstName + ' ' + assignee.lastName) : 'Mir zuweisen'"
+              :icon="assigneeAvatar ? '' : 'fa-solid fa-user'"
+              @click="toggleAssignee"
+            />
+          </q-item-label>
         </q-item-section>
       </q-item>
 
@@ -48,11 +72,11 @@
             flat
             dense
             color="primary"
-            icon="fa-solid fa-file-arrow-down"
+            icon="fa-solid fa-file-lines"
             :to="'/l/motivation/' + uuid"
           >
             <q-tooltip>
-              MVB herunterladen
+              MVB anzeigen
             </q-tooltip>
           </q-btn>
         </q-item-section>
@@ -73,7 +97,7 @@
 
         <q-item-section>
         </q-item-section>
-        
+
         <q-item-section side>
           <q-btn
             flat
@@ -87,7 +111,7 @@
             </q-tooltip>
           </q-btn>
         </q-item-section>
-        
+
         <q-item-section side>
           <q-btn
             flat
@@ -132,11 +156,16 @@ export default defineComponent({
     updatedAt: {
       type: String,
       required: true
+    },
+    AssigneeModel: {
+      type: Object,
+      required: false
     }
   },
 
   setup(props) {
     const avatar = ref('')
+    const assigneeAvatar = ref('')
     const date = new moment(props.updatedAt).format('DD.MM.YYYY')
     const imageDialog = ref(false)
     const mail = ref('')
@@ -146,6 +175,8 @@ export default defineComponent({
     const { proxy } = getCurrentInstance()
     const c = proxy.$constants
     const settings = proxy.$settings
+    const ownUuid = proxy.$keycloak.tokenParsed.sub
+    const assignee = ref(props.AssigneeModel)
 
     var m = false;
 
@@ -162,6 +193,16 @@ export default defineComponent({
       avatar.value = URL.createObjectURL(response.data, 'binary').toString('base64')
     }).catch((e) => {})
 
+    function getAssigneeAvatar() {
+      if (assignee.value) {
+        api.get('/avatar/' + assignee.value.uuid, {
+          responseType: 'blob'
+        }).then(function(response) {
+          assigneeAvatar.value = URL.createObjectURL(response.data, 'binary').toString('base64')
+        }).catch((e) => {})
+      }
+    }
+
     function setStatus(status) {
       api.post('/userYear/' + props.uuid + '/' + settings.currentYear, {
         status: status
@@ -174,6 +215,37 @@ export default defineComponent({
           message: 'Status wurde gesetzt'
         })
         show.value = 'false'
+      })
+      .catch(function(e) {
+        $q.notify({
+          color: 'red-4',
+          textColor: 'white',
+          icon: 'fa-solid fa-circle-xmark ',
+          message: e.response?.data || 'Fehler'
+        })
+      })
+    }
+
+    function setAssignee(assigneeId) {
+      api.post('/userYear/' + props.uuid + '/' + settings.currentYear, {
+        assignee: assigneeId
+      })
+      .then(function() {
+        $q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'fa-solid fa-check',
+          message: assigneeId ? 'Die Anmeldung wurde dir zugewiesen' : 'Die Zuweisung wurde entfernt'
+        })
+        if (assigneeId) {
+          api.get('/user/' + assigneeId).then(function(response) {
+            assignee.value = response.data
+            getAssigneeAvatar()
+          }).catch(function(e) {})
+        } else {
+          assignee.value = null
+          assigneeAvatar.value = null
+        }
       })
       .catch(function(e) {
         $q.notify({
@@ -231,10 +303,37 @@ export default defineComponent({
       })
     }
 
+    function toggleAssignee() {
+      const title = assignee.value ? "Zuweisung entfernen" : "Anmeldung zuweisen";
+      const message = assignee.value ? `Möchtest du die Zuweisung von <strong>${name.value}</strong> wirklich entfernen?` : `Möchtest du die Anmeldung von <strong>${name.value}</strong> wirklich übernehmen?`;
+      $q.dialog({
+        title: title,
+        message: message,
+        html: true,
+        ok: {
+          color: 'positive',
+          push: true,
+        },
+        cancel: {
+          color: 'negative',
+          push: true,
+        },
+        persistent: true
+      }).onOk(() => {
+        setAssignee(assignee.value ? null : ownUuid)
+      }).onCancel(() => {
+      }).onDismiss(() => {
+      })
+    }
+    getAssigneeAvatar()
+
     return {
       avatar,
+      assignee,
+      assigneeAvatar,
       acceptDialog,
       declineDialog,
+      toggleAssignee,
       imageDialog,
       date,
       mail,

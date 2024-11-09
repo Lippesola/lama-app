@@ -23,7 +23,7 @@
         </q-item>
 
         <q-separator class="q-ma-md" />
-        <div class="q-py-md text-h4">Willkommen im MA-Bereich, Samurai</div>
+        <div class="q-py-md text-h4">Willkommen im MA-Bereich</div>
         <div class="q-pb-md text-body1">
           Hier kannst du deine persönlichen Daten anpassen, deine Mitarbeit auf dem SOLA verwalten und andere Mitarbeiter finden.
           Wenn du Fragen oder Feedback zu LAMA hast, klick einfach auf den Button.

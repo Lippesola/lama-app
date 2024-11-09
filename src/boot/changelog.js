@@ -1,7 +1,15 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.7.6";
+const version = "v1.8.0";
 const changelog = {
+  "v1.8.0": [
+    "Motivationsbogen kann anhand der Erfahrung dynamisch angepasst werden",
+    "Der VB MA kann ich für die Freischaltung von MA zuordnen",
+    "KFZ-Kennzeichen können im Profil hinterlegt werden",
+    "Sonstige Wünsche sind jetzt verpflichtend, wenn man 'Sonstiges' auswählt",
+    "SOLA-Akademie ist jetzt als Option für die Mitarbeit auswählbar",
+    "Kleine Fehlerbehebungen"
+  ],
   "v1.7.6": [
     "Daten im Mitarbeiterprofil werden nun per Klick kopiert",
   ],

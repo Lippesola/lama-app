@@ -99,9 +99,6 @@
       </template>
 
     </q-table>
-    <div class="text-caption q-py-md">
-      Es werden alle Mitarbeiter angezeigt, die sich vollständig angemeldet haben - auch, wenn sie noch nicht freigeschaltet wurden.
-    </div>
   </div>
 </template>
 
@@ -122,7 +119,7 @@
       const settings = proxy.$settings
       const router = useRouter()
       const selectedYear = ref(settings.currentYear)
-      
+
 
       const visibleColumns = ref(window.localStorage.AdvancedUserListColumns ? JSON.parse(window.localStorage.AdvancedUserListColumns) : ['firstName', 'lastName', 'teens', 'kids'])
       const profileColumns = []
@@ -213,7 +210,7 @@
 
       function getUserList() {
         api.get('/userYear?status=4&year=' + selectedYear.value + '&userBundle&documentBundle').then(function(response) {
-          rows.value = [];  
+          rows.value = [];
           Object.entries(response.data).forEach((entry => {
             const [index, item] = entry
             let row = item
@@ -244,7 +241,7 @@
           path: '/l/profile/' + row.uuid
         })
       }
-      
+
       function wrapCsvValue (val, formatFn, row) {
         let formatted = formatFn !== void 0 ? formatFn(val, row) : val
         formatted = formatted === void 0 || formatted === null ? '' : String(formatted)

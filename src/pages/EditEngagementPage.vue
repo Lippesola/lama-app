@@ -59,6 +59,7 @@
         outlined
         label="Sonstige Wünsche"
         class="q-mt-md"
+        required
       />
 
       <div class="q-pt-xl text-h5">Wo kannst du noch unterstützen?</div>
