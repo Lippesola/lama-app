@@ -23,7 +23,6 @@
         <q-input outlined hide-bottom-space style="width: 300px" type="tel" autocomplete="tel-national" v-model="phone" label="Telefonnummer"  :error="error.phone"/>
         <q-input outlined hide-bottom-space style="width: 300px" type="tel" autocomplete="tel" v-model="mobile" label="Handynummer"  :error="error.mobile"/>
         <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="plate" label="KFZ-Kennzeichen" hint="Dient der Parkplatzzuweisung auf dem Lagerplatz" :error="error.plate"/>
-        <q-select outlined hide-bottom-space style="width: 300px" :options="relationshipOptions" v-model="relationship" label="Beziehungsstatus"  :error="error.relationship"/>
         <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="church" label="Gemeinde"  :error="error.church"/>
         <q-select outlined hide-bottom-space style="width: 300px" :options="churchContactOptions" v-model="churchContact" label="Gemeindekontakt" hint="Kannst du in deiner Gemeinde Ansprechpartner fürs SOLA sein?" :error="error.churchContact"/>
         <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="job" label="Beruf"  :error="error.job"/>
@@ -79,12 +78,6 @@ export default {
       {value:'m', label:"Männlich"},
       {value:'w', label:"Weiblich"}
     ]
-    const relationship = ref('')
-    const relationshipOptions = [
-      {value:0, label:"Single"},
-      {value:1, label:"In einer Beziehung"},
-      {value:2, label:"Bitte fragt mich in einem persönlichen Gespräch"}
-    ]
     const mail = ref('')
     const birthday = ref('')
     const street = ref('')
@@ -112,7 +105,6 @@ export default {
       lastName.value = response.data.lastName
       nickname.value = response.data.nickname
       gender.value = genderOptions[response.data.gender === 'm' ? 0 : response.data.gender === 'w' ? 1 : '']
-      relationship.value = relationshipOptions[response.data.relationship]
       mail.value = response.data.mail
       birthday.value = new moment(response.data.birthday).format('YYYY-MM-DD')
       street.value = response.data.street
@@ -138,8 +130,6 @@ export default {
       nickname,
       gender,
       genderOptions,
-      relationship,
-      relationshipOptions,
       mail,
       birthday,
       street,
@@ -161,7 +151,6 @@ export default {
         error.value = {}
         let err = false
         if (!gender.value) {error.value['gender'] = true; err = true;}
-        if (!relationship.value) {error.value['relationship'] = true; err = true;}
         if (!churchContact.value) {error.value['churchContact'] = true; err = true;}
         if (err) {
           $q.notify({
@@ -178,7 +167,6 @@ export default {
           lastName: lastName.value,
           nickname: nickname.value,
           gender: gender.value.value,
-          relationship: relationship.value.value,
           mail: mail.value,
           birthday: birthday.value,
           street: street.value,

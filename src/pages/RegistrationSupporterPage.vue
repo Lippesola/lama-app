@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center">
+  <q-page class="flex flex-center" v-if="registrationEnabled">
     <div class="q-pa-md" style="max-width: 1024px" v-if="!registrated">
       <div class="q-py-md text-h4">Helfer-Anmeldung</div>
       <div class="q-pb-md text-body1">
@@ -265,6 +265,14 @@
       </div>
     </div>
   </q-page>
+  <q-page class="flex flex-center" v-else>
+    <div class="q-pa-md" style="max-width: 1024px">
+      <div class="q-py-md text-h4">Helfer-Anmeldung</div>
+      <div class="q-pb-md text-body1">
+        Die Helfer-Anmeldung ist derzeit nicht verfügbar. Bitte schau für aktuelle Informationen auf der Homepage vorbei.
+      </div>
+    </div>
+  </q-page>
 </template>
 
 <script>
@@ -313,6 +321,8 @@ export default {
     const driver = ref([]);
     const vehicle = ref([]);
 
+    const registrationEnabled = ref(true)
+
     const supportType = ref({
       tasks: false,
       deco: false,
@@ -354,6 +364,13 @@ export default {
 
     const calStart = new moment(c.events.prepare2.start).format("YYYY/MM");
     const calEnd = new moment(c.events.cleanup.end).format("YYYY/MM");
+
+    api.get('/feature/supporterRegistration').then(function(response) {
+      const feature = response.data
+      refistrationEnabled.value = feature.enabled
+    }).catch(function(e){
+      registrationEnabled.value = false
+    })
 
     function onSubmit() {
       let err = false;
@@ -445,6 +462,7 @@ export default {
     return {
       error,
       registrated,
+      registrationEnabled,
       genderOptions,
       nutritionOptions,
       driverOptions,

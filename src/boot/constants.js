@@ -62,17 +62,6 @@ export default boot(async ({ app }) => {
       },
       access: "",
     },
-    relationship: {
-      id: "relationship",
-      title: "Beziehungsstatus",
-      icon: "fa-solid fa-heart",
-      options: [
-        "Single",
-        "In einer Beziehung",
-        "Bitte fragt mich in einem persönlichen Gespräch",
-      ],
-      access: "",
-    },
     mail: {
       id: "mail",
       title: "E-Mail",
@@ -215,7 +204,7 @@ export default boot(async ({ app }) => {
         id: "build",
         title: "Aufbau",
         icon: "fa-solid fa-person-digging",
-        hint: `Grundsätzlich gilt: Wer beim Teen-Sola dabei ist, ist auch beim Aufbau dabei. ${date2String(
+        hint: `Grundsätzlich gilt: Wer beim Teens-Sola dabei ist, ist auch beim Aufbau dabei. ${date2String(
           constants.events.build,
         )}`,
         options: [
@@ -226,7 +215,7 @@ export default boot(async ({ app }) => {
       },
       teens: {
         id: "teens",
-        title: "Teen-Sola",
+        title: "Teens-Sola",
         icon: "fa-solid fa-campground",
         hint: `${date2String(constants.events.teens)}`,
         options: [
@@ -281,7 +270,7 @@ export default boot(async ({ app }) => {
         id: "groupLeader",
         title: "Gruppenleiter (GL)",
         icon: "fa-solid fa-star",
-        hint: `Kannst du dir vorstellen eine Gruppe zu leiten?`,
+        hint: `Kannst du dir vorstellen eine Gruppe / ein Team zu leiten?`,
         options: [
           { value: 0, label: "Nein" },
           { value: 1, label: "Ja" },
@@ -309,7 +298,7 @@ export default boot(async ({ app }) => {
       },
       dayTeamLeader: {
         id: "dayTeamLeader",
-        title: "TagesTeamLeiter",
+        title: "Planungsleiter",
         icon: "fa-solid fa-star",
         hint: `Die Tage werden von mehreren Teams geplant. Kannst du eines davon leiten?`,
         options: [
@@ -451,7 +440,7 @@ export default boot(async ({ app }) => {
         id: "wishAcademy",
         title: "SOLA-Akademie",
         icon: "fa-solid fa-praying-hands",
-        hint: `Die SOLA-Akademie findet während des Teen-SOLAs statt und dient dazu, ältere Teens auf die Mitarbeit bei den Kids in diesem Jahr vorzubereiten.`,
+        hint: `Die SOLA-Akademie findet während des Teens-SOLAs statt und dient dazu, ältere Teens auf die Mitarbeit bei den Kids in diesem Jahr vorzubereiten.`,
         options: [
           { value: 0, label: "Nein" },
           { value: 1, label: "Ja, als weitere Alternative" },

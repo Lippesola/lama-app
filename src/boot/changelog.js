@@ -1,7 +1,12 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.8.0";
+const version = "v1.8.1";
 const changelog = {
+  "v1.8.1": [
+    "Beziehungsstatus wird nicht mehr abgefragt",
+    "Helferanmeldung kann nun deaktiviert werden",
+    "Kleine Fehlerbehebungen"
+  ],
   "v1.8.0": [
     "Motivationsbogen kann anhand der Erfahrung dynamisch angepasst werden",
     "Der VB MA kann ich für die Freischaltung von MA zuordnen",
