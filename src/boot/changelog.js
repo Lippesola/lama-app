@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.8.1";
+const version = "v1.8.2";
 const changelog = {
+  "v1.8.2": [
+    "Fehlerbehebung, dass in macnhen Listen die Mitarbeiter nicht angezeigt wurden"
+  ],
   "v1.8.1": [
     "Beziehungsstatus wird nicht mehr abgefragt",
     "Helferanmeldung kann nun deaktiviert werden",

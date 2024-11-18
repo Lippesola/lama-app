@@ -214,7 +214,7 @@
           Object.entries(response.data).forEach((entry => {
             const [index, item] = entry
             let row = item
-            Object.entries(item.User).forEach((entry => {
+            Object.entries(item.UserModel).forEach((entry => {
               const [index, item] = entry
               row[index] = item
             }))
@@ -224,7 +224,7 @@
                 row[index] = item
               }))
             }
-            delete row.User;
+            delete row.UserModel;
             delete row.UserDocument;
             //row.birthday = new moment(row.birthday)
             rows.value.push(row)

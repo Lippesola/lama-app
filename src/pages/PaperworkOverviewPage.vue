@@ -53,7 +53,7 @@ export default defineComponent({
       {
         name: 'name',
         label: 'Name',
-        field: row => row.User.firstName + ' ' + row.User.lastName,
+        field: row => row.UserModel.firstName + ' ' + row.UserModel.lastName,
         align: 'left',
         sortable: true
       },
