@@ -25,7 +25,7 @@
         <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="plate" label="KFZ-Kennzeichen" hint="Dient der Parkplatzzuweisung auf dem Lagerplatz" :error="error.plate"/>
         <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="church" label="Gemeinde"  :error="error.church"/>
         <q-select outlined hide-bottom-space style="width: 300px" :options="churchContactOptions" v-model="churchContact" label="Gemeindekontakt" hint="Kannst du in deiner Gemeinde Ansprechpartner fürs SOLA sein?" :error="error.churchContact"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="job" label="Beruf"  :error="error.job"/>
+        <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="job" label="Beruf (Studien/- Ausbildungsbereich)"  :error="error.job"/>
         <q-select outlined hide-bottom-space :disable="!allowEditNutrition" style="width: 300px" multiple :options="$constants.nutritionOptions" v-model="nutrition" label="Ernährung" hint="Beachte bitte die Fußnote *" :error="error.nutrition"/>
       </div>
       <div class="q-py-md">
@@ -42,10 +42,10 @@
     />
     <div class="text-caption q-py-lg" v-if="allowEditNutrition">
       * Es kann <strong>vegetarisches</strong> und <strong>laktosefreies</strong> Essen angeboten werden.
-      Für alle weiteren Fragen schreibst du <q-btn flat dense no-caps text-color="primary" :label="$settings.kitchenLeaderName" :href="'mailto:' + $settings.kitchenLeaderMail" /> am besten direkt.
+      Für alle weiteren Fragen schreibst du am besten direkt eine Mail an <q-btn flat dense no-caps text-color="primary" :label="$settings.kitchenLeaderName" :href="'mailto:' + $settings.kitchenLeaderMail" />.
     </div>
     <div class="text-caption q-py-lg" v-if="!allowEditNutrition">
-      * Aus organisatorischen Gründen kannst du die Ernährungsdaten jetzt nicht mehr selbst ändern. Wenn du Änderungswünsche hast, melde dich bitte bei <q-btn flat dense no-caps text-color="primary" :label="$settings.kitchenLeaderName" :href="'mailto:' + $settings.kitchenLeaderMail" />.
+      * Aus organisatorischen Gründen kannst du die Ernährungsdaten jetzt nicht mehr selbst ändern. Wenn du Änderungswünsche hast, schreib bitte direkt eine Mail an <q-btn flat dense no-caps text-color="primary" :label="$settings.kitchenLeaderName" :href="'mailto:' + $settings.kitchenLeaderMail" />.
     </div>
   </div>
 </template>
