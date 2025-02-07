@@ -276,16 +276,6 @@ export default boot(async ({ app }) => {
           { value: 1, label: "Ja" },
         ],
       },
-      trainer: {
-        id: "trainer",
-        title: "Schulungsleiter",
-        icon: "fa-solid fa-chalkboard-user",
-        hint: `Du könntest Schulungen z.B. bei Vorbereitungswochenenden leiten`,
-        options: [
-          { value: 0, label: "Nein" },
-          { value: 1, label: "Ja" },
-        ],
-      },
       dayLeader: {
         id: "dayLeader",
         title: "Tagesleiter",
