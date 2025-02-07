@@ -42,10 +42,10 @@
     />
     <div class="text-caption q-py-lg" v-if="allowEditNutrition">
       * Es kann <strong>vegetarisches</strong> und <strong>laktosefreies</strong> Essen angeboten werden.
-      Für alle weiteren Fragen schreibst du <q-btn flat dense no-caps text-color="primary" :label="$settings.kitchenLeaderName" :href="'mailto:' + $settings.kitchenLeaderMail" /> am besten direkt.
+      Für alle weiteren Fragen schreibst du am besten direkt eine Mail an <q-btn flat dense no-caps text-color="primary" :label="$settings.kitchenLeaderName" :href="'mailto:' + $settings.kitchenLeaderMail" />.
     </div>
     <div class="text-caption q-py-lg" v-if="!allowEditNutrition">
-      * Aus organisatorischen Gründen kannst du die Ernährungsdaten jetzt nicht mehr selbst ändern. Wenn du Änderungswünsche hast, melde dich bitte bei <q-btn flat dense no-caps text-color="primary" :label="$settings.kitchenLeaderName" :href="'mailto:' + $settings.kitchenLeaderMail" />.
+      * Aus organisatorischen Gründen kannst du die Ernährungsdaten jetzt nicht mehr selbst ändern. Wenn du Änderungswünsche hast, schreib bitte direkt eine Mail an <q-btn flat dense no-caps text-color="primary" :label="$settings.kitchenLeaderName" :href="'mailto:' + $settings.kitchenLeaderMail" />.
     </div>
   </div>
 </template>
