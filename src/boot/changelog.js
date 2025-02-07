@@ -1,9 +1,14 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.8.2";
+const version = "v1.8.3";
 const changelog = {
+  "v1.8.3": [
+    "Option als Schulungsleiter mitzuhelfen wurde entfernt",
+    "Beschreibung in Beruf wurde angepasst",
+    "Weitere kleine Verbesserungen"
+  ],
   "v1.8.2": [
-    "Fehlerbehebung, dass in macnhen Listen die Mitarbeiter nicht angezeigt wurden"
+    "Fehlerbehebung, dass in manchen Listen die Mitarbeiter nicht angezeigt wurden"
   ],
   "v1.8.1": [
     "Beziehungsstatus wird nicht mehr abgefragt",
