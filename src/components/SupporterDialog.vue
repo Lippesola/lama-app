@@ -3,7 +3,23 @@
     <q-card>
       <q-card-section class="items-center q-pb-none">
         <div class="row">
-          <div class="text-h4">{{ supporter.firstName }} {{ supporter.lastName }}</div>
+          <div class="text-h4">
+            {{ supporter.firstName }} {{ supporter.lastName }}
+          </div>
+          <q-space />
+          <div class="text-h4">
+            <q-btn
+              flat
+              dense
+              color="positive"
+              icon="fa-solid fa-circle-check"
+              @click="confirmDialog"
+            >
+              <q-tooltip>
+                Helfer bestätigen
+              </q-tooltip>
+            </q-btn>
+          </div>
         </div>
         <q-list>
           <q-item>
@@ -91,6 +107,9 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import moment from 'moment'
+import { useQuasar } from 'quasar';
+import { api } from 'src/boot/axios';
+
 
 export default defineComponent({
   name: 'SupporterDialog',
@@ -113,14 +132,54 @@ export default defineComponent({
     }
   },
   setup(props) {
+    const $q = useQuasar();
+
     const birthday = ref(moment(props.supporter.birthday).format('DD.MM.YYYY'))
     const days = ref([])
     props.supporter.SupporterDays.forEach((day) => {
       days.value.push(moment(day.day).format('DD.MM.YYYY'))
     })
+
+    function confirmDialog() {
+      $q.dialog({
+        title: 'MA akzeptieren',
+        message: `<p>Möchtest du <strong>${props.supporter.firstName}</strong> wirklich als Helfer bestätigen?<br>Ab dann wird ${props.supporter.gernder === 'm' ? 'er' : 'sie'} auch automatisch in den Mailverteiler für Helfer eingetragen.</p>`,
+        html: true,
+        ok: {
+          color: 'positive',
+          push: true,
+        },
+        cancel: {
+          push: true,
+          color: 'negative'
+        },
+        persistent: true
+      }).onOk(() => {
+        api.post('supporterYear/' + props.supporter.uuid, {isConfirmed: true}).then(() => {
+          $q.notify({
+            message: 'Helfer bestätigt',
+            color: 'positive',
+            position: 'top',
+            timeout: 2000
+          })
+          props.supporter.isConfirmed = true;
+        }).catch(() => {
+          $q.notify({
+            message: 'Fehler beim bestätigt',
+            color: 'negative',
+            position: 'top',
+            timeout: 2000
+          })
+        })
+      }).onCancel(() => {
+      }).onDismiss(() => {
+      })
+    }
+
     return {
       birthday,
-      days
+      days,
+      confirmDialog
     }
   }
 })

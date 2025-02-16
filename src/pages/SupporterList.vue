@@ -1,48 +1,65 @@
 <template>
   <div class="q-pa-md text-h4">Helfer-Liste {{ $settings.currentYear }}</div>
-  <q-list>
-    <q-expansion-item
-      expand-separator
-      label="Ohne Datumsangabe"
-      class="text-h6"
-    >
-      <div>
-        <div v-for="item in supporterList" :key="item" class="text-body1">
-          <div v-if="!item.SupporterDays.length" class="q-py-sm">
-            <SupporterItem v-bind="{ item: item }" />
-          </div>
-        </div>
-      </div>
-    </q-expansion-item>
-    <q-expansion-item
-      expand-separator
-      :label="event.name"
-      v-for="event in dateOptions"
-      :key="event"
-      class="text-h6"
-    >
-      <div v-for="date in event.dates" :key="date" class="text-body1">
-        <q-separator />
-        <div class="q-pa-md text-bold text-primary">
-          {{ date.formattedDate }}
-        </div>
+  <div class="q-pa-md" style="max-width: 600px">
+    <q-list>
+      <q-expansion-item
+        expand-separator
+        label="Brauchen Aktivierung"
+        class="text-h6"
+        :default-opened=true
+      >
         <div>
-          <div v-for="item in supporterList" :key="item">
-            <div
-              v-if="
-                item.SupporterDays.some(
-                  (supporterDay) => supporterDay.day === date.date,
-                )
-              "
-              class="q-py-sm"
-            >
+          <div v-for="item in supporterList" :key="item" class="text-body1">
+            <div v-if="!item.isConfirmed" class="q-py-sm">
               <SupporterItem v-bind="{ item: item }" />
             </div>
           </div>
         </div>
-      </div>
-    </q-expansion-item>
-  </q-list>
+      </q-expansion-item>
+      <q-expansion-item
+        expand-separator
+        label="Ohne Datumsangabe"
+        class="text-h6"
+      >
+        <div>
+          <div v-for="item in supporterList" :key="item" class="text-body1">
+            <div v-if="item.isConfirmed && !item.SupporterDays.length" class="q-py-sm">
+              <SupporterItem v-bind="{ item: item }" />
+            </div>
+          </div>
+        </div>
+      </q-expansion-item>
+      <q-expansion-item
+        expand-separator
+        :label="event.name"
+        v-for="event in dateOptions"
+        :key="event"
+        class="text-h6"
+      >
+        <div v-for="date in event.dates" :key="date" class="text-body1">
+          <q-separator />
+          <div class="q-pa-md text-bold text-primary">
+            {{ date.formattedDate }}
+          </div>
+          <div>
+            <div v-for="item in supporterList" :key="item">
+              <div
+                v-if="
+                  item.isConfirmed && 
+                  item.SupporterDays.some(
+                    (supporterDay) => supporterDay.day === date.date,
+                  )
+                "
+                class="q-py-sm"
+              >
+                <SupporterItem v-bind="{ item: item }" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </q-expansion-item>
+    </q-list>
+  </div>
 </template>
 
 <script>

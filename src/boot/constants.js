@@ -204,7 +204,7 @@ export default boot(async ({ app }) => {
         id: "build",
         title: "Aufbau",
         icon: "fa-solid fa-person-digging",
-        hint: `Grundsätzlich gilt: Wer beim Teens-Sola dabei ist, ist auch beim Aufbau dabei. ${date2String(
+        hint: `Grundsätzlich gilt: Wer beim Teens-SOLA dabei ist, ist auch beim Aufbau dabei. ${date2String(
           constants.events.build,
         )}`,
         options: [
@@ -215,7 +215,7 @@ export default boot(async ({ app }) => {
       },
       teens: {
         id: "teens",
-        title: "Teens-Sola",
+        title: "Teens-SOLA",
         icon: "fa-solid fa-campground",
         hint: `${date2String(constants.events.teens)}`,
         options: [
@@ -227,7 +227,7 @@ export default boot(async ({ app }) => {
       },
       kids: {
         id: "kids",
-        title: "Kids-Sola",
+        title: "Kids-SOLA",
         icon: "fa-solid fa-campground",
         hint: `${date2String(constants.events.kids)}`,
         options: [
@@ -241,7 +241,7 @@ export default boot(async ({ app }) => {
         id: "cleanup",
         title: "Abbau",
         icon: "fa-solid fa-person-digging",
-        hint: `Grundsätzlich gilt: Wer beim Kids-Sola dabei ist, ist auch beim Abbau dabei. ${date2String(
+        hint: `Grundsätzlich gilt: Wer beim Kids-SOLA dabei ist, ist auch beim Abbau dabei. ${date2String(
           constants.events.cleanup,
         )}`,
         options: [

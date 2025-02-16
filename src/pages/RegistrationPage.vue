@@ -5,7 +5,7 @@
         <div class="q-pa-md">
           <div class="q-py-md text-h4">SOLA ID erstellen</div>
           <div class="q-pb-md text-body1">
-            Die SOLA ID gibt dir als Mitarbeiter die Möglichkeit, dich in (fast) allen Sola-Anwendungen anmelden zu können und mit der Anmeldung für dieses Jahr zu starten.
+            Die SOLA ID gibt dir als Mitarbeiter die Möglichkeit, dich in (fast) allen SOLA-Anwendungen anmelden zu können und mit der Anmeldung für dieses Jahr zu starten.
           </div>
         </div>
 

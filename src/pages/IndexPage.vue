@@ -58,7 +58,7 @@
           @click="dialog=true"
         >
         <div class="q-pl-md text-caption">
-          Hab ich eine Sola ID?
+          Hab ich eine SOLA ID?
         </div>
         </q-btn>
       </div>

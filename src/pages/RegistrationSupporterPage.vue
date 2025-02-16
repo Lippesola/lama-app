@@ -137,7 +137,7 @@
           Unverträglichkeiten, Allergien o. Ä. einzugehen. Hierbei kann
           <strong>vegetarisches</strong> und
           <strong>laktosefreies</strong> Essen angeboten werden. Für alle
-          weiteren Fragen schreibst du
+          weiteren Fragen schreibst du am besten direkt eine Mail an
           <q-btn
             flat
             dense
@@ -146,7 +146,7 @@
             :label="$settings.kitchenLeaderName"
             :href="'mailto:' + $settings.kitchenLeaderMail"
           />
-          am besten direkt.
+          .
         </div>
 
         <div class="q-pt-md text-h5">Art der Unterstützung</div>
@@ -254,7 +254,7 @@
 
           <q-separator class="q-ma-md" />
           <div class="text-body1 q-py-lg">
-            Vielen Dank, dass du uns beim Sola unterstützen möchtest,
+            Vielen Dank, dass du uns beim SOLA unterstützen möchtest,
             {{ firstName }}!
           </div>
           <div class="text-body2 q-pb-lg">
@@ -367,7 +367,7 @@ export default {
 
     api.get('/feature/supporterRegistration').then(function(response) {
       const feature = response.data
-      refistrationEnabled.value = feature.enabled
+      registrationEnabled.value = feature.enabled
     }).catch(function(e){
       registrationEnabled.value = false
     })

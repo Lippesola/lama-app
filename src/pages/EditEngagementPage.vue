@@ -30,9 +30,9 @@
         />
       </div>
 
-      <div class="q-pt-xl text-h5">Deine Mitarbeit beim Sola</div>
+      <div class="q-pt-xl text-h5">Deine Mitarbeit beim SOLA</div>
       <div class="q-pb-md text-body1">
-        In welchem Team möchtest du beim Sola mitarbeiten?
+        In welchem Team möchtest du beim SOLA mitarbeiten?
       </div>
       <div class="q-gutter-md row">
         <q-select
