@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.8.3";
+const version = "v1.8.4";
 const changelog = {
+  "v1.8.4": [
+    "Option, dass Supporter freigeschaltet werden können, hinzugefügt",
+  ],
   "v1.8.3": [
     "Option als Schulungsleiter mitzuhelfen wurde entfernt",
     "Beschreibung in Beruf wurde angepasst",
