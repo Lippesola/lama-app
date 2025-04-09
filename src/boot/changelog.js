@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.8.4";
+const version = "v1.8.5";
 const changelog = {
+  "v1.8.5": [
+    "Abhängigkeiten wurden aktualisiert",
+  ],
   "v1.8.4": [
     "Option, dass Supporter freigeschaltet werden können, hinzugefügt",
   ],
