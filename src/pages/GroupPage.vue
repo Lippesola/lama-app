@@ -8,6 +8,18 @@
           class="q-pa-md"
         >
           <div class="q-pa-xs">
+            <q-select
+              v-model="newGroup.type"
+              label="Typ"
+              outlined
+              dense
+              :options="typeOptions"
+            />
+          </div>
+          <div
+            class="q-pa-xs"
+            v-if="newGroup.type?.value != 2"
+          >    
             <q-input
               v-model="newGroup.groupNumber"
               label="Gruppennummer"
@@ -25,7 +37,10 @@
               dense
             />
           </div>
-          <div class="q-pa-xs">
+          <div
+            class="q-pa-xs"
+            v-if="newGroup.type?.value != 2"
+          >
             <q-input
               v-model="newGroup.color"
               label="Farbe"
@@ -46,16 +61,6 @@
                 </q-icon>
               </template>
             </q-input>
-          </div>
-          <div class="q-pa-xs">
-            <q-select
-              v-model="newGroup.type"
-              label="Typ"
-              outlined
-              dense
-              :options="typeOptions"
-              disable
-            />
           </div>
         </q-card-section>
         <q-card-actions align="right">
@@ -137,7 +142,7 @@
         class="q-ml-md"
         v-model="week"
         :options="weekOptions"
-        @update:model-value="getParticipators"
+        @update:model-value="loadEverything()"
         style="min-width: 100px"
       />
       <q-btn
@@ -169,12 +174,20 @@
         label="Gruppe hinzufügen"
         @click="openAddGroupDialog()"
       />
+      <q-toggle
+        v-model="showParticipators"
+        flat
+        class="q-ml-md"
+        label="Teilnehmer anzeigen"
+        color="primary"
+        :disable="editableParticipator"
+      />
     </q-toolbar>
 
     <div class="q-pa-md row no-wrap">
       <div
-        v-show="group.groupNumber !== 0 || editableParticipator || editableUser"
-        v-for="group in groupList.filter(group => group.type === 0 || group.type === 1)"
+        v-show="group.groupNumber !== 0 || editableParticipator || editableUser || group.type === 2"
+        v-for="group in groupList"
         :key="group.id"
         class="column"
       >
@@ -194,6 +207,15 @@
                 size="xs"
                 icon="fas fa-pen"
                 @click="openAddGroupDialog(group.id)"
+              />
+              <q-btn
+                v-if="editableGroup && group.id"
+                class="q-ml-md"
+                flat
+                dense
+                size="xs"
+                icon="fas fa-trash"
+                @click="deleteGroup(group.id)"
               />
             </div>
           </q-card-section>
@@ -266,61 +288,32 @@
             <q-list
               :id="'groupUser-list-' + group.id"
             >
-              <q-item
-                v-for="groupUser in group.GroupUsers"
-                :key="groupUser"
-                class="q-pa-xs q-my-xs"
-                style="border: 1px solid grey; border-radius: 5px;"
-                :to="'/l/profile/' + groupUser.uuid"
-                :id="'groupUser-item-' + groupUser.uuid"
-              >
-                <q-item-section no-wrap>
-                  <q-item-label>
-                    {{ users[groupUser.uuid].firstName }} {{ users[groupUser.uuid].lastName }}
-                    <q-icon
-                      v-if="groupUser.type === 2"
-                      name="fas fa-bolt"
-                      color="yellow"
-                      title="GL"
-                    />
-                  </q-item-label>
-                  <q-item-label caption>
-                    <q-icon
-                      :name="'fas fa-' + (users[groupUser.uuid].gender === 'w' ? 'venus' : 'mars')"
-                      :color="users[groupUser.uuid].gender === 'w' ? 'pink' : 'blue'"
-                      :title="users[groupUser.uuid].gender === 'w' ? 'weiblich' : 'männlich'"
-                    />
-                    <q-icon
-                      :name="'fas fa-guitar'"
-                      :color="getSkillColor(users[groupUser.uuid].guitar)"
-                      :title="$constants.engagement.roles.guitar.options.find(o => o.value === users[groupUser.uuid].guitar).label"
-                      class="q-pl-xs"
-                    />
-                  </q-item-label>
-                </q-item-section>
-                <q-item-section side no-wrap>
-                  <q-item-label :title="getFormattedBirthday(users[groupUser.uuid])">
-                    {{ getAge(users[groupUser.uuid]) }}
-                  </q-item-label>
-                  <q-item-label caption
-                    style="max-width: 150px; overflow: hidden; text-overflow: ellipsis;"
-                    :title="users[groupUser.uuid].church"
-                  >
-                    {{ users[groupUser.uuid].church }}
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
+            <GroupUserItem
+              v-for="groupUser in group.GroupUsers.sort((a, b) => b.type - a.type || users[a.uuid].firstName.localeCompare(users[b.uuid].firstName))"
+              :key="groupUser.uuid"
+              :groupUser="groupUser"
+              :user="users[groupUser.uuid]"
+              :editableUser="editableUser"
+              :week="week.value"
+            />
             </q-list>
           </q-card-section>
           <q-separator
-            v-if="group.id"
+            v-if="group.id && showParticipators && group.type !== 2"
           />
           <q-card-section
-            v-if="group.id || editableParticipator"
+            v-if="showParticipators && group.type !== 2"
             class="q-pa-none"
           >
-            <div class="q-pa-xs text-subtitle2" style="white-space: nowrap;">Teilnehmer</div>
+            <div
+              v-if="showParticipators"
+              class="q-pa-xs text-subtitle2"
+              style="white-space: nowrap;"
+              >
+              Teilnehmer
+            </div>
             <q-list
+              v-if="showParticipators"
               :id="'groupPreference-list-' + group.id"
             >
               <q-item
@@ -440,10 +433,13 @@ import { api } from "src/boot/axios";
 import { getCurrentInstance, defineComponent, ref } from "vue";
 import Sortable from "sortablejs";
 import moment from "moment";
+import GroupUserItem from "src/components/GroupUserItem.vue";
 
 export default defineComponent({
   name: "GroupPage",
-
+  components: {
+    GroupUserItem
+  },
   setup() {
     const { proxy } = getCurrentInstance();
     const c = proxy.$constants
@@ -471,6 +467,7 @@ export default defineComponent({
       { label: 'Zeltgruppe', value: 1 },
       { label: 'Infrastruktur', value: 2 },
     ]);
+    const showParticipators = ref(true);
 
     const toggleEditMode = (mode) => {
       if ((editableUser.value || editableParticipator.value) && 
@@ -489,6 +486,7 @@ export default defineComponent({
         resetSortables();
       } else if (mode === 'participator') {
         editableParticipator.value = true;
+        showParticipators.value = true;
         resetSortables();
       } else if (mode === 'group') {
         editableGroup.value = true;
@@ -580,7 +578,8 @@ export default defineComponent({
 
     const openAddGroupDialog = (groupId) => {
       if (groupId) {
-        newGroup.value = groupList.value.find(g => g.id === groupId);
+        newGroup.value = {...groupList.value.find(g => g.id === groupId)};
+        newGroup.value.type = typeOptions.value.find(t => t.value === newGroup.value.type);
       } else {
         newGroup.value = {
           year: settings.currentYear,
@@ -671,7 +670,7 @@ export default defineComponent({
           }],
           GroupUsers: groupUsers
         });
-        groupList.value = groupList.value.sort((a, b) => a.groupNumber - b.groupNumber);
+        groupList.value = groupList.value.sort((a, b) => a.type - b.type || a.groupNumber - b.groupNumber);
         isLoaded.value = true;
       });
     };
@@ -716,6 +715,10 @@ export default defineComponent({
     const addGroup = () => {
       let values = newGroup.value;
       values.type = values.type.value;
+      if (values.type === 2) {
+        values.color = '#ffffff';
+        values.groupNumber = 0;
+      }
       api.post("/group/" + (values.id || ''), values).then(refreshGroups);
       closeAddGroupDialog();
     };
@@ -808,8 +811,8 @@ export default defineComponent({
 
     const getUserInfoByGroup = (group) => {
       const groupUsers = [];
-      group.GroupUsers || [].forEach((gu) => {
-        u.push(users.value[gu.uuid]);
+      (group.GroupUsers || []).forEach((gu) => {
+        groupUsers.push(users.value[gu.uuid]);
       });
       const ages = groupUsers.map(u => +getAge(u));
       const avg = (ages.reduce((a, b) => a + b, 0) / ages.length).toFixed(2);
@@ -822,29 +825,7 @@ export default defineComponent({
         'f': f
       }
     }
-
-    const getSkillColor = (skill) => {
-      let color = '';
-      switch (skill) {
-        case 0:
-          color = 'red';
-          break;
-        case 1:
-          color = 'orange';
-          break;
-        case 2:
-          color = 'yellow';
-          break;
-        case 3:
-          color = 'green';
-          break;
-        default:
-          color = 'grey';
-          break;
-      }
-      return color;
-    }
-
+    
     const ignoreWish = (p, w) => {
       let ignoredWishes = p.ignoredWishes?.split('-').filter(a => a && !isNaN(a)) || [];
       if (w.ignored) {
@@ -857,11 +838,21 @@ export default defineComponent({
       }).then(refreshGroups);
     }
 
-    const participatorPromise = getParticipators();
-    const userPromise = getUsers();
-    Promise.all([participatorPromise, userPromise]).then(() => {
-      refreshGroups();
-    });
+    const loadEverything = () => {
+      const participatorPromise = getParticipators();
+      const userPromise = getUsers();
+      Promise.all([participatorPromise, userPromise]).then(() => {
+        refreshGroups();
+      });
+    }
+
+    const deleteGroup = (groupId) => {
+      if (confirm('Möchtest du die Gruppe wirklich löschen?')) {
+        api.delete('/group/' + groupId).then(refreshGroups);
+      }
+    };
+
+    loadEverything();
 
     return {
       isLoaded,
@@ -879,6 +870,7 @@ export default defineComponent({
       editableUser,
       editableParticipator,
       editableGroup,
+      showParticipators,
       openAddGroupDialog,
       closeAddGroupDialog,
       openShowWishDialog,
@@ -897,9 +889,10 @@ export default defineComponent({
       getParticipators,
       getParticipatorsInfoByObj,
       getUserInfoByGroup,
-      getSkillColor,
       ignoreWish,
-      refreshGroups
+      refreshGroups,
+      loadEverything,
+      deleteGroup
     };
   },
   updated() {
