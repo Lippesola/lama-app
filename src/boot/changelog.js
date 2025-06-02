@@ -1,7 +1,11 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.8.5";
+const version = "v1.9.0";
 const changelog = {
+  "v1.9.0": [
+    "Möglichkeit hinzugefügt, Infrastrukturteams zu erstellen und zu bearbeiten",
+    "Mitarbeitereinteilung hinzugefügt"
+  ],
   "v1.8.5": [
     "Abhängigkeiten wurden aktualisiert",
   ],
