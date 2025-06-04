@@ -1,7 +1,11 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.9.0";
+const version = "v1.9.1";
 const changelog = {
+  "v1.9.1": [
+    "Bei der Gruppeneinteilung können Personen nun gefiltert werden",
+    "Gruppen können nicht mehr mit Nummer 0 angelegt werden",
+  ],
   "v1.9.0": [
     "Möglichkeit hinzugefügt, Infrastrukturteams zu erstellen und zu bearbeiten",
     "Mitarbeitereinteilung hinzugefügt"
