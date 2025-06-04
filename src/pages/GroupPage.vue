@@ -182,6 +182,16 @@
         color="primary"
         :disable="editableParticipator"
       />
+      <q-input
+        v-model="nameSearch"
+        class="q-ml-md q-pa-xs"
+        placeholder="Personen suchen"
+        dense
+      >
+        <template v-slot:prepend>
+          <q-icon name="fas fa-search" />
+        </template>
+      </q-input>
     </q-toolbar>
 
     <div class="q-pa-md row no-wrap">
@@ -289,7 +299,11 @@
               :id="'groupUser-list-' + group.id"
             >
             <GroupUserItem
-              v-for="groupUser in group.GroupUsers.sort((a, b) => b.type - a.type || users[a.uuid].firstName.localeCompare(users[b.uuid].firstName))"
+              v-for="groupUser in group.GroupUsers
+                .filter(e =>
+                  (users[e.uuid].firstName.toLowerCase() + ' ' + users[e.uuid].lastName.toLowerCase()).includes(nameSearch.toLowerCase())
+                )
+                .sort((a, b) => b.type - a.type || users[a.uuid].firstName.localeCompare(users[b.uuid].firstName))"
               :key="groupUser.uuid"
               :groupUser="groupUser"
               :user="users[groupUser.uuid]"
@@ -364,7 +378,7 @@
                     class="q-pt-xs"
                   >
                     <q-item
-                      v-for="participator in preference.Participators"
+                      v-for="participator in preference.Participators.filter(e => (e.firstName.toLowerCase() + ' ' + e.lastName.toLowerCase()).includes(nameSearch.toLowerCase()))"
                       :key="participator"
                       style="min-height: 0px; user-select: none; border: 1px solid grey; border-radius: 5px;"
                       :id="'participator-item-' + getParticipatorId(participator)"
@@ -457,6 +471,7 @@ export default defineComponent({
     const groupPreference = ref({});
     const newGroup = ref({});
     const sortables = ref([]);
+    const nameSearch = ref('');
     const weekOptions = ref([
       { label: 'Teens', value: 1 },
       { label: 'Kids', value: 2 },
@@ -713,6 +728,13 @@ export default defineComponent({
     };
 
     const addGroup = () => {
+      if (newGroup.value.groupNumber < 1) {
+        proxy.$q.notify({
+          type: 'negative',
+          message: 'Gruppennummer muss größer als 0 sein!'
+        });
+        return;
+      }
       let values = newGroup.value;
       values.type = values.type.value;
       if (values.type === 2) {
@@ -871,6 +893,7 @@ export default defineComponent({
       editableParticipator,
       editableGroup,
       showParticipators,
+      nameSearch,
       openAddGroupDialog,
       closeAddGroupDialog,
       openShowWishDialog,
