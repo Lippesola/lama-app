@@ -83,11 +83,7 @@ export default defineComponent({
 
     function orderBy(orderKey) {
       userList.value.sort((a, b) => {
-        const as = a[orderKey].toLowerCase();
-        const bs = b[orderKey].toLowerCase();
-        if (as > bs) return 1;
-        if (as < bs) return -1;
-        return 0;
+        return a[orderKey].localeCompare(b[orderKey]);
       });
     }
     return {

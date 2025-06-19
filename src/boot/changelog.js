@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.9.1";
+const version = "v1.9.2";
 const changelog = {
+  "v1.9.2": [
+    "Behebung, dass die Sortierung in der MA-Liste mit Umlauten nicht funktioniert hat",
+  ],
   "v1.9.1": [
     "Bei der Gruppeneinteilung können Personen nun gefiltert werden",
     "Gruppen können nicht mehr mit Nummer 0 angelegt werden",
