@@ -89,6 +89,18 @@
           style="min-width: 150px"
           @update:model-value="updateVisibleColumns"
         />
+        <q-select
+          class="q-pa-md"
+          v-model="visibleColumns"
+          multiple
+          dense
+          display-value="Gruppen"
+          emit-value
+          :options="groupColumns"
+          option-value="name"
+          style="min-width: 150px"
+          @update:model-value="updateVisibleColumns"
+        />
         <q-space />
         <q-btn
           color="primary"
@@ -127,6 +139,22 @@
       const roleColumns = []
       const wishColumns = []
       const documentColumns = []
+      const groupColumns = [
+        {
+          name: 'groupTeens',
+          label: 'Teensgruppe',
+          field: 'groupTeens',
+          sortable: true,
+          align: 'left'
+        },
+        {
+          name: 'groupKids',
+          label: 'Kidsgruppe',
+          field: 'groupKids',
+          sortable: true,
+          align: 'left'
+        }
+      ]
 
       const rows = ref([])
 
@@ -205,7 +233,7 @@
         })
       }))
 
-      const columns = profileColumns.concat(participationColumns, roleColumns, wishColumns, documentColumns)
+      const columns = profileColumns.concat(participationColumns, roleColumns, wishColumns, documentColumns, groupColumns);
       getUserList();
 
       function getUserList() {
@@ -229,6 +257,18 @@
             //row.birthday = new moment(row.birthday)
             rows.value.push(row)
           }))
+          
+          api.get('/group?year=' + selectedYear.value + '&participatorBundle&groupUserBundle').then((response) => {
+            response.data.forEach((group, index) =>{
+              group.GroupUsers.forEach((groupUser) => {
+                rows.value.find((row) => {
+                  return row.uuid === groupUser.uuid
+                })[group.week == 1 ? 'groupTeens' : 'groupKids'] = (group.groupNumber ? group.groupNumber + ' - ' : '') + group.title;
+              })
+              console.log(rows.value);
+              
+            })
+          }).catch((e) => {});
         }).catch(function(e) {})
       }
 
@@ -281,6 +321,7 @@
         roleColumns,
         wishColumns,
         documentColumns,
+        groupColumns,
         visibleColumns,
         columns,
         rows,
