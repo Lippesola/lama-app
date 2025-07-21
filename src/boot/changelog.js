@@ -4,6 +4,7 @@ const version = "v1.9.3";
 const changelog = {
   "v1.9.3": [
     "Erlaubt die Gruppe der MA in der erweiterten Nutzerliste anzuzeigen",
+    "Fehlerbehebung, dass die Gruppeneinteilung nicht korrekt angezeigt wurde"
   ],
   "v1.9.2": [
     "Behebung, dass die Sortierung in der MA-Liste mit Umlauten nicht funktioniert hat",

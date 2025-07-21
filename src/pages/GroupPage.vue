@@ -647,10 +647,14 @@ export default defineComponent({
           group.Preferences.forEach((preference, preferenceIndex) => {
             preference.Participators.forEach((participator, participatorIndex) => {
               const pId = getParticipatorId(participator);
-              participators.value[pId].groupId = group.id;
-              participators.value[pId].preferenceId = preference.id;
-              participators.value[pId].ignoredWishes = participator.ignoredWishes;
-              groupList.value[groupIndex].Preferences[preferenceIndex].Participators[participatorIndex] = participators.value[pId];
+              if (!participators.value[pId]) {
+                delete preference.Participators[participatorIndex];
+              } else {
+                participators.value[pId].groupId = group.id;
+                participators.value[pId].preferenceId = preference.id;
+                participators.value[pId].ignoredWishes = participator.ignoredWishes;
+                groupList.value[groupIndex].Preferences[preferenceIndex].Participators[participatorIndex] = participators.value[pId];
+              }
             })
           });
           group.GroupUsers.forEach((groupUser, userIndex) => {
