@@ -146,6 +146,12 @@ export default boot(async ({ app }) => {
       },
       access: "",
     },
+    plate: {
+      id: "plate",
+      title: "Kennzeichen",
+      icon: "fa-solid fa-car",
+      access: "",
+    },
   };
 
   constants["engagement"] = {

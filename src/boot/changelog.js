@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.9.3";
+const version = "v1.9.4";
 const changelog = {
+  "v1.9.4": [
+    "Kennzeichen-Feld in MA-Liste hinzugefügt",
+  ],
   "v1.9.3": [
     "Erlaubt die Gruppe der MA in der erweiterten Nutzerliste anzuzeigen",
     "Fehlerbehebung, dass die Gruppeneinteilung nicht korrekt angezeigt wurde"
