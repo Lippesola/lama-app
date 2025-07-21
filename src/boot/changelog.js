@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.9.4";
+const version = "v1.9.5";
 const changelog = {
+  "v1.9.5": [
+    "Weitere Dokumente für MA hinzugefügt",
+  ],
   "v1.9.4": [
     "Kennzeichen-Feld in MA-Liste hinzugefügt",
   ],

@@ -66,6 +66,37 @@
       <div v-if="doc.selfCommitment.status.value" class="text-body1">Du musst hier nichts weiter machen.</div>
       <div v-if="!doc.selfCommitment.status.value" class="text-body1">Bitte gib bis zum SOLA einen aktuellen unterschriebenen Verhaltenskodex ab.</div>
     </div>
+
+    <div class="q-py-md">
+      <div class="q-py-md text-h5">
+        <q-icon v-show="doc.privacyCommitment.status.value && !loading" name="fa-solid fa-check" color="green" />
+        <q-icon v-show="!doc.privacyCommitment.status.value && !loading" name="fa-solid fa-times" color="red" />
+        Datenschutz
+      </div>
+      <div class="text-body1 q-pb-md">Die Verpflichtung auf Vertraulichkeit muss jedes Jahr von dir unterschrieben abgegeben werden.</div>
+      <div v-if="doc.privacyCommitment.year.value" class="text-body1">Dein letzter Datenschutz ist aus dem Jahr {{ doc.privacyCommitment.year.value }}.</div>
+      <div v-if="doc.privacyCommitment.status.value" class="text-body1">Du musst hier nichts weiter machen.</div>
+      <div v-if="!doc.privacyCommitment.status.value" class="text-body1">Bitte gib bis zum SOLA einen aktuellen unterschriebenen Zettel ab. Den zu unterschreibenden Zettel findest du im
+        <q-btn
+          flat
+          dense
+          label="Mitarbeiter A-Z"
+          color="primary"
+          href="https://a-z.lippesola.de/doc/datenschutz-Bg3UZsv0L7"
+        />
+      </div>
+    </div>
+
+    <div class="q-py-md" v-if="underage">
+      <div class="q-py-md text-h5">
+        <q-icon v-show="doc.parentalConsent.status.value && !loading" name="fa-solid fa-check" color="green" />
+        <q-icon v-show="!doc.parentalConsent.status.value && !loading" name="fa-solid fa-times" color="red" />
+        U18-Zettel
+      </div>
+      <div class="text-body1 q-pb-md">Der U18-Zettel muss von einem Erziehungsberechtigten unterschrieben werden, wenn du zum Zeitpunkt des SOLA jünger als 18 Jahre alt bist.</div>
+      <div v-if="doc.parentalConsent.status.value" class="text-body1">Du musst hier nichts weiter machen.</div>
+      <div v-if="!doc.parentalConsent.status.value" class="text-body1">Bitte gib bis zum SOLA einen unterschriebenen U18-Zettel ab.</div>
+    </div>
   </div>
 </template>
 
@@ -83,6 +114,7 @@ export default {
     const c = proxy.$constants
     const uuid = proxy.$keycloak.tokenParsed.sub
     const settings = proxy.$settings;
+    const underage = ref(false)
 
     const doc = {
       criminalRecord: {
@@ -90,6 +122,14 @@ export default {
         status: ref(0)
       },
       selfCommitment: {
+        year: ref(''),
+        status: ref(0)
+      },
+      parentalConsent: {
+        year: ref(''),
+        status: ref(0)
+      },
+      privacyCommitment: {
         year: ref(''),
         status: ref(0)
       }
@@ -114,12 +154,21 @@ export default {
     }
 
     api.get('/userDocument/' + uuid)
-    .then(function(response) {
-      doc.criminalRecord.year.value = response.data.criminalRecord
-      doc.selfCommitment.year.value = response.data.selfCommitment
-      doc.criminalRecord.status.value = settings.currentYear < (response.data.criminalRecord + 5) || response.data.criminalRecord == settings.currentYear - 2000
-      doc.selfCommitment.status.value = settings.currentYear < (response.data.selfCommitment + 5)
-      loading.value = false;
+    .then(function(userDocumentResponse) {
+      api.get('/user/' + uuid)
+      .then(function(userResponse) {
+        doc.criminalRecord.year.value = userDocumentResponse.data.criminalRecord
+        doc.selfCommitment.year.value = userDocumentResponse.data.selfCommitment
+        doc.criminalRecord.status.value = settings.currentYear < (userDocumentResponse.data.criminalRecord + 5) || userDocumentResponse.data.criminalRecord == settings.currentYear - 2000
+        doc.selfCommitment.status.value = settings.currentYear < (userDocumentResponse.data.selfCommitment + 5)
+        doc.privacyCommitment.year.value = userDocumentResponse.data.privacyCommitment
+        doc.privacyCommitment.status.value = settings.currentYear < (userDocumentResponse.data.privacyCommitment + 1)
+        if (moment(c.events.teens.start).diff(moment(userResponse.data.birthday), 'years') < 18) {
+          underage.value = true
+          doc.parentalConsent.status.value = settings.currentYear < (userDocumentResponse.data.parentalConsent + 1 )
+        }
+        loading.value = false;
+      })
     }).catch(function(e){
       if (e.response.status === 404) {
         loading.value = false;

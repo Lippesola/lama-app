@@ -38,6 +38,12 @@
               <q-item v-if="isLT || $permissions.userDocument" clickable v-close-popup @click="addDocument('selfCommitment')">
                 <q-item-section>Verhaltenskodex</q-item-section>
               </q-item>
+              <q-item v-if="isLT || $permissions.userDocument" clickable v-close-popup @click="addDocument('privacyCommitment')">
+                <q-item-section>Datenschutz</q-item-section>
+              </q-item>
+              <q-item v-if="isLT || $permissions.userDocument" clickable v-close-popup @click="addDocument('parentalConsent')">
+                <q-item-section>U18-Zettel</q-item-section>
+              </q-item>
             </q-list>
           </q-menu>
       </q-btn>
@@ -161,7 +167,7 @@ export default {
     }).catch(function(e){})
 
     function addDocument(docType) {
-      if (docType !== 'criminalRecord' && docType !== 'selfCommitment') {
+      if (docType !== 'criminalRecord' && docType !== 'selfCommitment' && docType !== 'privacyCommitment' && docType !== 'parentalConsent') {
         return
       }
       const cr = docType === 'criminalRecord'

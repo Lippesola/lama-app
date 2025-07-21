@@ -229,7 +229,7 @@
           field: item.id,
           sortable: true,
           align: 'left',
-          format: (val, row) => `${val ? ((selectedYear.value < (val + 5)) ? 'Ja' : 'Nein') + ' (' + val + ')' : 'Nein'}`
+          format: (val, row) => `${val ? ((selectedYear.value < (val + item.interval)) ? 'Ja' : 'Nein') + ' (' + val + ')' : 'Nein'}`
         })
       }))
 

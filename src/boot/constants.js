@@ -463,11 +463,25 @@ export default boot(async ({ app }) => {
       id: "criminalRecord",
       title: "Führungszeugnis",
       icon: "fa-solid fa-handcuffs",
+      interval: 5,
     },
     selfCommitment: {
       id: "selfCommitment",
       title: "Verhaltenskodex",
       icon: "fa-solid fa-file-signature",
+      interval: 5,
+    },
+    privacyCommitment: {
+      id: "privacyCommitment",
+      title: "Datenschutz",
+      icon: "fa-solid fa-file-shield",
+      interval: 1,
+    },
+    parentalConsent: {
+      id: "parentalConsent",
+      title: "U18-Zettel",
+      icon: "fa-solid fa-file-signature",
+      interval: 1,
     },
   };
 

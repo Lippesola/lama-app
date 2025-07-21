@@ -60,9 +60,16 @@ export default defineComponent({
       const { proxy } = getCurrentInstance()
       const uuid = proxy.$keycloak.tokenParsed.sub
       api.get('/userDocument/' + uuid)
-      .then(function(response) {
-        showBadge.value += ((settings.currentYear < (response.data.criminalRecord + 5)) || (response.data.criminalRecord == settings.currentYear - 2000)) ? 0 : 1
-        showBadge.value += (settings.currentYear < (response.data.selfCommitment + 5)) ? 0 : 1
+      .then(function(userDocumentResponse) {
+        api.get('/user/' + uuid)
+        .then(function(userResponse) {
+          showBadge.value += ((settings.currentYear < (userDocumentResponse.data.criminalRecord + 5)) || (userDocumentResponse.data.criminalRecord == settings.currentYear - 2000)) ? 0 : 1
+          showBadge.value += (settings.currentYear < (userDocumentResponse.data.selfCommitment + 5)) ? 0 : 1
+          showBadge.value += (settings.currentYear < (userDocumentResponse.data.privacyCommitment + 1)) ? 0 : 1
+          if (moment(c.events.teens.start).diff(moment(userResponse.data.birthday), 'years') < 18) {
+            showBadge.value += (settings.currentYear < (userDocumentResponse.data.parentalConsent + 1 )) ? 0 : 1
+          }
+        })
       }).catch(function(e){
         if (e.response.status === 404) {
           showBadge.value = 2

@@ -72,6 +72,20 @@ export default defineComponent({
         align: 'left',
         sortable: true
       },
+      {
+        name: 'privacyCommitment',
+        label: 'Datenschutz',
+        field: row => row.UserDocument?.privacyCommitment,
+        align: 'left',
+        sortable: true
+      },
+      {
+        name: 'parentalConsent',
+        label: 'U18-Zettel',
+        field: row => row.UserDocument?.parentalConsent,
+        align: 'left',
+        sortable: true
+      },
     ])
     api.get('/userYear?year=' + settings.currentYear + '&status=4&userBundle&documentBundle').then(function(response) {
       Object.entries(response.data).forEach((entry => {
