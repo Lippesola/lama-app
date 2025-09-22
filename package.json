@@ -14,7 +14,7 @@
     "@dsb-norge/vue-keycloak-js": "^2.4.0",
     "@quasar/extras": "^1.17.0",
     "axios": "^1.8.4",
-    "eslint": "^9.19.0",
+    "eslint": "^9.36.0",
     "form-data": "^4.0.2",
     "keycloak-js": "^26.1.1",
     "moment": "^2.30.1",
