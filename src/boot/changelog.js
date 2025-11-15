@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.10.0";
+const version = "v1.10.1";
 const changelog = {
+  "v1.10.1": [
+    "Kleine Fehlerbehebungen",
+  ],
   "v1.10.0": [
     "Das LT kann interne Kommentare zu MA hinterlassen (bspw. zur Verfügbarkeit)",
     "Bei der Freischaltung von MA steht jetzt immer das korrekte Registrierungsdatum",
