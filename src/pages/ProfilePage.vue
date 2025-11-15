@@ -84,6 +84,7 @@
     label="Kommentar (intern)"
     class="text-h6 q-mb-md"
     :default-opened=false
+    v-if="isLT"
   >
     <q-editor
       v-model="comment"
