@@ -78,6 +78,24 @@
       v-bind="item"
     />
   </q-list>
+  <q-space class="q-mt-md" />
+  <q-expansion-item
+    expand-separator
+    label="Kommentar (intern)"
+    class="text-h6 q-mb-md"
+    :default-opened=false
+  >
+    <q-editor
+      v-model="comment"
+      min-height="10rem"
+      :toolbar="toolbarButtons"
+      placeholder="Kein Kommentar hinterlegt"
+      class="q-mx-md"
+    />
+    <div class="q-pa-md">
+      <q-btn label="Kommentar speichern" @click="saveComment" color="primary"/>
+    </div>
+  </q-expansion-item>
 </template>
 
 <script>
@@ -106,7 +124,25 @@ export default {
     const isLT = proxy.$keycloak.tokenParsed.groups.includes('Leitungsteam')
     const user = ref({})
     const name = ref({})
-
+    const comment = ref("")
+    const toolbarButtons = ref([
+      [
+        'bold',
+        'italic',
+        'underline',
+        'strike'
+      ],
+      [
+        'undo',
+        'redo'
+      ],
+      [
+        'unordered',
+        'ordered',
+        'outdent',
+        'indent'
+      ],
+    ])
 
     api.get('/user/' + uuid)
     .then(function(response) {
@@ -165,6 +201,11 @@ export default {
     }).then(function(response) {
       avatar.value = URL.createObjectURL(response.data, 'binary').toString('base64')
     }).catch(function(e){})
+
+    api.get('/userComment/' + uuid).then(function(response) {
+      comment.value = response.data.comment || ''
+    }).catch(function(e){})
+
 
     function addDocument(docType) {
       if (docType !== 'criminalRecord' && docType !== 'selfCommitment' && docType !== 'privacyCommitment' && docType !== 'parentalConsent') {
@@ -226,6 +267,24 @@ export default {
       }).catch((e) => {})
     }
 
+    function saveComment() {
+      api.post('/userComment/' + uuid, {
+        comment: comment.value
+      }).then(function() {
+        $q.notify({
+          message: 'Kommentar gespeichert',
+          color: 'positive',
+          icon: 'fa-solid fa-check'
+        })
+      }).catch(function(e){
+        $q.notify({
+          message: 'Fehler beim Speichern des Kommentars',
+          color: 'negative',
+          icon: 'fa-solid fa-times'
+        })
+      })
+    }
+
     return {
       avatar,
       dialog,
@@ -235,6 +294,9 @@ export default {
       name,
       uuid,
       isLT,
+      comment,
+      toolbarButtons,
+      saveComment,
       addDocument,
       getCriminalRecord
     }

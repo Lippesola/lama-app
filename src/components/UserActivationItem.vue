@@ -153,7 +153,7 @@ export default defineComponent({
       type: String,
       required: true
     },
-    updatedAt: {
+    registeredAt: {
       type: String,
       required: true
     },
@@ -166,7 +166,7 @@ export default defineComponent({
   setup(props) {
     const avatar = ref('')
     const assigneeAvatar = ref('')
-    const date = new moment(props.updatedAt).format('DD.MM.YYYY')
+    const date = new moment(props.registeredAt).format('DD.MM.YYYY')
     const imageDialog = ref(false)
     const mail = ref('')
     const name = ref('')

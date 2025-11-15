@@ -31,13 +31,13 @@ export default defineComponent({
           const [index, item] = entry
           userList.value.push({
             uuid: item.uuid,
-            updatedAt: item.updatedAt,
+            registeredAt: item.registeredAt,
             AssigneeModel: item.AssigneeModel
           })
         }))
       userList.value.sort((a, b) => {
-        const as = a.updatedAt;
-        const bs = b.updatedAt;
+        const as = a.registeredAt;
+        const bs = b.registeredAt;
         if (as > bs) return 1;
         if (as < bs) return -1;
         return 0;
