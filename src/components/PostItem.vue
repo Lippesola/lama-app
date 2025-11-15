@@ -188,8 +188,7 @@ export default defineComponent({
     const liked = ref(false)
     const { proxy } = getCurrentInstance()
     const uuid = proxy.$keycloak.tokenParsed.sub
-    const currentYear = proxy.$settings.currentYear
-    const isLT = proxy.$keycloak.tokenParsed.groups.includes(currentYear + '_LT')
+    const isLT = proxy.$keycloak.tokenParsed.groups.includes('Leitungsteam')
     const editable = ref((props.createdBy === uuid || isLT))
     const undeletable = ref(props.mainPostId === props.id)
     const dialog = ref(false)

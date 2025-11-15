@@ -103,7 +103,7 @@ export default {
     const loading = ref(true)
     const uuid = proxy.$route.params.uuid
     const currentYear = proxy.$settings.currentYear
-    const isLT = proxy.$keycloak.tokenParsed.groups.includes(currentYear + '_LT')
+    const isLT = proxy.$keycloak.tokenParsed.groups.includes('Leitungsteam')
     const user = ref({})
     const name = ref({})
 

@@ -158,11 +158,10 @@
 
       const rows = ref([])
 
-      const yearOptions = ref(proxy.$keycloak.tokenParsed.groups.filter((g) => {
-        return g.includes('_LT') && g.split('_')[0] >= 2023;
-      }).map((g) => {
-        return g.split('_')[0]
-      }));
+      const yearOptions = [
+        settings.currentYear - 1,
+        settings.currentYear
+      ];
 
       Object.entries(c.profile).forEach((entry => {
         const [index, item] = entry;

@@ -110,7 +110,7 @@ export default defineComponent({
     const editable = ref(false)
     const currentYear = proxy.$settings.currentYear
     const router = useRouter()
-    const isLT = proxy.$keycloak.tokenParsed.groups.includes(currentYear + '_LT')
+    const isLT = proxy.$keycloak.tokenParsed.groups.includes('Leitungsteam')
     const toolbarButtons = ref([
       [
         'bold',

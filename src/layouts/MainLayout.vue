@@ -104,7 +104,7 @@
           v-bind="link"
         />
         <q-separator inset spaced="xl" />
-        <div v-if="$keycloak.tokenParsed.groups.includes($settings.currentYear + '_LT')">
+        <div v-if="$keycloak.tokenParsed.groups.includes('Leitungsteam')">
           <q-item-label
             header
           >
@@ -116,7 +116,7 @@
             v-bind="link"
           />
         </div>
-        <div v-if="!$keycloak.tokenParsed.groups.includes($settings.currentYear + '_LT')">
+        <div v-if="!$keycloak.tokenParsed.groups.includes('Leitungsteam')">
           <EssentialLink
             v-if="$permissions.participator"
             key="tnlist-permssion"
@@ -127,7 +127,7 @@
               }"
           />
         </div>
-        <div v-if="!$keycloak.tokenParsed.groups.includes($settings.currentYear + '_LT')">
+        <div v-if="!$keycloak.tokenParsed.groups.includes('Leitungsteam')">
           <EssentialLink
             v-if="$permissions.participator"
             key="grouplist-permssion"
