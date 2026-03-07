@@ -22,7 +22,7 @@ npm install
 
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
-quasar dev
+npx quasar dev
 ```
 
 
@@ -46,6 +46,6 @@ See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-
 
 ### Build the app for production
 ```bash
-quasar build
+npx quasar build
 ```
 
