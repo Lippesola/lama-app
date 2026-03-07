@@ -59,7 +59,7 @@
         <div>
           <q-avatar v-if="!avatar" rounded size="32px" color="primary" text-color="white" icon="fa-solid fa-user"></q-avatar>
           <q-avatar v-if="avatar" rounded size="32px" color="primary" text-color="white">
-            <img :src="avatar" />
+            <img :src="avatar" style="object-fit: cover;" />
           </q-avatar>
         </div>
         <div class="q-pl-sm" style="max-width: 100px;">

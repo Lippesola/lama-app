@@ -13,7 +13,7 @@
         <q-item-section side>
           <q-avatar v-if="!avatar" rounded size="48px" color="primary" text-color="white" icon="fa-solid fa-user"></q-avatar>
           <q-avatar v-if="avatar" rounded size="48px" color="primary" text-color="white">
-            <img class="cursor-pointer" :src="avatar" @click="imageDialog = true" />
+            <img class="cursor-pointer" :src="avatar" @click="imageDialog = true" style="object-fit: cover;" />
           </q-avatar>
         </q-item-section>
 

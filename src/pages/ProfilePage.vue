@@ -15,7 +15,7 @@
     </div>
     <q-avatar v-if="!avatar" rounded size="48px" color="primary" text-color="white" icon="fa-solid fa-user"></q-avatar>
     <q-avatar v-if="avatar" rounded size="48px" color="primary" text-color="white">
-      <img class="cursor-pointer" :src="avatar" @click="dialog = true" />
+      <img class="cursor-pointer" :src="avatar" @click="dialog = true" style="object-fit: cover;" />
     </q-avatar>
     <span class="q-pl-md"> {{ name }} </span>
     <div v-if="isLT || $permissions.userDocument">

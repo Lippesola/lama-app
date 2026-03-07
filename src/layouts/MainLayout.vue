@@ -63,7 +63,7 @@
           <q-avatar v-if="!avatar" color="secondary" text-color="white" icon="fa-solid fa-user">
           </q-avatar>
           <q-avatar v-if="avatar" color="primary" text-color="white">
-            <img :src="avatar" />
+            <img :src="avatar" style="object-fit: cover;" />
           </q-avatar>
           <q-menu>
             <q-list style="min-width: 150px">
