@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.10.1";
+const version = "v1.10.2";
 const changelog = {
+  "v1.10.2": [
+    "Zeige von Element importierte Profilbilder korrekt an",
+  ],
   "v1.10.1": [
     "Kleine Fehlerbehebungen",
   ],
