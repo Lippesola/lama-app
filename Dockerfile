@@ -6,7 +6,7 @@ RUN npm ci
 COPY . .
 RUN npx quasar build
 
-FROM nginx:1.24-alpine as production-stage
+FROM nginx:1.28-alpine as production-stage
 COPY --from=build /app/dist/spa /usr/share/nginx/html
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY entrypoint.sh entrypoint.sh
