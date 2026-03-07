@@ -12,6 +12,5 @@ COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY entrypoint.sh entrypoint.sh
 RUN chmod +x entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
-
 EXPOSE 80
 LABEL org.opencontainers.image.source="https://github.com/Lippesola/lama-app"
