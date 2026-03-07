@@ -3,7 +3,7 @@
     <q-item-section side>
       <q-avatar v-if="!avatar" rounded size="48px" color="primary" text-color="white" icon="fa-solid fa-user"></q-avatar>
       <q-avatar v-if="avatar" rounded size="48px" color="primary" text-color="white">
-        <img :src="avatar" />
+        <img :src="avatar" style="object-fit: cover;" />
       </q-avatar>
     </q-item-section>
     <q-item-section>
