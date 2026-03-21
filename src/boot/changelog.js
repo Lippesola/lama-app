@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.10.3";
+const version = "v1.10.4";
 const changelog = {
+  "v1.10.4": [
+    "Behebt das Problem, dass man sich nicht mehr einloggen kann",
+  ],
   "v1.10.3": [
     "Suche zu Mitarbeiterliste hinzugefügt",
     "Suche zu erweiterter Mitarbeiterliste hinzugefügt",
