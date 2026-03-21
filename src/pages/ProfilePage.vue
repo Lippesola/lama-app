@@ -212,11 +212,23 @@ export default {
       if (docType !== 'criminalRecord' && docType !== 'selfCommitment' && docType !== 'privacyCommitment' && docType !== 'parentalConsent') {
         return
       }
+      const docName = {
+        'criminalRecord': 'Führungszeugnis',
+        'selfCommitment': 'Verhaltenskodex',
+        'privacyCommitment': 'Datenschutz',
+        'parentalConsent': 'U18-Zettel'
+      }
+      const docWording = {
+        'criminalRecord': 'das Führungszeugnis vorgezeigt',
+        'selfCommitment': 'den Verhaltenskodex abgegeben',
+        'privacyCommitment': 'die Datenschutzerklärung abgegeben',
+        'parentalConsent': 'den U18-Zettel abgegeben'
+      }
       const cr = docType === 'criminalRecord'
       const year = ref(currentYear)
       $q.dialog({
-        title: cr ? 'Führungszeugnis' : 'Verhaltenskodex',
-        message: 'Wann hat ' + name.value + ' ' + (cr ? 'das Führungszeugnis vorgezeigt' : 'den Verhaltenskodex abgegeben') + '?' + 
+        title: docName[docType] + ' hinzufügen',
+        message: 'Wann hat ' + name.value + ' ' + docWording[docType] + '?' + 
           (cr ? '<br/><input outlined label="Selbstverpflichtungserklärung" type="checkbox" id="crSelf" /> <label for="crSelf">Selbsverpflichtungserklärung</label>' : ''),
         html: true,
         prompt: {

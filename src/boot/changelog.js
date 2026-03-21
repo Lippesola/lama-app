@@ -1,7 +1,13 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.10.2";
+const version = "v1.10.3";
 const changelog = {
+  "v1.10.3": [
+    "Suche zu Mitarbeiterliste hinzugefügt",
+    "Suche zu erweiterter Mitarbeiterliste hinzugefügt",
+    "Mitarbeiteranzahl in erweiterter Mitarbeiterliste hinzugefügt",
+    "Kleine Verbesserungen",
+  ],
   "v1.10.2": [
     "Zeige von Element importierte Profilbilder korrekt an",
   ],

@@ -5,6 +5,7 @@
       flat
       :rows="rows"
       :columns="columns"
+      :filter="filter"
       row-key="name"
       :visible-columns="visibleColumns"
       :pagination="{rowsPerPage: -1}"
@@ -13,7 +14,7 @@
     >
       <template v-slot:top="props">
         <div class="col-2 q-table__title row" style="width:100%">
-          MA-Liste
+          MA-Liste - Anzahl: {{ rows.length }}
           <q-select
             flat round dense
             :icon="'fa-solid ' + (props.inFullscreen ? 'fa-compress' : 'fa-expand')"
@@ -22,6 +23,9 @@
             :options="yearOptions"
             @update:model-value="getUserList"
           />
+          <q-space />
+          <q-input outline dense debounce="300" v-model="filter" label="Suche">
+          </q-input>
           <q-btn
             flat round dense
             :icon="'fa-solid ' + (props.inFullscreen ? 'fa-compress' : 'fa-expand')"
@@ -155,7 +159,7 @@
           align: 'left'
         }
       ]
-
+      const filter = ref('')
       const rows = ref([])
 
       const yearOptions = [
@@ -315,6 +319,7 @@
 
 
       return {
+        filter,
         profileColumns,
         participationColumns,
         roleColumns,

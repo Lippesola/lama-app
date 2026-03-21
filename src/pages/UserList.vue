@@ -1,5 +1,9 @@
 <template>
-  <div class="q-pa-md text-h4">MA-Liste {{ $settings.currentYear }}</div>
+  <div class="q-pa-md text-h4 row">
+    MA-Liste {{ $settings.currentYear }}
+    <q-space />
+    <q-input v-model="search" outline dense debounce="300" label="Suche" clearable />
+  </div>
     <div class="q-pa-md">
       <q-btn-toggle
         v-model="toggleValue"
@@ -40,7 +44,7 @@
     />
     <div class="q-pa-md row">
       <UserItem
-        v-for="item in userList"
+        v-for="item in filteredUserList"
         :key="item"
         v-bind="{uuid: item.uuid, firstName: item.firstName, lastName: item.lastName, nickname: item.nickname, responsibilityList: responibilityList, showNick: showNick, birthday: item.birthday}"
       />
@@ -48,7 +52,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, getCurrentInstance } from 'vue'
+import { defineComponent, ref, computed, getCurrentInstance } from 'vue'
 import UserItem from 'src/components/UserItem.vue'
 
 export default defineComponent({
@@ -65,6 +69,16 @@ export default defineComponent({
     const responibilityList = ref([])
     const showNick = ref(true)
     const toggleValue = ref('firstName')
+    const search = ref('')
+
+    const filteredUserList = computed(() => {
+      const term = (search.value || '').toLowerCase().trim()
+      if (!term) return userList.value
+      return userList.value.filter(u =>
+        u.firstName.toLowerCase().includes(term) ||
+        u.lastName.toLowerCase().includes(term)
+      )
+    })
 
     api.get('/user').then(function(response) {
       Object.entries(response.data).forEach((entry => {
@@ -88,9 +102,11 @@ export default defineComponent({
     }
     return {
       userList,
+      filteredUserList,
       responibilityList,
       showNick,
       toggleValue,
+      search,
       orderBy
     }
   }
