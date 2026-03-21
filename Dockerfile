@@ -9,7 +9,7 @@ RUN npx quasar build
 FROM nginx:1.28-alpine as production-stage
 COPY --from=build /app/dist/spa /usr/share/nginx/html
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
-COPY nginx/snippets/headers.conf /etc/nginx/snippets/headers.conf
+COPY --parents nginx/snippets/headers.conf /etc/
 COPY entrypoint.sh entrypoint.sh
 RUN chmod +x entrypoint.sh
 ENTRYPOINT ["/entrypoint.sh"]
