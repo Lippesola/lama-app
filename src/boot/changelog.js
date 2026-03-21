@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.10.4";
+const version = "v1.10.5";
 const changelog = {
+  "v1.10.5": [
+    "Verbesserte Ladegeschwindigkeit wenn LAMA bereits geöffnet wurde",
+  ],
   "v1.10.4": [
     "Behebt das Problem, dass man sich nicht mehr einloggen kann",
   ],
