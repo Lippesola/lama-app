@@ -1,4 +1,4 @@
-FROM node:20-alpine as build
+FROM node:24-alpine as build
 WORKDIR /app
 # Copy dependency files first to cache npm ci layer
 COPY package.json package-lock.json ./
