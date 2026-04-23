@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.10.5";
+const version = "v1.10.6";
 const changelog = {
+  "v1.10.6": [
+    "Die Adressleiste im Browser bleibt beim Anmelden jetzt aufgeräumter",
+  ],
   "v1.10.5": [
     "Verbesserte Ladegeschwindigkeit wenn LAMA bereits geöffnet wurde",
   ],

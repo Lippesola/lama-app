@@ -81,7 +81,10 @@ export default configure(function (/* ctx */) {
       // polyfillModulePreload: true,
       // distDir
 
-      // extendViteConf (viteConf) {},
+      extendViteConf (viteConf) {
+        viteConf.resolve = viteConf.resolve || {}
+        viteConf.resolve.dedupe = [...(viteConf.resolve.dedupe || []), 'keycloak-js']
+      },
       // viteVuePluginOptions: {},
 
 
