@@ -1,18 +1,18 @@
-import VueKeycloak from '@dsb-norge/vue-keycloak-js'
+import VueKeycloak from '@dsb-norge/vue-keycloak-js/dist/dsb-vue-keycloak.esm.js'
 import { api } from './axios';
 import { boot } from 'quasar/wrappers';
 
 export default boot(async ({ app, router, store }) => {
 	app.config.globalProperties.$keycloakLogout = globalConfig.keycloak.url + 'realms/' + globalConfig.keycloak.realm + '/protocol/openid-connect/logout/logout-confirm'
-	router.beforeEach((to, from, next) => {    
+	router.beforeEach(async (to, from, next) => {
 	  if (to.matched.some(record => record.meta.requiresAuth)) {
 		if (app.config.globalProperties.$keycloak.authenticated) {
 		  next()
-		} else {        
-		  const loginUrl = app.config.globalProperties.$keycloak.createLoginUrl()
+		} else {
+		  const loginUrl = await app.config.globalProperties.$keycloak.createLoginUrl()
 		  window.location.replace(loginUrl)
 		}
-	  } else {      
+	  } else {
 		next()
 	  }
 	})
@@ -34,7 +34,8 @@ export default boot(async ({ app, router, store }) => {
   return new Promise(resolve => {
 	  app.use(VueKeycloak, {
 	    init: {
-	      onLoad: 'check-sso'
+	      onLoad: 'check-sso',
+	      silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
 	    },
 	    config: {
 	      url: globalConfig.keycloak.url,

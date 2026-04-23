@@ -8,8 +8,8 @@ const globalConfig = {
     url: LAMA_API_URL || 'http://localhost:8080'
   },
   keycloak: {
-    url: KEYCLOAK_URL || 'https://account.lippesola.de/auth/',
-    realm: KEYCLOAK_REALM || 'solaid',
+    url: KEYCLOAK_URL || 'http://localhost:8180/',
+    realm: KEYCLOAK_REALM || 'lama',
     clientId: KEYCLOAK_CLIENTID || 'lama',
   }
 }
