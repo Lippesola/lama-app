@@ -1,7 +1,12 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.10.6";
+const version = "v1.11.0";
 const changelog = {
+  "v1.11.0": [
+    "Die Helferanmeldung wurde überarbeitet",
+    "LTler können nun auch Helferanmeldungen bearbeiten",
+    "Bei der Gruppeneinteilung werden MA ausgeblendet, wenn sie in der entsprechenden Woche nicht teilnehmen",
+  ],
   "v1.10.6": [
     "Die Adressleiste im Browser bleibt beim Anmelden jetzt aufgeräumter",
   ],
