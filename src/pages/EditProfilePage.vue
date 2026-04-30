@@ -11,22 +11,22 @@
     </div>
     <q-form @submit="onSubmit">
       <div class="q-gutter-md row">
-        <q-input outlined hide-bottom-space style="width: 300px" type="text" autocomplete="given-name" v-model="firstName" label="Vorname"  :error="error.firstName"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="text" autocomplete="family-name" v-model="lastName" label="Nachname"  :error="error.lastName"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="text" autocomplete="username" v-model="nickname" label="Spitzname" hint="Wie möchtest du auf dem SOLA genannt werden?"  :error="error.nickname"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="date" autocomplete="bday" v-model="birthday" label="Geburtstag"  :error="error.birthday"/>
-        <q-select outlined hide-bottom-space style="width: 300px" :options="genderOptions" v-model="gender" label="Geschlecht"  :error="error.gender"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="email" autocomplete="email" v-model="mail" label="E-Mail"  :error="error.mail"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="text" autocomplete="street-address" v-model="street" label="Straße und Hausnummer"  :error="error.street"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="text" autocomplete="postal-code" v-model="zipCode" label="Postleitzahl" hint="Wenn du nicht in Deutschland wohnst, gib 00000 an."  maxlength="5"  :error="error.zipCode"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="text" autocomplete="address-level2" v-model="city" label="Ort"  :error="error.city"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="tel" autocomplete="tel-national" v-model="phone" label="Telefonnummer"  :error="error.phone"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="tel" autocomplete="tel" v-model="mobile" label="Handynummer"  :error="error.mobile"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="plate" label="KFZ-Kennzeichen" hint="Dient der Parkplatzzuweisung auf dem Lagerplatz" :error="error.plate"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="church" label="Gemeinde"  :error="error.church"/>
-        <q-select outlined hide-bottom-space style="width: 300px" :options="churchContactOptions" v-model="churchContact" label="Gemeindekontakt" hint="Kannst du in deiner Gemeinde Ansprechpartner fürs SOLA sein?" :error="error.churchContact"/>
-        <q-input outlined hide-bottom-space style="width: 300px" type="text" v-model="job" label="Beruf (Studien/- Ausbildungsbereich)"  :error="error.job"/>
-        <q-select outlined hide-bottom-space :disable="!allowEditNutrition" style="width: 300px" multiple :options="$constants.nutritionOptions" v-model="nutrition" label="Ernährung" hint="Beachte bitte die Fußnote *" :error="error.nutrition"/>
+        <q-input outlined style="width: 300px" type="text" autocomplete="given-name" v-model="firstName" label="Vorname" :error="!!error.firstName" :error-message="error.firstName"/>
+        <q-input outlined style="width: 300px" type="text" autocomplete="family-name" v-model="lastName" label="Nachname" :error="!!error.lastName" :error-message="error.lastName"/>
+        <q-input outlined style="width: 300px" type="text" autocomplete="username" v-model="nickname" label="Spitzname" hint="Wie möchtest du auf dem SOLA genannt werden?" :error="!!error.nickname" :error-message="error.nickname"/>
+        <q-input outlined style="width: 300px" type="date" autocomplete="bday" v-model="birthday" label="Geburtstag" :error="!!error.birthday" :error-message="error.birthday"/>
+        <q-select outlined style="width: 300px" :options="genderOptions" v-model="gender" label="Geschlecht" :error="!!error.gender" :error-message="error.gender"/>
+        <q-input outlined style="width: 300px" type="email" autocomplete="email" v-model="mail" label="E-Mail" :error="!!error.mail" :error-message="error.mail"/>
+        <q-input outlined style="width: 300px" type="text" autocomplete="street-address" v-model="street" label="Straße und Hausnummer" :error="!!error.street" :error-message="error.street"/>
+        <q-input outlined style="width: 300px" type="text" autocomplete="postal-code" v-model="zipCode" label="Postleitzahl" hint="Wenn du nicht in Deutschland wohnst, gib 00000 an." maxlength="5" :error="!!error.zipCode" :error-message="error.zipCode"/>
+        <q-input outlined style="width: 300px" type="text" autocomplete="address-level2" v-model="city" label="Ort" :error="!!error.city" :error-message="error.city"/>
+        <q-input outlined style="width: 300px" type="tel" autocomplete="tel-national" v-model="phone" label="Telefonnummer" :error="!!error.phone" :error-message="error.phone"/>
+        <q-input outlined style="width: 300px" type="tel" autocomplete="tel" v-model="mobile" label="Handynummer" :error="!!error.mobile" :error-message="error.mobile"/>
+        <q-input outlined style="width: 300px" type="text" v-model="plate" label="KFZ-Kennzeichen" hint="Dient der Parkplatzzuweisung auf dem Lagerplatz" :error="!!error.plate" :error-message="error.plate"/>
+        <q-input outlined style="width: 300px" type="text" v-model="church" label="Gemeinde" :error="!!error.church" :error-message="error.church"/>
+        <q-select outlined style="width: 300px" :options="churchContactOptions" v-model="churchContact" label="Gemeindekontakt" hint="Kannst du in deiner Gemeinde Ansprechpartner fürs SOLA sein?" :error="!!error.churchContact" :error-message="error.churchContact"/>
+        <q-input outlined style="width: 300px" type="text" v-model="job" label="Beruf (Studien/- Ausbildungsbereich)" :error="!!error.job" :error-message="error.job"/>
+        <q-select outlined :disable="!allowEditNutrition" style="width: 300px" multiple :options="$constants.nutritionOptions" v-model="nutrition" label="Ernährung" hint="Beachte bitte die Fußnote *" :error="!!error.nutrition" :error-message="error.nutrition"/>
       </div>
       <div class="q-py-md">
         <q-btn label="Speichern" type="submit" color="primary"/>
@@ -54,6 +54,7 @@
 import { getCurrentInstance, ref, watchEffect } from 'vue'
 import { api } from '../boot/axios'
 import { useQuasar } from 'quasar'
+import { applyBackendErrors } from '../boot/validationErrors'
 import 'vue-advanced-cropper/dist/style.css';
 import moment from 'moment'
 export default {
@@ -149,24 +150,12 @@ export default {
       allowEditNutrition,
       onSubmit() {
         error.value = {}
-        let err = false
-        if (!gender.value) {error.value['gender'] = true; err = true;}
-        if (!churchContact.value) {error.value['churchContact'] = true; err = true;}
-        if (err) {
-          $q.notify({
-            color: 'red-4',
-            textColor: 'white',
-            icon: 'fa-solid fa-circle-xmark ',
-            message: "Bitte überprüfe deine Angaben"
-          })
-          return;
-        }
         const nutritionValue = nutrition.value.map(n => n.value);
         api.post('/user/' + uuid, {
           firstName: firstName.value,
           lastName: lastName.value,
           nickname: nickname.value,
-          gender: gender.value.value,
+          gender: gender.value ? gender.value.value : null,
           mail: mail.value,
           birthday: birthday.value,
           street: street.value,
@@ -176,7 +165,7 @@ export default {
           mobile: mobile.value,
           plate: plate.value,
           church: church.value,
-          churchContact: churchContact.value.value,
+          churchContact: churchContact.value ? churchContact.value.value : null,
           job: job.value,
           vegetarian: nutritionValue.includes('vegetarian'),
           lactose: nutritionValue.includes('lactose'),
@@ -196,9 +185,7 @@ export default {
         .catch(function(e) {
           let errMsg = 'Fehler'
           if (e && e.response && e.response.data) {
-            e.response.data.forEach((err) => {
-              error.value[err] = true
-            })
+            applyBackendErrors(error, e.response.data)
             errMsg = 'Bitte überprüfe deine Angaben'
           }
           $q.notify({

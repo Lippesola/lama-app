@@ -12,66 +12,65 @@
         <div class="q-gutter-md row">
           <q-input
             outlined
-            hide-bottom-space
             style="width: 300px"
             type="text"
             autocomplete="given-name"
             v-model="firstName"
             label="Vorname"
-            :error="error.firstName"
+            :error="!!error.firstName"
+            :error-message="error.firstName"
           />
           <q-input
             outlined
-            hide-bottom-space
             style="width: 300px"
             type="text"
             autocomplete="family-name"
             v-model="lastName"
             label="Nachname"
-            :error="error.lastName"
+            :error="!!error.lastName"
+            :error-message="error.lastName"
           />
           <q-input
             outlined
-            hide-bottom-space
             style="width: 300px"
             type="date"
             autocomplete="bday"
             v-model="birthday"
             label="Geburtstag"
-            :error="error.birthday"
+            :error="!!error.birthday"
+            :error-message="error.birthday"
           />
           <q-select
             outlined
-            hide-bottom-space
             style="width: 300px"
             :options="genderOptions"
             v-model="gender"
             label="Geschlecht"
-            :error="error.gender"
+            :error="!!error.gender"
+            :error-message="error.gender"
           />
           <q-input
             outlined
-            hide-bottom-space
             style="width: 300px"
             type="email"
             autocomplete="email"
             v-model="mail"
             label="E-Mail"
-            :error="error.mail"
+            :error="!!error.mail"
+            :error-message="error.mail"
           />
           <q-input
             outlined
-            hide-bottom-space
             style="width: 300px"
             type="text"
             autocomplete="street-address"
             v-model="street"
             label="Straße und Hausnummer"
-            :error="error.street"
+            :error="!!error.street"
+            :error-message="error.street"
           />
           <q-input
             outlined
-            hide-bottom-space
             style="width: 300px"
             type="text"
             autocomplete="postal-code"
@@ -79,57 +78,58 @@
             label="Postleitzahl"
             hint="Wenn nicht vorhanden, gib bitte 00000 an."
             maxlength="5"
-            :error="error.zipCode"
+            :error="!!error.zipCode"
+            :error-message="error.zipCode"
           />
           <q-input
             outlined
-            hide-bottom-space
             style="width: 300px"
             type="text"
             autocomplete="address-level2"
             v-model="city"
             label="Ort"
-            :error="error.city"
+            :error="!!error.city"
+            :error-message="error.city"
           />
           <q-input
             outlined
-            hide-bottom-space
             style="width: 300px"
             type="tel"
             autocomplete="tel-national"
             v-model="phone"
             label="Telefonnummer"
-            :error="error.phone"
+            :error="!!error.phone"
+            :error-message="error.phone"
           />
           <q-input
             outlined
-            hide-bottom-space
             style="width: 300px"
             type="tel"
             autocomplete="tel"
             v-model="mobile"
             label="Handynummer"
-            :error="error.mobile"
+            :error="!!error.mobile"
+            :error-message="error.mobile"
           />
           <q-input
             outlined
-            hide-bottom-space
             style="width: 300px"
             type="text"
             v-model="job"
             label="Beruf"
-            :error="error.job"
+            :error="!!error.job"
+            :error-message="error.job"
           />
           <q-select
             outlined
-            hide-bottom-space
             style="width: 300px"
             multiple
             :options="nutritionOptions"
             v-model="nutrition"
             label="Ernährung"
             hint="Beachte bitte die Fußnote *"
-            :error="error.nutrition"
+            :error="!!error.nutrition"
+            :error-message="error.nutrition"
           />
         </div>
         <div class="text-caption q-py-lg">
@@ -149,6 +149,22 @@
           .
         </div>
 
+        <div class="q-pt-md text-h5">Woher kennst du das SOLA?</div>
+        <div class="q-pb-md text-body1">
+          Wie bist du auf das SOLA aufmerksam geworden?
+        </div>
+        <q-input
+          outlined
+          autogrow
+          style="max-width: 624px"
+          type="textarea"
+          v-model="referralSource"
+          label="Woher kennst du das SOLA?"
+          :error="!!error.referralSource"
+          :error-message="error.referralSource"
+        />
+        <div class="q-pb-lg"></div>
+
         <div class="q-pt-md text-h5">Art der Unterstützung</div>
         <div class="q-pb-md text-body1">
           Auf welche Weise könntest du uns beim SOLA unterstützen? Gib gerne
@@ -157,25 +173,25 @@
         <div class="q-gutter-md row">
           <q-select
             outlined
-            hide-bottom-space
             style="width: 300px"
             multiple
             :options="driverOptions"
             v-model="driver"
             label="Fahrer"
             hint="Was kannst / darfst du fahren?"
-            :error="error.nutrition"
+            :error="!!error.driver"
+            :error-message="error.driver"
           />
           <q-select
             outlined
-            hide-bottom-space
             style="width: 300px"
             multiple
             :options="vehicleOptions"
             v-model="vehicle"
             label="Fahrzeug"
             hint="Was Fahrzeuge kannst du mitbringen / besorgen?"
-            :error="error.nutrition"
+            :error="!!error.vehicle"
+            :error-message="error.vehicle"
           />
           <q-item
             v-for="supportTypeOption in supportTypeOptions"
@@ -210,7 +226,7 @@
 
         <div class="q-pt-lg text-h5">Termine</div>
         <div class="q-pb-md text-body1">
-          Wähle bitte die Tage aus, an denen du uns unterstützen kannst.
+          Wähle bitte die Tage aus, an denen du uns unterstützen kannst. Mindestens ein Tag ist Pflicht.
         </div>
         <q-date
           class="q-mt-md"
@@ -224,6 +240,9 @@
           :navigation-min-year-month="calStart"
           :navigation-max-year-month="calEnd"
         />
+        <div v-if="error.days" class="text-negative q-pt-sm">
+          {{ error.days }}
+        </div>
         <div class="q-pt-lg">
           <q-btn label="Speichern" type="submit" color="primary" />
         </div>
@@ -280,6 +299,7 @@ import { getCurrentInstance, ref } from "vue";
 import { api } from "../boot/axios";
 import { useQuasar } from "quasar";
 import { constants } from "../boot/constants";
+import { applyBackendErrors } from "../boot/validationErrors";
 import Moment from "moment";
 import { extendMoment } from "moment-range";
 export default {
@@ -320,6 +340,7 @@ export default {
     const nutrition = ref([]);
     const driver = ref([]);
     const vehicle = ref([]);
+    const referralSource = ref("");
 
     const registrationEnabled = ref(true)
 
@@ -343,6 +364,7 @@ export default {
 
     const days = ref([]);
     const dateOptions = ref([]);
+    const today = moment().startOf('day');
     const events = [
       c.events.prepare2,
       c.events.prepare3,
@@ -357,12 +379,17 @@ export default {
       if (event) {
         const range = moment.range(event.start, event.end);
         Array.from(range.by("day")).forEach((day) => {
-          dateOptions.value.push(day.format("YYYY/MM/DD"));
+          if (day.isSameOrAfter(today)) {
+            dateOptions.value.push(day.format("YYYY/MM/DD"));
+          }
         });
       }
     });
 
-    const calStart = new moment(c.events.prepare2.start).format("YYYY/MM");
+    const firstAvailableDate = dateOptions.value.length > 0
+      ? moment(dateOptions.value[0], "YYYY/MM/DD")
+      : today;
+    const calStart = firstAvailableDate.format("YYYY/MM");
     const calEnd = new moment(c.events.cleanup.end).format("YYYY/MM");
 
     api.get('/feature/supporterRegistration').then(function(response) {
@@ -374,10 +401,13 @@ export default {
 
     function onSubmit() {
       let err = false;
-      if (!gender.value) {
-        error.value["gender"] = true;
+      error.value = {};
+
+      if (!days.value || days.value.length === 0) {
+        error.value["days"] = "Bitte wähle mindestens einen Termin aus.";
         err = true;
       }
+
       if (err) {
         $q.notify({
           color: "red-4",
@@ -399,7 +429,7 @@ export default {
           firstName: firstName.value,
           lastName: lastName.value,
           birthday: birthday.value,
-          gender: gender.value.value,
+          gender: gender.value ? gender.value.value : null,
           mail: mail.value,
           street: street.value,
           zipCode: zipCode.value,
@@ -431,6 +461,7 @@ export default {
           supportTypeNightwatch: supportTypeValue.includes("nightwatch"),
           supportTypeOther: supportTypeValue.includes("other"),
           supportOther: supportOther.value,
+          referralSource: referralSource.value,
           days: days.value,
         })
         .then(() => {
@@ -445,9 +476,7 @@ export default {
         .catch((e) => {
           let errMsg = "Fehler";
           if (e && e.response && e.response.data) {
-            e.response.data.forEach((err) => {
-              error.value[err] = true;
-            });
+            applyBackendErrors(error, e.response.data);
             errMsg = "Bitte überprüfe deine Angaben";
           }
           $q.notify({
@@ -482,6 +511,7 @@ export default {
       nutrition,
       driver,
       vehicle,
+      referralSource,
       supportType,
       supportTypeOptions,
       supportOther,
