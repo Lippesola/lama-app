@@ -300,9 +300,12 @@
             >
             <GroupUserItem
               v-for="groupUser in group.GroupUsers
-                .filter(e =>
-                  (users[e.uuid].firstName.toLowerCase() + ' ' + users[e.uuid].lastName.toLowerCase()).includes(nameSearch.toLowerCase())
-                )
+                .filter(e => {
+                  const u = users[e.uuid];
+                  if (!(u.firstName.toLowerCase() + ' ' + u.lastName.toLowerCase()).includes(nameSearch.toLowerCase())) return false;
+                  if (group.id === 0 && u[week.value === 1 ? 'teens' : 'kids'] <= 1) return false;
+                  return true;
+                })
                 .sort((a, b) => b.type - a.type || users[a.uuid].firstName.localeCompare(users[b.uuid].firstName))"
               :key="groupUser.uuid"
               :groupUser="groupUser"
