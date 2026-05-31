@@ -1,7 +1,10 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.11.0";
+const version = "v1.11.1";
 const changelog = {
+  "v1.11.1": [
+    "Die Mitarbeitereinteilung kann jetzt einfacher exportiert werden.",
+  ],
   "v1.11.0": [
     "Die Helferanmeldung wurde überarbeitet",
     "LTler können nun auch Helferanmeldungen bearbeiten",
