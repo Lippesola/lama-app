@@ -20,7 +20,16 @@
             :pagination="{rowsPerPage: -1}"
             hide-bottom
             @row-click="rowClickHandler"
-          />
+          >
+            <template v-slot:top="props">
+              <q-space />
+              <q-btn
+                flat round dense
+                :icon="'fa-solid ' + (props.inFullscreen ? 'fa-compress' : 'fa-expand')"
+                @click="props.toggleFullscreen"
+              />
+            </template>
+          </q-table>
         </div>
     </q-expansion-item>
   </q-list>

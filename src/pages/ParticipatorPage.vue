@@ -1,13 +1,48 @@
 <template>
-  <div class="q-pa-md text-h4">
-    {{ participator.firstName }} {{ participator.lastName }} -
-    {{ participator.week === "teens" ? "Teens" : "Kids" }}
+  <div class="q-pa-md row items-center justify-between">
+    <div class="text-h4">
+      {{ participator.firstName }} {{ participator.lastName }} -
+      {{ participator.week === "teens" ? "Teens" : "Kids" }}
+    </div>
+    <q-btn
+      :label="editMode ? 'Speichern' : 'Bearbeiten'"
+      :color="editMode ? 'positive' : 'primary'"
+      @click="editMode ? saveDetails() : (editMode = true)"
+    />
   </div>
   <div class="q-pa-md">
     <div class="q-gutter-md q-pb-md row" v-show="loading">
       <q-spinner color="primary" size="2em" />
       <span>Die Daten werden noch geladen..</span>
     </div>
+
+    <q-expansion-item
+      expand-separator
+      label="Kontakt / Eltern"
+      default-opened
+      class="text-h6"
+    >
+      <div class="q-pa-md row text-body1">
+        <q-item
+          v-for="field in contactFields"
+          :key="field.id"
+          style="width: 300px"
+        >
+          <q-item-section>
+            <q-item-label caption>{{ field.label }}</q-item-label>
+            <q-item-label v-if="!editMode">
+              {{ displayValue(field.id) }}
+            </q-item-label>
+            <q-input
+              v-else
+              dense
+              outlined
+              v-model="participator[field.id]"
+            />
+          </q-item-section>
+        </q-item>
+      </div>
+    </q-expansion-item>
 
     <q-expansion-item
       expand-separator
@@ -24,9 +59,16 @@
         >
           <q-item-section>
           <q-item-label caption>{{ question.label }}</q-item-label>
-          <q-item-label>
-              {{ participator[question.id] }}
+          <q-item-label v-if="!editMode">
+              {{ displayValue(question.id) }}
           </q-item-label>
+          <q-input
+            v-else
+            dense
+            outlined
+            :type="isDateField(question.id) ? 'date' : 'text'"
+            v-model="participator[question.id]"
+          />
           </q-item-section>
         </q-item>
       </div>
@@ -55,6 +97,24 @@ import { useQuasar } from "quasar";
 import { defineComponent, ref, getCurrentInstance } from "vue";
 import { useRouter } from "vue-router";
 import moment from "moment";
+
+// Feste Order-Felder aus Pretix, die kein eigenes participatorQuestion-Modell haben
+// (siehe ORDER_ADDRESS_FIELDS/ORDER_TOP_LEVEL_FIELDS in lama-api participator.controller.js).
+const CONTACT_FIELDS = [
+  { id: "parentFirstName", label: "Vorname (Eltern)" },
+  { id: "parentLastName", label: "Nachname (Eltern)" },
+  { id: "parentMail", label: "E-Mail" },
+  { id: "phone", label: "Telefon" },
+  { id: "street", label: "Straße" },
+  { id: "zipCode", label: "PLZ" },
+  { id: "city", label: "Ort" },
+  { id: "addressExtra", label: "Adresszusatz" },
+];
+
+function isDateValue(value) {
+  return typeof value === "string" && moment(value, "YYYY-MM-DD", true).isValid();
+}
+
 export default defineComponent({
   name: "AdvancedUserList",
 
@@ -67,6 +127,7 @@ export default defineComponent({
     const router = useRouter();
     const filter = ref("");
     const loading = ref(true);
+    const editMode = ref(false);
 
     const categories = ref([]);
     const questions = ref({});
@@ -82,10 +143,15 @@ export default defineComponent({
       api
         .get("/participator/" + orderId + "/" + positionId)
         .then(function (response) {
-          Object.entries(response.data).forEach((entry) => {
-            const [index, item] = entry;
-            participator.value[index] = (typeof item === 'string' && moment(item.split('T')[0], 'YYYY-MM-DD', true).isValid()) ? moment(item).format("DD.MM.YYYY") : item;
+          const data = {};
+          Object.entries(response.data).forEach(([key, value]) => {
+            // Datumsfelder werden auf reines YYYY-MM-DD normalisiert (Rohwert fürs Editieren,
+            // Anzeige erfolgt formatiert über displayValue()).
+            data[key] = (typeof value === "string" && isDateValue(value.split("T")[0]))
+              ? value.split("T")[0]
+              : value;
           });
+          participator.value = data;
           loading.value = false;
         })
         .catch(function (e) {
@@ -121,6 +187,18 @@ export default defineComponent({
         });
     }
 
+    function isDateField(key) {
+      return isDateValue(participator.value[key]);
+    }
+
+    function displayValue(key) {
+      const value = participator.value[key];
+      if (isDateValue(value)) {
+        return moment(value, "YYYY-MM-DD").format("DD.MM.YYYY");
+      }
+      return value;
+    }
+
     function updateParticipator() {
       api.post("/participator/" + orderId + "/" + positionId, participator.value)
         .then(function (response) {
@@ -133,6 +211,30 @@ export default defineComponent({
         })
         .catch(function (e) {
           console.log(e);
+        });
+    }
+
+    function saveDetails() {
+      api
+        .post("/participator/" + orderId + "/" + positionId + "/details", participator.value)
+        .then(function () {
+          editMode.value = false;
+          $q.notify({
+            message: "Die Daten wurden erfolgreich gespeichert",
+            color: "positive",
+            position: "top",
+            timeout: 2000,
+          });
+          getParticipator();
+        })
+        .catch(function (e) {
+          console.log(e);
+          $q.notify({
+            message: "Die Daten konnten nicht gespeichert werden",
+            color: "negative",
+            position: "top",
+            timeout: 3000,
+          });
         });
     }
 
@@ -163,9 +265,14 @@ export default defineComponent({
     return {
       loading,
       filter,
+      editMode,
       categories,
       questions,
       participator,
+      contactFields: CONTACT_FIELDS,
+      isDateField,
+      displayValue,
+      saveDetails,
       confirmBooking,
       confirmQueue,
     };

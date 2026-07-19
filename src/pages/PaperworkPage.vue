@@ -153,10 +153,10 @@ export default {
       })
     }
 
-    api.get('/userDocument/' + uuid)
-    .then(function(userDocumentResponse) {
-      api.get('/user/' + uuid)
-      .then(function(userResponse) {
+    api.get('/user/' + uuid)
+    .then(function(userResponse) {
+      api.get('/userDocument/' + uuid)
+      .then(function(userDocumentResponse) {
         doc.criminalRecord.year.value = userDocumentResponse.data.criminalRecord
         doc.selfCommitment.year.value = userDocumentResponse.data.selfCommitment
         doc.criminalRecord.status.value = settings.currentYear < (userDocumentResponse.data.criminalRecord + 5) || userDocumentResponse.data.criminalRecord == settings.currentYear - 2000
@@ -168,22 +168,26 @@ export default {
           doc.parentalConsent.status.value = settings.currentYear < (userDocumentResponse.data.parentalConsent + 1 )
         }
         loading.value = false;
+      }).catch(function(e){
+        if (e.response.status === 404) {
+          if (moment(c.events.teens.start).diff(moment(userResponse.data.birthday), 'years') < 18) {
+            underage.value = true
+          }
+          loading.value = false;
+        } else {
+          $q.notify({
+            message: 'Ein Fehler ist aufgetreten. Bitte versuche es später noch einmal.',
+            color: 'red',
+            icon: 'fa-solid fa-circle-xmark'
+          })
+        }
       })
-    }).catch(function(e){
-      if (e.response.status === 404) {
-        loading.value = false;
-      } else {
-        $q.notify({
-          message: 'Ein Fehler ist aufgetreten. Bitte versuche es später noch einmal.',
-          color: 'red',
-          icon: 'fa-solid fa-circle-xmark'
-        })
-      }
     })
     return {
       loading,
       doc,
-      getLetter
+      underage,
+      getLetter,
     }
   }
 

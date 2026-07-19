@@ -1,7 +1,12 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.11.1";
+const version = "v1.12.0";
 const changelog = {
+  "v1.12.0": [
+    "Teilnehmerdaten können jetzt direkt in LAMA bearbeitet werden",
+    "Die Verwaltungsansicht für Papierkram ist übersichtlicher gestaltet",
+    "Der U18-Status wird jetzt korrekt angezeigt",
+  ],
   "v1.11.1": [
     "Die Mitarbeitereinteilung kann jetzt einfacher exportiert werden.",
   ],

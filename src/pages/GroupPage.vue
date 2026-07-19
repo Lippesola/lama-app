@@ -83,11 +83,16 @@
         :set="v = {p: wishDialogModel.participator, w: getWishes(wishDialogModel.participator)}"
       >
         <q-card-section>
-          <div class="text-subtitle1">
+          <div class="text-subtitle1" v-if="!wishDialogEditMode">
             Wünsche von {{ wishDialogModel.participator.firstName }} {{ wishDialogModel.participator.lastName }} (Gruppe {{ groupList.find(g => wishDialogModel.participator.groupId === g.id)?.groupNumber }})
+          </div>
+          <div class="row q-gutter-sm q-pb-sm" v-else>
+            <q-input dense outlined style="width: 140px" v-model="wishDialogEditModel.firstName" label="Vorname" />
+            <q-input dense outlined style="width: 140px" v-model="wishDialogEditModel.lastName" label="Nachname" />
           </div>
           <q-separator />
           <q-list
+            v-if="!wishDialogEditMode"
             v-for="wish in getWishes(wishDialogModel.participator).wishes"
             :key="wish"
           >
@@ -122,8 +127,23 @@
               </q-item-section>
             </q-item>
           </q-list>
+          <div v-else class="q-gutter-sm column q-pt-sm">
+            <q-input
+              v-for="i in 5"
+              :key="'wish-edit-' + i"
+              dense
+              outlined
+              :label="'Wunsch ' + i"
+              v-model="wishDialogEditModel['wish' + i]"
+            />
+          </div>
         </q-card-section>
         <q-card-actions align="right">
+          <q-btn
+            flat
+            :label="wishDialogEditMode ? 'Speichern' : 'Name / Wünsche bearbeiten'"
+            @click="wishDialogEditMode ? saveWishDialogEdit() : (wishDialogEditMode = true)"
+          />
           <q-btn
             flat
             label="Abbrechen"
@@ -471,6 +491,8 @@ export default defineComponent({
     const showAddGroupDialog = ref(false);
     const showWishDialog = ref(false);
     const wishDialogModel = ref({});
+    const wishDialogEditMode = ref(false);
+    const wishDialogEditModel = ref({});
     const settings = proxy.$settings;
     const editableUser = ref(false);
     const editableParticipator = ref(false);
@@ -625,11 +647,46 @@ export default defineComponent({
     const openShowWishDialog = (p, g) => {
       wishDialogModel.value['participator'] = p;
       wishDialogModel.value['group'] = g;
+      wishDialogEditMode.value = false;
+      wishDialogEditModel.value = {
+        firstName: p.firstName,
+        lastName: p.lastName,
+        wish1: p.wish1 || '',
+        wish2: p.wish2 || '',
+        wish3: p.wish3 || '',
+        wish4: p.wish4 || '',
+        wish5: p.wish5 || '',
+      };
       showWishDialog.value = true;
     };
 
     const closeWishDialog = () => {
       showWishDialog.value = false;
+      wishDialogEditMode.value = false;
+    };
+
+    const saveWishDialogEdit = () => {
+      const p = wishDialogModel.value.participator;
+      api.post('/participator/' + p.orderId + '/' + p.positionId + '/details', wishDialogEditModel.value)
+        .then(() => {
+          proxy.$q.notify({
+            message: 'Die Daten wurden erfolgreich gespeichert',
+            color: 'positive',
+            position: 'top',
+            timeout: 2000,
+          });
+          closeWishDialog();
+          refreshGroups();
+        })
+        .catch((e) => {
+          console.log(e);
+          proxy.$q.notify({
+            message: 'Die Daten konnten nicht gespeichert werden',
+            color: 'negative',
+            position: 'top',
+            timeout: 3000,
+          });
+        });
     };
 
     const addPreference = (group) => {
@@ -973,6 +1030,8 @@ export default defineComponent({
       showAddGroupDialog,
       showWishDialog,
       wishDialogModel,
+      wishDialogEditMode,
+      wishDialogEditModel,
       newGroup,
       weekOptions,
       typeOptions,
@@ -990,6 +1049,7 @@ export default defineComponent({
       closeAddGroupDialog,
       openShowWishDialog,
       closeWishDialog,
+      saveWishDialogEdit,
       addGroup,
       toggleUserEdit,
       toggleParticipatorEdit,
