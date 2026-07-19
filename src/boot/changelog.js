@@ -1,7 +1,23 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.10.5";
+const version = "v1.12.0";
 const changelog = {
+  "v1.12.0": [
+    "Teilnehmerdaten können jetzt direkt in LAMA bearbeitet werden",
+    "Die Verwaltungsansicht für Papierkram ist übersichtlicher gestaltet",
+    "Der U18-Status wird jetzt korrekt angezeigt",
+  ],
+  "v1.11.1": [
+    "Die Mitarbeitereinteilung kann jetzt einfacher exportiert werden.",
+  ],
+  "v1.11.0": [
+    "Die Helferanmeldung wurde überarbeitet",
+    "LTler können nun auch Helferanmeldungen bearbeiten",
+    "Bei der Gruppeneinteilung werden MA ausgeblendet, wenn sie in der entsprechenden Woche nicht teilnehmen",
+  ],
+  "v1.10.6": [
+    "Die Adressleiste im Browser bleibt beim Anmelden jetzt aufgeräumter",
+  ],
   "v1.10.5": [
     "Verbesserte Ladegeschwindigkeit wenn LAMA bereits geöffnet wurde",
   ],

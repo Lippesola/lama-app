@@ -83,11 +83,16 @@
         :set="v = {p: wishDialogModel.participator, w: getWishes(wishDialogModel.participator)}"
       >
         <q-card-section>
-          <div class="text-subtitle1">
+          <div class="text-subtitle1" v-if="!wishDialogEditMode">
             Wünsche von {{ wishDialogModel.participator.firstName }} {{ wishDialogModel.participator.lastName }} (Gruppe {{ groupList.find(g => wishDialogModel.participator.groupId === g.id)?.groupNumber }})
+          </div>
+          <div class="row q-gutter-sm q-pb-sm" v-else>
+            <q-input dense outlined style="width: 140px" v-model="wishDialogEditModel.firstName" label="Vorname" />
+            <q-input dense outlined style="width: 140px" v-model="wishDialogEditModel.lastName" label="Nachname" />
           </div>
           <q-separator />
           <q-list
+            v-if="!wishDialogEditMode"
             v-for="wish in getWishes(wishDialogModel.participator).wishes"
             :key="wish"
           >
@@ -122,8 +127,23 @@
               </q-item-section>
             </q-item>
           </q-list>
+          <div v-else class="q-gutter-sm column q-pt-sm">
+            <q-input
+              v-for="i in 5"
+              :key="'wish-edit-' + i"
+              dense
+              outlined
+              :label="'Wunsch ' + i"
+              v-model="wishDialogEditModel['wish' + i]"
+            />
+          </div>
         </q-card-section>
         <q-card-actions align="right">
+          <q-btn
+            flat
+            :label="wishDialogEditMode ? 'Speichern' : 'Name / Wünsche bearbeiten'"
+            @click="wishDialogEditMode ? saveWishDialogEdit() : (wishDialogEditMode = true)"
+          />
           <q-btn
             flat
             label="Abbrechen"
@@ -192,6 +212,13 @@
           <q-icon name="fas fa-search" />
         </template>
       </q-input>
+      <q-btn
+        flat
+        class="q-ml-md"
+        icon="fas fa-file-excel"
+        label="Exportieren"
+        @click="exportGroups"
+      />
     </q-toolbar>
 
     <div class="q-pa-md row no-wrap">
@@ -300,9 +327,12 @@
             >
             <GroupUserItem
               v-for="groupUser in group.GroupUsers
-                .filter(e =>
-                  (users[e.uuid].firstName.toLowerCase() + ' ' + users[e.uuid].lastName.toLowerCase()).includes(nameSearch.toLowerCase())
-                )
+                .filter(e => {
+                  const u = users[e.uuid];
+                  if (!(u.firstName.toLowerCase() + ' ' + u.lastName.toLowerCase()).includes(nameSearch.toLowerCase())) return false;
+                  if (group.id === 0 && u[week.value === 1 ? 'teens' : 'kids'] <= 1) return false;
+                  return true;
+                })
                 .sort((a, b) => b.type - a.type || users[a.uuid].firstName.localeCompare(users[b.uuid].firstName))"
               :key="groupUser.uuid"
               :groupUser="groupUser"
@@ -461,6 +491,8 @@ export default defineComponent({
     const showAddGroupDialog = ref(false);
     const showWishDialog = ref(false);
     const wishDialogModel = ref({});
+    const wishDialogEditMode = ref(false);
+    const wishDialogEditModel = ref({});
     const settings = proxy.$settings;
     const editableUser = ref(false);
     const editableParticipator = ref(false);
@@ -615,11 +647,46 @@ export default defineComponent({
     const openShowWishDialog = (p, g) => {
       wishDialogModel.value['participator'] = p;
       wishDialogModel.value['group'] = g;
+      wishDialogEditMode.value = false;
+      wishDialogEditModel.value = {
+        firstName: p.firstName,
+        lastName: p.lastName,
+        wish1: p.wish1 || '',
+        wish2: p.wish2 || '',
+        wish3: p.wish3 || '',
+        wish4: p.wish4 || '',
+        wish5: p.wish5 || '',
+      };
       showWishDialog.value = true;
     };
 
     const closeWishDialog = () => {
       showWishDialog.value = false;
+      wishDialogEditMode.value = false;
+    };
+
+    const saveWishDialogEdit = () => {
+      const p = wishDialogModel.value.participator;
+      api.post('/participator/' + p.orderId + '/' + p.positionId + '/details', wishDialogEditModel.value)
+        .then(() => {
+          proxy.$q.notify({
+            message: 'Die Daten wurden erfolgreich gespeichert',
+            color: 'positive',
+            position: 'top',
+            timeout: 2000,
+          });
+          closeWishDialog();
+          refreshGroups();
+        })
+        .catch((e) => {
+          console.log(e);
+          proxy.$q.notify({
+            message: 'Die Daten konnten nicht gespeichert werden',
+            color: 'negative',
+            position: 'top',
+            timeout: 3000,
+          });
+        });
     };
 
     const addPreference = (group) => {
@@ -878,6 +945,84 @@ export default defineComponent({
       }
     };
 
+    const exportGroups = async () => {
+      const ExcelJS = (await import('exceljs')).default;
+      const workbook = new ExcelJS.Workbook();
+      const sheet = workbook.addWorksheet('Gruppen');
+
+      const getUserDisplayName = (u) => {
+        const name = u.firstName + ' ' + u.lastName;
+        return u.guitar >= 2 ? name + ' (G)' : name;
+      };
+
+      const exportableGroups = groupList.value.filter(g => g.id !== 0);
+
+      const headerCell = sheet.getCell(1, 1);
+      headerCell.value = 'Mitarbeiter-Einteilung SOLA ' + settings.currentYear + ' ' + week.value.label + ' - Stand: ' + moment().format('DD.MM.YYYY');
+      headerCell.font = { bold: true };
+      if (exportableGroups.length > 1) {
+        sheet.mergeCells(1, 1, 1, exportableGroups.length);
+      }
+
+      exportableGroups.forEach((group, colIndex) => {
+        const col = colIndex + 1;
+        sheet.getColumn(col).width = 25;
+
+        const titleCell = sheet.getCell(2, col);
+        titleCell.value = (group.groupNumber ? 'Gruppe ' + group.groupNumber + ' - ' : '') + group.title;
+        titleCell.font = { bold: true };
+        if (group.color) {
+          titleCell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FF' + group.color.replace('#', '') }
+          };
+        }
+
+        const coachCell = sheet.getCell(3, col);
+        coachCell.value = 'Coach';
+        coachCell.font = { bold: true };
+
+        const glCell = sheet.getCell(5, col);
+        glCell.value = 'Gruppenleiter';
+        glCell.font = { bold: true };
+
+        const leaders = group.GroupUsers
+          .filter(gu => gu.type === 2)
+          .map(gu => users.value[gu.uuid])
+          .filter(u => u);
+        const maleLeaders = leaders.filter(u => u.gender === 'm');
+        const femaleLeaders = leaders.filter(u => u.gender === 'w');
+
+        sheet.getCell(6, col).value = maleLeaders[0] ? getUserDisplayName(maleLeaders[0]) : '';
+        sheet.getCell(7, col).value = femaleLeaders[0] ? getUserDisplayName(femaleLeaders[0]) : '';
+
+        const maCell = sheet.getCell(8, col);
+        maCell.value = 'Mitarbeiter';
+        maCell.font = { bold: true };
+
+        const members = group.GroupUsers
+          .filter(gu => gu.type !== 2)
+          .map(gu => users.value[gu.uuid])
+          .filter(u => u);
+        const maleMembers = members.filter(u => u.gender === 'm');
+        const femaleMembers = members.filter(u => u.gender === 'w');
+
+        [...maleMembers, ...femaleMembers].forEach((u, i) => {
+          sheet.getCell(9 + i, col).value = getUserDisplayName(u);
+        });
+      });
+
+      const buffer = await workbook.xlsx.writeBuffer();
+      const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Gruppen_' + week.value.label + '.xlsx';
+      a.click();
+      URL.revokeObjectURL(url);
+    };
+
     loadEverything();
 
     return {
@@ -885,6 +1030,8 @@ export default defineComponent({
       showAddGroupDialog,
       showWishDialog,
       wishDialogModel,
+      wishDialogEditMode,
+      wishDialogEditModel,
       newGroup,
       weekOptions,
       typeOptions,
@@ -902,6 +1049,7 @@ export default defineComponent({
       closeAddGroupDialog,
       openShowWishDialog,
       closeWishDialog,
+      saveWishDialogEdit,
       addGroup,
       toggleUserEdit,
       toggleParticipatorEdit,
@@ -919,7 +1067,8 @@ export default defineComponent({
       ignoreWish,
       refreshGroups,
       loadEverything,
-      deleteGroup
+      deleteGroup,
+      exportGroups
     };
   },
   updated() {
