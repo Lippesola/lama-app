@@ -11,7 +11,7 @@
     <q-list style="width:100%">
       <q-item class="q-px-none">
         <q-item-section side>
-          <q-avatar v-if="!avatar" rounded size="48px" color="primary" text-color="white" icon="fa-solid fa-user"></q-avatar>
+          <q-avatar v-if="!avatar" rounded size="48px" color="primary" text-color="white"><AppIcon name="user" /></q-avatar>
           <q-avatar v-if="avatar" rounded size="48px" color="primary" text-color="white">
             <img class="cursor-pointer" :src="avatar" @click="imageDialog = true" style="object-fit: cover;" />
           </q-avatar>
@@ -43,9 +43,10 @@
               :color="assignee ? 'primary' : 'grey-9'"
               text-color="white"
               :title="assignee ? (assignee.firstName + ' ' + assignee.lastName) : 'Mir zuweisen'"
-              :icon="assigneeAvatar ? '' : 'fa-solid fa-user'"
               @click="toggleAssignee"
-            />
+            >
+              <AppIcon name="user" />
+            </q-avatar>
           </q-item-label>
         </q-item-section>
       </q-item>
@@ -58,9 +59,9 @@
             flat
             dense
             color="primary"
-            icon="fa-solid fa-user"
             :to="'/l/engagement/' + uuid"
           >
+            <AppIcon name="user" />
             <q-tooltip>
               Infos zur Person
             </q-tooltip>
@@ -72,9 +73,9 @@
             flat
             dense
             color="primary"
-            icon="fa-solid fa-file-lines"
             :to="'/l/motivation/' + uuid"
           >
+            <AppIcon name="file-lines" />
             <q-tooltip>
               MVB anzeigen
             </q-tooltip>
@@ -86,9 +87,9 @@
             flat
             dense
             color="primary"
-            icon="fa-solid fa-envelope"
             :href="'mailto:' + mail"
           >
+            <AppIcon name="envelope" />
             <q-tooltip>
               E-Mail an MA schicken
             </q-tooltip>
@@ -103,9 +104,9 @@
             flat
             dense
             color="positive"
-            icon="fa-solid fa-circle-check"
             @click="acceptDialog"
           >
+            <AppIcon name="circle-check" />
             <q-tooltip>
               MA freischalten
             </q-tooltip>
@@ -117,9 +118,9 @@
             flat
             dense
             color="negative"
-            icon="fa-solid fa-circle-xmark"
             @click="declineDialog"
           >
+            <AppIcon name="circle-xmark" />
             <q-tooltip>
               MA ablehnen
             </q-tooltip>
@@ -211,7 +212,7 @@ export default defineComponent({
         $q.notify({
           color: 'green-4',
           textColor: 'white',
-          icon: 'fa-solid fa-check',
+          icon: 'check',
           message: 'Status wurde gesetzt'
         })
         show.value = 'false'
@@ -220,7 +221,7 @@ export default defineComponent({
         $q.notify({
           color: 'red-4',
           textColor: 'white',
-          icon: 'fa-solid fa-circle-xmark ',
+          icon: 'circle-xmark',
           message: e.response?.data || 'Fehler'
         })
       })
@@ -234,7 +235,7 @@ export default defineComponent({
         $q.notify({
           color: 'green-4',
           textColor: 'white',
-          icon: 'fa-solid fa-check',
+          icon: 'check',
           message: assigneeId ? 'Die Anmeldung wurde dir zugewiesen' : 'Die Zuweisung wurde entfernt'
         })
         if (assigneeId) {
@@ -251,7 +252,7 @@ export default defineComponent({
         $q.notify({
           color: 'red-4',
           textColor: 'white',
-          icon: 'fa-solid fa-circle-xmark ',
+          icon: 'circle-xmark',
           message: e.response?.data || 'Fehler'
         })
       })

@@ -3,6 +3,7 @@
     <q-table
       title="userlist"
       flat
+      class="sticky-header-table"
       :rows="rows"
       :columns="columns"
       :filter="filter"
@@ -17,7 +18,6 @@
           MA-Liste - Anzahl: {{ rows.length }}
           <q-select
             flat round dense
-            :icon="'fa-solid ' + (props.inFullscreen ? 'fa-compress' : 'fa-expand')"
             class="q-ml-md"
             v-model="selectedYear"
             :options="yearOptions"
@@ -28,10 +28,11 @@
           </q-input>
           <q-btn
             flat round dense
-            :icon="'fa-solid ' + (props.inFullscreen ? 'fa-compress' : 'fa-expand')"
             @click="props.toggleFullscreen"
             class="q-ml-md"
-          />
+          >
+            <AppIcon :name="props.inFullscreen ? 'compress' : 'expand'" />
+          </q-btn>
         </div>
         <q-select
           class="q-pa-md"
@@ -108,10 +109,11 @@
         <q-space />
         <q-btn
           color="primary"
-          icon="fa-solid fa-download"
-          label="Exportieren"
           @click="exportList()"
-        />
+        >
+          <AppIcon name="download" class="q-mr-xs" />
+          Exportieren
+        </q-btn>
       </template>
 
     </q-table>

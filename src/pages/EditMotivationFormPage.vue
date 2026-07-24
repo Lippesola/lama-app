@@ -6,7 +6,7 @@
         <q-card class="q-my-md" flat>
           <q-card-section>
             <div class="row q-pb-sm">
-              <q-icon class="dragMe fa-solid fa-grip-lines q-pr-md"></q-icon>
+              <q-icon class="dragMe q-pr-md"><AppIcon name="grip-lines" /></q-icon>
               {{
                 item.type === "h5"
                   ? "Überschrift"
@@ -27,32 +27,33 @@
                 v-model="item.showForNew"
                 class="q-mx-sm"
                 label="Neue MA"
-                checked-icon="fa-regular fa-circle-check"
-                unchecked-icon="fa-regular fa-circle-xmark"
+                checked-icon="circle-check"
+                unchecked-icon="circle-xmark"
               />
               <q-checkbox
                 v-model="item.showForExisting"
                 class="q-mx-sm"
                 label="Alte Hasen"
-                checked-icon="fa-regular fa-circle-check"
-                unchecked-icon="fa-regular fa-circle-xmark"
+                checked-icon="circle-check"
+                unchecked-icon="circle-xmark"
               />
               <q-checkbox
                 v-model="item.showForLeader"
                 class="q-mx-sm"
                 label="LT"
-                checked-icon="fa-regular fa-circle-check"
-                unchecked-icon="fa-regular fa-circle-xmark"
+                checked-icon="circle-check"
+                unchecked-icon="circle-xmark"
               />
               <q-btn
                 flat
                 dense
                 round
                 size="sm"
-                icon="fa-solid fa-trash"
                 class="q-ml-md"
                 @click="motivation.splice(motivation.indexOf(item), 1)"
-              />
+              >
+                <AppIcon name="trash" />
+              </q-btn>
             </div>
             <div v-if="item.type === 'h5'">
               <q-input v-model="item.content" filled />
@@ -86,60 +87,69 @@
   <q-page-sticky position="top-right" :offset="[18, 18]">
     <q-btn
       color="primary"
-      icon="fa-solid fa-save"
-      label="Speichern"
       @click="saveMotivation"
-    />
+    >
+      <AppIcon name="save" class="q-mr-xs" />
+      Speichern
+    </q-btn>
   </q-page-sticky>
   <q-page-sticky position="bottom-right" :offset="[18, 18]">
     <q-fab
       color="primary"
-      icon="fa-solid fa-plus"
       direction="up"
       vertical-actions-align="right"
     >
+      <template #icon>
+        <AppIcon name="plus" />
+      </template>
       <q-fab-action
         @click="addNewEntry('separator')"
-        icon="fa-solid fa-minus"
         label="Trennlinie"
         color="secondary"
         text-color="black"
-      />
+      >
+        <template #icon><AppIcon name="minus" /></template>
+      </q-fab-action>
       <q-fab-action
         @click="addNewEntry('checkbox')"
-        icon="fa-solid fa-check-square"
         label="Checkbox"
         color="secondary"
         text-color="black"
-      />
+      >
+        <template #icon><AppIcon name="check-square" /></template>
+      </q-fab-action>
       <q-fab-action
         @click="addNewEntry('input.textarea')"
-        icon="fa-solid fa-font"
         label="Textfeld (mehrzeilig)"
         color="secondary"
         text-color="black"
-      />
+      >
+        <template #icon><AppIcon name="font" /></template>
+      </q-fab-action>
       <q-fab-action
         @click="addNewEntry('input.text')"
-        icon="fa-solid fa-font"
         label="Textfeld"
         color="secondary"
         text-color="black"
-      />
+      >
+        <template #icon><AppIcon name="font" /></template>
+      </q-fab-action>
       <q-fab-action
         @click="addNewEntry('p')"
-        icon="fa-solid fa-paragraph"
         label="Text"
         color="secondary"
         text-color="black"
-      />
+      >
+        <template #icon><AppIcon name="paragraph" /></template>
+      </q-fab-action>
       <q-fab-action
         @click="addNewEntry('h5')"
-        icon="fa-solid fa-heading"
         label="Überschrift"
         color="secondary"
         text-color="black"
-      />
+      >
+        <template #icon><AppIcon name="heading" /></template>
+      </q-fab-action>
     </q-fab>
   </q-page-sticky>
 </template>
@@ -181,14 +191,14 @@ export default defineComponent({
           $q.notify({
             message: "Gespeichert",
             color: "positive",
-            icon: "fa-solid fa-check",
+            icon: "check",
           });
         })
         .catch(function (e) {
           $q.notify({
             message: "Fehler beim Speichern",
             color: "negative",
-            icon: "fa-solid fa-times",
+            icon: "times",
           });
           console.log(e);
         });

@@ -8,7 +8,7 @@
   avatar
   >
   <q-badge class="q-ml-md" v-show="showBadge > 0" color="orange" text-color="black" :label="showBadge" on-right/>
-  <q-icon :name="icon" />
+  <AppIcon :name="icon" />
     </q-item-section>
 
     <q-item-section>
@@ -80,6 +80,20 @@ export default defineComponent({
           }
         })
       })
+    }
+    if (props.badge == 'supporter') {
+      showBadge.value = 0
+      api.get('/supporterYear')
+      .then(function(response) {
+        showBadge.value = Object.values(response.data).filter(item => !item.isConfirmed).length
+      }).catch(function(e){})
+    }
+    if (props.badge == 'activation') {
+      showBadge.value = 0
+      api.get('/userYear?year=' + settings.currentYear + '&status=' + c.userYearStatus.pending)
+      .then(function(response) {
+        showBadge.value = Object.keys(response.data).length
+      }).catch(function(e){})
     }
     return {
       showBadge

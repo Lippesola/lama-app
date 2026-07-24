@@ -1,7 +1,7 @@
 <template>
   <q-item bordered clickable v-ripple @click="copyToClipboard(value, label)">
     <q-item-section avatar top>
-      <q-avatar :text-color="color" :icon="icon"/>
+      <q-avatar :text-color="color"><AppIcon :name="icon" /></q-avatar>
     </q-item-section>
 
     <q-item-section>

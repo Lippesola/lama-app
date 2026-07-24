@@ -11,10 +11,10 @@
             flat
             dense
             color="primary"
-            icon="fa-solid fa-pen-to-square"
             @click="startEdit"
             v-if="!editing"
           >
+            <AppIcon name="pen-to-square" />
             <q-tooltip>Bearbeiten</q-tooltip>
           </q-btn>
           <template v-if="!editing">
@@ -22,9 +22,9 @@
               flat
               dense
               color="positive"
-              icon="fa-solid fa-circle-check"
               @click="confirmDialog"
             >
+              <AppIcon name="circle-check" />
               <q-tooltip>Helfer bestätigen</q-tooltip>
             </q-btn>
           </template>
@@ -33,18 +33,18 @@
               flat
               dense
               color="positive"
-              icon="fa-solid fa-floppy-disk"
               @click="saveEdit"
             >
+              <AppIcon name="floppy-disk" />
               <q-tooltip>Speichern</q-tooltip>
             </q-btn>
             <q-btn
               flat
               dense
               color="negative"
-              icon="fa-solid fa-xmark"
               @click="editing = false"
             >
+              <AppIcon name="xmark" />
               <q-tooltip>Abbrechen</q-tooltip>
             </q-btn>
           </template>

@@ -4,10 +4,11 @@
     <q-space />
     <q-btn
       color="primary"
-      icon="fa-solid fa-download"
-      label="Exportieren"
       @click="exportList()"
-    />
+    >
+      <AppIcon name="download" class="q-mr-xs" />
+      Exportieren
+    </q-btn>
   </div>
   <div class="q-pa-md" style="max-width: 600px">
     <q-list>

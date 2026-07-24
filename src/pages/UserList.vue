@@ -23,7 +23,7 @@
             <div class="text-center">
               Vorname
             </div>
-            <q-icon right name="fa-solid fa-arrow-down-a-z" />
+            <q-icon right><AppIcon name="arrow-down-a-z" /></q-icon>
           </div>
         </template>
 
@@ -32,7 +32,7 @@
             <div class="text-center">
               Nachname
             </div>
-            <q-icon right name="fa-solid fa-arrow-down-a-z" />
+            <q-icon right><AppIcon name="arrow-down-a-z" /></q-icon>
           </div>
         </template>
       </q-btn-toggle>

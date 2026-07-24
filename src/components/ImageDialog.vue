@@ -4,7 +4,7 @@
       <q-card-section class="row items-center q-pb-none">
         <div v-if="title" class="text-h6">{{ title }}</div>
         <q-space />
-        <q-btn icon="fa-solid fa-times" flat round dense v-close-popup />
+        <q-btn flat round dense v-close-popup><AppIcon name="times" /></q-btn>
       </q-card-section>
 
       <q-card-section>

@@ -1,13 +1,13 @@
 <template>
   <q-item clickable :to="'/l/profile/' + uuid" v-ripple style="width: 300px;">
     <q-item-section side>
-      <q-avatar v-if="!avatar" rounded size="48px" color="primary" text-color="white" icon="fa-solid fa-user"></q-avatar>
+      <q-avatar v-if="!avatar" rounded size="48px" color="primary" text-color="white"><AppIcon name="user" /></q-avatar>
       <q-avatar v-if="avatar" rounded size="48px" color="primary" text-color="white">
         <img :src="avatar" style="object-fit: cover;" />
       </q-avatar>
     </q-item-section>
     <q-item-section>
-      <q-item-label>{{ showNick ? nick : name }} <i v-if="todayBirthday" class="fa-solid fa-cake-candles text-orange"></i></q-item-label>
+      <q-item-label>{{ showNick ? nick : name }} <AppIcon v-if="todayBirthday" name="cake-candles" class="text-orange" /></q-item-label>
       <q-item-label caption>
           {{ responsibilityString }}
       </q-item-label>

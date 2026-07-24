@@ -14,6 +14,7 @@
       <div>
           <q-table
             flat
+            class="sticky-header-table"
             :rows="userList.filter(i=>i[list.name] === 3)"
             :columns="columns"
             row-key="name"
@@ -25,9 +26,10 @@
               <q-space />
               <q-btn
                 flat round dense
-                :icon="'fa-solid ' + (props.inFullscreen ? 'fa-compress' : 'fa-expand')"
                 @click="props.toggleFullscreen"
-              />
+              >
+                <AppIcon :name="props.inFullscreen ? 'compress' : 'expand'" />
+              </q-btn>
             </template>
           </q-table>
         </div>

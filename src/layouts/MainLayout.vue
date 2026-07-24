@@ -9,10 +9,11 @@
           flat
           dense
           round
-          icon="fa-solid fa-bars"
           aria-label="Menu"
           @click="toggleLeftDrawer"
-        />
+        >
+          <AppIcon name="bars" />
+        </q-btn>
 
         <q-toolbar-title>
           LAMA - Lippesola Administration und Mitarbeiter Anmeldung
@@ -23,14 +24,14 @@
           flat
           dense
           round
-          icon="fa-solid fa-grip"
         >
+          <AppIcon name="grip" />
           <q-menu>
             <q-list style="max-width: 300px; display: flex;">
               <q-item style="flex: 1" clickable href="https://a-z.lippesola.de" v-close-popup>
                 <q-item-section class="flex flex-center">
                   <q-item-label>
-                    <q-avatar icon="fa-solid fa-book-atlas" />
+                    <q-avatar><AppIcon name="book-atlas" /></q-avatar>
                   </q-item-label>
                   <q-item-label>A-Z</q-item-label>
                 </q-item-section>
@@ -38,7 +39,7 @@
               <q-item style="flex: 1" clickable href="https://cloud.lippesola.de" v-close-popup>
                 <q-item-section class="flex flex-center">
                   <q-item-label>
-                    <q-avatar icon="fa-solid fa-cloud" />
+                    <q-avatar><AppIcon name="cloud" /></q-avatar>
                   </q-item-label>
                   <q-item-label>Cloud</q-item-label>
                 </q-item-section>
@@ -46,7 +47,7 @@
               <q-item style="flex: 1" clickable href="https://chat.lippesola.de" v-close-popup>
                 <q-item-section class="flex flex-center">
                   <q-item-label>
-                    <q-avatar icon="fa-solid fa-envelope" />
+                    <q-avatar><AppIcon name="envelope" /></q-avatar>
                   </q-item-label>
                   <q-item-label>Messenger</q-item-label>
                 </q-item-section>
@@ -60,7 +61,8 @@
           dense
           round
         >
-          <q-avatar v-if="!avatar" color="secondary" text-color="white" icon="fa-solid fa-user">
+          <q-avatar v-if="!avatar" color="secondary" text-color="white">
+            <AppIcon name="user" />
           </q-avatar>
           <q-avatar v-if="avatar" color="primary" text-color="white">
             <img :src="avatar" style="object-fit: cover;" />
@@ -122,7 +124,7 @@
             key="tnlist-permssion"
             v-bind="{
                 title: 'TN-Liste',
-                icon: 'fa-solid fa-children',
+                icon: 'children',
                 link: '/l/leader/participatorlist'
               }"
           />
@@ -133,7 +135,7 @@
             key="grouplist-permssion"
             v-bind="{
                 title: 'Gruppeneinteilung',
-                icon: 'fa-solid fa-users-rays',
+                icon: 'users-rays',
                 link: '/l/leader/groups'
               }"
           />
@@ -165,65 +167,66 @@ import EssentialLink from 'components/EssentialLink.vue'
 import ChangelogDialog from 'components/ChangelogDialog.vue'
 import { settings } from '../boot/settings'
 import { useQuasar } from 'quasar'
-import iconSet from 'quasar/icon-set/fontawesome-v6'
 import { api } from 'src/boot/axios'
 import VueKeycloak from '@dsb-norge/vue-keycloak-js'
 const linksList = ref([
   {
     title: 'Home',
-    icon: 'fa-solid fa-house-chimney',
+    icon: 'house-chimney',
     link: '/l/'
   },
   {
     title: 'Dein Profil',
-    icon: 'fa-solid fa-user',
+    icon: 'user',
     link: '/l/profile'
   },
   {
     title: 'Dein SOLA ' + settings.currentYear,
-    icon: 'fa-solid fa-campground',
+    icon: 'campground',
     link: '/l/engagement'
   },
   {
     title: 'MA-Liste',
-    icon: 'fa-solid fa-users',
+    icon: 'users',
     link: '/l/userlist'
   },
   {
     title: 'Mail-Verteiler',
-    icon: 'fa-solid fa-envelope',
+    icon: 'envelope',
     link: '/l/mail',
   }
 ]);
 const leaderLinksList = [
   {
-    title: 'MA-Verwaltung',
-    icon: 'fa-solid fa-user-gear',
-    link: '/l/leader/activation'
+    title: 'MA-Freischaltung',
+    icon: 'user-gear',
+    link: '/l/leader/activation',
+    badge: 'activation'
   },
   {
     title: 'MA-Listen',
-    icon: 'fa-solid fa-users-rectangle',
+    icon: 'users-rectangle',
     link: '/l/leader/userlist'
   },
   {
     title: 'TN-Listen',
-    icon: 'fa-solid fa-children',
+    icon: 'children',
     link: '/l/leader/participatorlist'
   },
   {
     title: 'Helfer-Übersicht',
-    icon: 'fa-solid fa-user-clock',
-    link: '/l/leader/supporterlist'
+    icon: 'user-clock',
+    link: '/l/leader/supporterlist',
+    badge: 'supporter'
   },
   {
     title: 'Motivationsbogen anpassen',
-    icon: 'fa-solid fa-file-edit',
+    icon: 'file-edit',
     link: '/l/leader/motivation'
   },
   {
     title: 'Gruppeneinteilung',
-    icon: 'fa-solid fa-users-rays',
+    icon: 'users-rays',
     link: '/l/leader/groups'
   }
 ]
@@ -271,9 +274,6 @@ export default defineComponent({
       $q.dark.set(window.localStorage.getItem('darkmode') === 'true')
     }
 
-    // changed icons
-    $q.iconSet = iconSet
-
     api.get('/avatar/' + uuid, {
       responseType: 'blob'
     }).then(function(response) {
@@ -289,7 +289,7 @@ export default defineComponent({
             case 'paperwork':
               linksList.value.push({
                 title: 'Papierkram',
-                icon: 'fa-solid fa-file-lines',
+                icon: 'file-lines',
                 link: '/l/paperwork',
                 feature: 'paperwork',
                 badge: 'paperwork'
@@ -298,7 +298,7 @@ export default defineComponent({
             case 'threads':
               linksList.value.push({
                 title: 'Themenforum',
-                icon: 'fa-solid fa-comments',
+                icon: 'comments',
                 link: '/l/threads',
                 feature: 'threads'
               })

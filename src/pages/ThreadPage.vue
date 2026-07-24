@@ -10,9 +10,10 @@
               size="sm"
               text-color="red"
               flat
-              icon="fa-solid fa-trash"
               @click="trashDialog = true"
-            />
+            >
+              <AppIcon name="trash" />
+            </q-btn>
           </div>
         </div>
         <q-input
@@ -46,9 +47,10 @@
       <div class="text-h4">
         <q-btn
           flat
-          icon="fa-solid fa-arrow-left"
           @click="$router.go(-1)"
-        />
+        >
+          <AppIcon name="arrow-left" />
+        </q-btn>
         {{ title }}
       </div>
       <q-space />
@@ -56,11 +58,12 @@
         <q-btn
           v-if="editable"
           flat
-          label="Bearbeiten"
           text-color="primary"
-          icon="fa-solid fa-edit"
           @click="dialog = true"
-        />
+        >
+          <AppIcon name="edit" class="q-mr-xs" />
+          Bearbeiten
+        </q-btn>
       </div>
     </div>
     <div>
@@ -165,7 +168,7 @@ export default defineComponent({
         $q.notify({
           message: 'Titel wurde geändert',
           color: 'green',
-          icon: 'fa-solid fa-check'
+          icon: 'check'
         })
         title.value = titleChange.value
         dialog.value = false
@@ -177,7 +180,7 @@ export default defineComponent({
         $q.notify({
           message: 'Thema wurde gelöscht',
           color: 'green',
-          icon: 'fa-solid fa-check'
+          icon: 'check'
         })
         router.go(-1)
       }).catch(function(e) {})

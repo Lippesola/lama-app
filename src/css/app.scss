@@ -10,3 +10,16 @@
 .menu-footer-light {
     background-color: white;
 }
+
+.sticky-header-table.fullscreen {
+    thead tr th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        background-color: white;
+    }
+
+    &.q-table--dark thead tr th {
+        background-color: var(--q-dark);
+    }
+}

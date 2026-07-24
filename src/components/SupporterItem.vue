@@ -13,15 +13,15 @@
       <q-item-label style="user-select: none;">{{ name }}</q-item-label>
       
       <q-item-label caption v-if="tasks.length">
-        <q-icon class="q-pr-sm fa-solid fa-screwdriver-wrench" />
+        <AppIcon name="screwdriver-wrench" class="q-pr-sm" />
         {{ tasks.join(', ') }}
       </q-item-label>
       <q-item-label caption v-if="driver.length">
-        <q-icon class="q-pr-sm fa-solid fa-id-card" />
+        <AppIcon name="id-card" class="q-pr-sm" />
         {{ driver.join(', ') }}
       </q-item-label>
       <q-item-label caption v-if="vehicle.length">
-        <q-icon class="q-pr-sm fa-solid fa-car-side" />
+        <AppIcon name="car-side" class="q-pr-sm" />
         {{ vehicle.join(', ') }}
       </q-item-label>
     </q-item-section>

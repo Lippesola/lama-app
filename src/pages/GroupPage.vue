@@ -48,7 +48,8 @@
               dense
             >
               <template v-slot:append>
-                <q-icon class="fas fa-palette">
+                <q-icon>
+                  <AppIcon name="palette" />
                   <q-popup-proxy cover transition-show="scale" transition-hide="scale">
                     <q-color
                       v-model="newGroup.color"
@@ -110,20 +111,30 @@
                 :class="wish.ignored ? 'disabled' : ''"
               >
                 <q-icon
-                  :name="'fas fa-' + (typeof wish.groupId !== 'undefined' ? groupList.find(g => wish.groupId === g.id)?.groupNumber : 'question')"
-                  :color="typeof wish.groupId !== 'undefined' ? wish.groupId === wishDialogModel.participator.groupId ? 'green' : 'red' : 'blue'"
+                  v-if="typeof wish.groupId === 'undefined'"
+                  color="blue"
                   size="xs"
-                />
+                >
+                  <AppIcon name="circle-question" />
+                </q-icon>
+                <q-icon
+                  v-else
+                  :color="wish.groupId === wishDialogModel.participator.groupId ? 'green' : 'red'"
+                  size="xs"
+                >
+                  {{ groupList.find(g => wish.groupId === g.id)?.groupNumber }}
+                </q-icon>
               </q-item-section>
               <q-item-section side>
                 <q-btn
                   flat
                   dense
                   size="xs"
-                  :icon="wish.ignored ? 'far fa-eye' : 'far fa-eye-slash'"
                   :title="wish.ignored ? 'Ignorieren aufheben' : 'Ignorieren'"
                   @click="ignoreWish(v.p, wish)"
-                />
+                >
+                  <AppIcon :name="wish.ignored ? 'eye' : 'eye-slash'" />
+                </q-btn>
               </q-item-section>
             </q-item>
           </q-list>
@@ -190,10 +201,11 @@
         v-if="editableGroup"
         flat
         class="q-ml-md"
-        icon="fas fa-plus"
-        label="Gruppe hinzufügen"
         @click="openAddGroupDialog()"
-      />
+      >
+        <AppIcon name="plus" class="q-mr-xs" />
+        Gruppe hinzufügen
+      </q-btn>
       <q-toggle
         v-model="showParticipators"
         flat
@@ -209,16 +221,17 @@
         dense
       >
         <template v-slot:prepend>
-          <q-icon name="fas fa-search" />
+          <q-icon><AppIcon name="search" /></q-icon>
         </template>
       </q-input>
       <q-btn
         flat
         class="q-ml-md"
-        icon="fas fa-file-excel"
-        label="Exportieren"
         @click="exportGroups"
-      />
+      >
+        <AppIcon name="file-excel" class="q-mr-xs" />
+        Exportieren
+      </q-btn>
     </q-toolbar>
 
     <div class="q-pa-md row no-wrap">
@@ -242,18 +255,20 @@
                 flat
                 dense
                 size="xs"
-                icon="fas fa-pen"
                 @click="openAddGroupDialog(group.id)"
-              />
+              >
+                <AppIcon name="pen" />
+              </q-btn>
               <q-btn
                 v-if="editableGroup && group.id"
                 class="q-ml-md"
                 flat
                 dense
                 size="xs"
-                icon="fas fa-trash"
                 @click="deleteGroup(group.id)"
-              />
+              >
+                <AppIcon name="trash" />
+              </q-btn>
             </div>
           </q-card-section>
           <q-card-section
@@ -306,10 +321,10 @@
                 {{ (info.p.count / info.u.count).toFixed(2) }} TN pro MA
               </div>
               <div>
-                {{ (info.p.m / info.u.m).toFixed(2) }} TN pro MA <q-icon name="fas fa-mars" color="blue"/>
+                {{ (info.p.m / info.u.m).toFixed(2) }} TN pro MA <q-icon color="blue"><AppIcon name="mars" /></q-icon>
               </div>
               <div>
-                {{ (info.p.f / info.u.f).toFixed(2) }} TN pro MA <q-icon name="fas fa-venus" color="pink"/>
+                {{ (info.p.f / info.u.f).toFixed(2) }} TN pro MA <q-icon color="pink"><AppIcon name="venus" /></q-icon>
               </div>
 
             </div>
@@ -396,9 +411,10 @@
                         flat
                         dense
                         size="xs"
-                        icon="far fa-circle-xmark"
                         @click="deletePreference(preference)"
-                      />
+                      >
+                        <AppIcon name="circle-xmark" />
+                      </q-btn>
                     </q-item-label>
                   </q-item-section>
                 </q-item>
@@ -423,10 +439,11 @@
                         <q-item-label>{{ participator.firstName }} {{ participator.lastName }}</q-item-label>
                         <q-item-label caption>
                           <q-icon
-                            :name="'fas fa-' + (participator.sex === 'weiblich' ? 'venus' : 'mars')"
                             :color="participator.sex === 'weiblich' ? 'pink' : 'blue'"
                             :title="participator.sex"
-                          />
+                          >
+                            <AppIcon :name="participator.sex === 'weiblich' ? 'venus' : 'mars'" />
+                          </q-icon>
                           <span
                             :set="wishes = getWishes(participator, group)"
                             :style="'color: ' + wishes.color"

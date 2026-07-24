@@ -6,10 +6,11 @@
       v-if="$permissions.userDocument"
       flat
       color="primary"
-      icon="fa-solid fa-users"
       text-color="primary"
       :to="'/l/paperworkOverview'"
-    />
+    >
+      <AppIcon name="users" />
+    </q-btn>
   </div>
   <div class="q-px-md">
     <div class="q-gutter-md q-pb-md row" v-show="loading">
@@ -21,8 +22,8 @@
     </div>
     <div class="q-py-md">
       <div class="q-py-md text-h5">
-        <q-icon v-show="doc.criminalRecord.status.value && !loading" name="fa-solid fa-check" color="green" />
-        <q-icon v-show="!doc.criminalRecord.status.value && !loading" name="fa-solid fa-times" color="red" />
+        <q-icon v-show="doc.criminalRecord.status.value && !loading" color="green"><AppIcon name="check" /></q-icon>
+        <q-icon v-show="!doc.criminalRecord.status.value && !loading" color="red"><AppIcon name="times" /></q-icon>
         Führungszeugnis
       </div>
       <div class="text-body1 q-pb-md">
@@ -49,8 +50,8 @@
 
     <div class="q-py-md">
       <div class="q-py-md text-h5">
-        <q-icon v-show="doc.selfCommitment.status.value && !loading" name="fa-solid fa-check" color="green" />
-        <q-icon v-show="!doc.selfCommitment.status.value && !loading" name="fa-solid fa-times" color="red" />
+        <q-icon v-show="doc.selfCommitment.status.value && !loading" color="green"><AppIcon name="check" /></q-icon>
+        <q-icon v-show="!doc.selfCommitment.status.value && !loading" color="red"><AppIcon name="times" /></q-icon>
         Verhaltenskodex
       </div>
       <div class="text-body1 q-pb-md">Auch der Verhaltenskodex muss spätestens alle 5 Jahre unterschrieben abgegeben werden. Weitere Infos findest du im
@@ -69,8 +70,8 @@
 
     <div class="q-py-md">
       <div class="q-py-md text-h5">
-        <q-icon v-show="doc.privacyCommitment.status.value && !loading" name="fa-solid fa-check" color="green" />
-        <q-icon v-show="!doc.privacyCommitment.status.value && !loading" name="fa-solid fa-times" color="red" />
+        <q-icon v-show="doc.privacyCommitment.status.value && !loading" color="green"><AppIcon name="check" /></q-icon>
+        <q-icon v-show="!doc.privacyCommitment.status.value && !loading" color="red"><AppIcon name="times" /></q-icon>
         Datenschutz
       </div>
       <div class="text-body1 q-pb-md">Die Verpflichtung auf Vertraulichkeit muss jedes Jahr von dir unterschrieben abgegeben werden.</div>
@@ -89,8 +90,8 @@
 
     <div class="q-py-md" v-if="underage">
       <div class="q-py-md text-h5">
-        <q-icon v-show="doc.parentalConsent.status.value && !loading" name="fa-solid fa-check" color="green" />
-        <q-icon v-show="!doc.parentalConsent.status.value && !loading" name="fa-solid fa-times" color="red" />
+        <q-icon v-show="doc.parentalConsent.status.value && !loading" color="green"><AppIcon name="check" /></q-icon>
+        <q-icon v-show="!doc.parentalConsent.status.value && !loading" color="red"><AppIcon name="times" /></q-icon>
         U18-Zettel
       </div>
       <div class="text-body1 q-pb-md">Der U18-Zettel muss von einem Erziehungsberechtigten unterschrieben werden, wenn du zum Zeitpunkt des SOLA jünger als 18 Jahre alt bist.</div>
@@ -178,7 +179,7 @@ export default {
           $q.notify({
             message: 'Ein Fehler ist aufgetreten. Bitte versuche es später noch einmal.',
             color: 'red',
-            icon: 'fa-solid fa-circle-xmark'
+            icon: 'circle-xmark'
           })
         }
       })

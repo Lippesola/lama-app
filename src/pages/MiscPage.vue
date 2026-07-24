@@ -5,7 +5,7 @@
     <q-form @submit="onSubmit" class="q-gutter-md">
       <q-input outlined type="text" v-model="endpoint" label="Endpoint" stack-label />
       <q-input outlined type="textarea" v-model="body" label="Body" hint='valid json string required -> {"key": "value"}' stack-label />
-      <q-select outlined v-model="method" :options="methods" label="Method" icon="fa-solid fa-caret-down" />
+      <q-select outlined v-model="method" :options="methods" label="Method" />
       <q-btn label="Submit" type="submit" color="primary"/>
     </q-form>
   </div>
@@ -43,7 +43,7 @@ export default {
               $q.notify({
                 color: 'green-4',
                 textColor: 'white',
-                icon: 'fa-solid fa-check',
+                icon: 'check',
                 message: 'Success'
               })
             })
@@ -51,7 +51,7 @@ export default {
               $q.notify({
                 color: 'red-4',
                 textColor: 'white',
-                icon: 'fa-solid fa-circle-xmark ',
+                icon: 'circle-xmark',
                 message: 'Error'
               })
             });break;
@@ -61,7 +61,7 @@ export default {
               $q.notify({
                 color: 'green-4',
                 textColor: 'white',
-                icon: 'fa-solid fa-check',
+                icon: 'check',
                 message: 'Success'
               })
             })
@@ -69,7 +69,7 @@ export default {
               $q.notify({
                 color: 'red-4',
                 textColor: 'white',
-                icon: 'fa-solid fa-circle-xmark ',
+                icon: 'circle-xmark',
                 message: 'Error'
               })
             });break;
@@ -79,7 +79,7 @@ export default {
               $q.notify({
                 color: 'green-4',
                 textColor: 'white',
-                icon: 'fa-solid fa-check',
+                icon: 'check',
                 message: 'Success'
               })
             })
@@ -87,7 +87,7 @@ export default {
               $q.notify({
                 color: 'red-4',
                 textColor: 'white',
-                icon: 'fa-solid fa-circle-xmark ',
+                icon: 'circle-xmark',
                 message: 'Error'
               })
             });break;
@@ -95,7 +95,7 @@ export default {
             $q.notify({
               color: 'red-4',
               textColor: 'white',
-              icon: 'fa-solid fa-circle-xmark ',
+              icon: 'circle-xmark',
               message: 'Method not found'
             }); break;
         }

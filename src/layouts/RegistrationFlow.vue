@@ -20,17 +20,20 @@
           <q-linear-progress size="25px" :value="progress" color="primary">
             <div class="flex justify-around">
               <q-icon
-                name="fa-solid fa-user"
                 :color="status >= $constants.userYearStatus.finishedProfile ? 'white' : 'grey'"
-              />
+              >
+                <AppIcon name="user" />
+              </q-icon>
               <q-icon
-                name="fa-solid fa-file"
                 :color="status >= $constants.userYearStatus.finishedMotivation ? 'white' : 'grey'"
-              />
+              >
+                <AppIcon name="file" />
+              </q-icon>
               <q-icon
-                name="fa-solid fa-campground"
                 :color="status >= $constants.userYearStatus.pending ? 'white' : 'grey'"
-              />
+              >
+                <AppIcon name="campground" />
+              </q-icon>
             </div>
           </q-linear-progress>
         </div>
@@ -42,7 +45,6 @@
 <script>
 import { defineComponent, ref, getCurrentInstance } from 'vue'
 import { useQuasar } from 'quasar'
-import iconSet from 'quasar/icon-set/fontawesome-v6'
 import EditProfilePage from 'src/pages/EditProfilePage.vue'
 import MotivationPage from 'src/pages/MotivationPage.vue'
 import EditEngagementPage from 'src/pages/EditEngagementPage.vue'
@@ -52,7 +54,6 @@ export default defineComponent({
     setup() {
         const $q = useQuasar();
         const { proxy } = getCurrentInstance();
-        $q.iconSet = iconSet;
         $q.dark.set("auto");
         const c = proxy.$constants;
         const settings = proxy.$settings;

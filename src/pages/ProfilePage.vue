@@ -13,7 +13,7 @@
       />
       <span>Profil wird geladen..</span>
     </div>
-    <q-avatar v-if="!avatar" rounded size="48px" color="primary" text-color="white" icon="fa-solid fa-user"></q-avatar>
+    <q-avatar v-if="!avatar" rounded size="48px" color="primary" text-color="white"><AppIcon name="user" /></q-avatar>
     <q-avatar v-if="avatar" rounded size="48px" color="primary" text-color="white">
       <img class="cursor-pointer" :src="avatar" @click="dialog = true" style="object-fit: cover;" />
     </q-avatar>
@@ -21,9 +21,9 @@
     <div v-if="isLT || $permissions.userDocument">
       <q-btn
         flat
-        icon="fa-solid fa-pencil"
         text-color="primary"
         >
+          <AppIcon name="pencil" />
           <q-menu>
             <q-list>
               <q-item v-if="isLT" clickable :to="'/l/profile/' + uuid + '/edit'" v-close-popup>
@@ -51,24 +51,27 @@
         v-if="isLT"
         flat
         color=""
-        icon="fa-solid fa-campground"
         text-color="primary"
         :to="'/l/engagement/' + user.uuid"
-      />
+      >
+        <AppIcon name="campground" />
+      </q-btn>
       <q-btn
         v-if="isLT"
         flat
-        icon="fa-solid fa-file-lines"
         text-color="primary"
         :to="'/l/motivation/' + user.uuid"
-      />
+      >
+        <AppIcon name="file-lines" />
+      </q-btn>
       <q-btn
         v-if="isLT"
         flat
-        icon="fa-solid fa-handcuffs"
         text-color="primary"
         @click="getCriminalRecord()"
-      />
+      >
+        <AppIcon name="handcuffs" />
+      </q-btn>
     </div>
   </div>
   <q-list>
@@ -157,42 +160,42 @@ export default {
         {
           label: "E-Mail",
           value: response.data.mail || 'Nicht angegeben',
-          icon: "fa-solid fa-envelope",
+          icon: "envelope",
           link: "mailto:" + response.data.mail
         },
         {
           label: "Adresse",
           value: address || 'Nicht angegeben',
-          icon: "fa-solid fa-location-dot",
+          icon: "location-dot",
           link: address ? 'https://www.google.com/maps/search/' + address : '#',
           linkHint: 'GoogleMaps'
         },
         {
           label: "Geburtstag",
           value: response.data.birthday ? new moment(response.data.birthday).format('DD.MM.YYYY') : 'Nicht angegeben',
-          icon: "fa-solid fa-cake",
+          icon: "cake",
         },
         {
           label: "Handynummer",
           value: response.data.mobile || 'Nicht angegeben',
-          icon: "fa-solid fa-mobile",
+          icon: "mobile",
           link: response.data.mobile ? 'tel:' + response.data.mobile : '#'
         },
         {
           label: "Telefon",
           value: response.data.phone || 'Nicht angegeben',
-          icon: "fa-solid fa-phone",
+          icon: "phone",
           link: response.data.phone ? 'tel:' + response.data.phone : '#'
         },
         {
           label: "Gemeinde",
           value: response.data.church || 'Nicht angegeben',
-          icon: "fa-solid fa-church",
+          icon: "church",
         },
         {
           label: "Beruf",
           value: response.data.job || 'Nicht angegeben',
-          icon: "fa-solid fa-briefcase",
+          icon: "briefcase",
         },
       ]
     }).catch(function(e){})
@@ -250,13 +253,13 @@ export default {
           $q.notify({
             message: 'Dokument hinzugefügt',
             color: 'positive',
-            icon: 'fa-solid fa-check'
+            icon: 'check'
           })
         }).catch(function(e){
           $q.notify({
             message: 'Fehler beim Hinzufügen des Dokuments',
             color: 'negative',
-            icon: 'fa-solid fa-times'
+            icon: 'times'
           })
         })
       }).onCancel(() => {
@@ -287,13 +290,13 @@ export default {
         $q.notify({
           message: 'Kommentar gespeichert',
           color: 'positive',
-          icon: 'fa-solid fa-check'
+          icon: 'check'
         })
       }).catch(function(e){
         $q.notify({
           message: 'Fehler beim Speichern des Kommentars',
           color: 'negative',
-          icon: 'fa-solid fa-times'
+          icon: 'times'
         })
       })
     }

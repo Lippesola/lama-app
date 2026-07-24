@@ -77,7 +77,7 @@ export default defineComponent({
         $q.notify({
           color: 'green-4',
           textColor: 'white',
-          icon: 'fa-solid fa-check',
+          icon: 'check',
 
           message: 'E-Mail wurde versendet'
         })
@@ -92,7 +92,7 @@ export default defineComponent({
         $q.notify({
           color: 'red-4',
           textColor: 'white',
-          icon: 'fa-solid fa-circle-xmark ',
+          icon: 'circle-xmark',
           message: errMsg
         })
       })

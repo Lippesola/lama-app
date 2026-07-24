@@ -1,7 +1,7 @@
 <template>
   <q-item clickable :to="'/l/threads/' + id" v-ripple v-if="commentCount >= 0">
     <q-item-section top side>
-      <q-avatar v-if="!avatar" rounded size="36px" color="primary" text-color="white" icon="fa-solid fa-user"></q-avatar>
+      <q-avatar v-if="!avatar" rounded size="36px" color="primary" text-color="white"><AppIcon name="user" /></q-avatar>
       <q-avatar v-if="avatar" rounded size="36px" color="primary" text-color="white">
         <img :src="avatar" style="object-fit: cover;" />
       </q-avatar>
@@ -19,10 +19,10 @@
     </q-item-section>
     <q-item-section side>
       <q-item-label caption>
-        {{ commentCount }}&nbsp;&nbsp;<q-icon name="fa-solid fa-comment" color="primary" />
+        {{ commentCount }}&nbsp;&nbsp;<q-icon color="primary"><AppIcon name="comment" /></q-icon>
       </q-item-label>
       <q-item-label caption>
-        {{ likeCount }}&nbsp;&nbsp;<q-icon name="fa-solid fa-heart" color="red" />
+        {{ likeCount }}&nbsp;&nbsp;<q-icon color="red"><AppIcon name="heart" /></q-icon>
       </q-item-label>
     </q-item-section>
   </q-item>

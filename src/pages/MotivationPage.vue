@@ -10,8 +10,9 @@
           dense
           flat
           @click="saveUserMotivation(true)"
-          icon="fa-solid fa-save"
-        />
+        >
+          <AppIcon name="save" />
+        </q-btn>
       </div>
       <div>
         <q-form @submit="saveUserMotivation">
@@ -120,7 +121,7 @@ export default defineComponent({
             $q.notify({
               message: "Änderungen gespeichert",
               color: "positive",
-              icon: "fa-solid fa-check-circle",
+              icon: "check-circle",
               position: "bottom",
             });
           } else {
@@ -133,7 +134,7 @@ export default defineComponent({
                 $q.notify({
                   message: "Motivationsbogen abgegeben",
                   color: "positive",
-                  icon: "fa-solid fa-check-circle",
+                  icon: "check-circle",
                   position: "bottom",
                 });
                 proxy.$router.push("/l/profile");
@@ -143,7 +144,7 @@ export default defineComponent({
                 $q.notify({
                   message: "Fehler beim Speichern",
                   color: "negative",
-                  icon: "fa-solid fa-exclamation-circle",
+                  icon: "exclamation-circle",
                   position: "bottom",
                 });
               });
@@ -154,7 +155,7 @@ export default defineComponent({
           $q.notify({
             message: "Fehler beim Speichern",
             color: "negative",
-            icon: "fa-solid fa-exclamation-circle",
+            icon: "exclamation-circle",
             position: "bottom",
           });
         });

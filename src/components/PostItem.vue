@@ -11,17 +11,19 @@
               size="sm"
               text-color="red"
               flat
-              icon="fa-solid fa-trash"
               @click="trashDialog = true"
-            />
+            >
+              <AppIcon name="trash" />
+            </q-btn>
             <q-btn
               v-if="undeletable"
-              icon="fa-solid fa-times"
               flat
               dense
               class="q-ma-none"
               @click="dialog = false"
-            />
+            >
+              <AppIcon name="times" />
+            </q-btn>
           </div>
         </div>
         <q-editor
@@ -57,7 +59,7 @@
       </q-item-label>
       <q-item-label class="q-py-sm row">
         <div>
-          <q-avatar v-if="!avatar" rounded size="32px" color="primary" text-color="white" icon="fa-solid fa-user"></q-avatar>
+          <q-avatar v-if="!avatar" rounded size="32px" color="primary" text-color="white"><AppIcon name="user" /></q-avatar>
           <q-avatar v-if="avatar" rounded size="32px" color="primary" text-color="white">
             <img :src="avatar" style="object-fit: cover;" />
           </q-avatar>
@@ -68,30 +70,32 @@
       </q-item-label>
       <q-item-label caption>
         <q-btn
-          :label="likeCount + (likeCount === 1 ? ' like' : ' likes')"
-          :icon="(liked ? 'fa-solid' : 'fa-regular') + ' fa-heart'"
           text-color="red"
           flat
           dense
           class="q-pa-none"
           size="sm"
           @click="like(!liked)"
-        />
+        >
+          <AppIcon name="heart" :fill="liked ? 'currentColor' : 'none'" class="q-mr-xs" />
+          {{ likeCount + (likeCount === 1 ? ' like' : ' likes') }}
+        </q-btn>
       </q-item-label>
       <q-item-label>
         <q-separator />
       </q-item-label>
       <q-item-label caption v-if="editable">
         <q-btn
-          label="Bearbeiten"
-          icon="fa-solid fa-edit"
           text-color="primary"
           flat
           dense
           class="q-pa-none"
           size="sm"
           @click="dialog = true"
-        />
+        >
+          <AppIcon name="edit" class="q-mr-xs" />
+          Bearbeiten
+        </q-btn>
       </q-item-label>
     </q-item-section>
     <q-separator vertical class="q-mr-md" v-if="!$q.platform.is.mobile"/>
@@ -116,28 +120,30 @@
         <div class="row">
           <q-item-label caption v-if="editable">
             <q-btn
-              label="Bearbeiten"
-              icon="fa-solid fa-edit"
               text-color="primary"
               flat
               dense
               class="q-pa-none"
               size="sm"
               @click="dialog = true"
-            />
+            >
+              <AppIcon name="edit" class="q-mr-xs" />
+              Bearbeiten
+            </q-btn>
           </q-item-label>
           <q-space />
           <q-item-label>
             <q-btn
-              :label="likeCount + (likeCount === 1 ? ' like' : ' likes')"
-              :icon="(liked ? 'fa-solid' : 'fa-regular') + ' fa-heart'"
               text-color="red"
               flat
               dense
               class="q-pa-none"
               size="sm"
               @click="like(!liked)"
-            />
+            >
+              <AppIcon name="heart" :fill="liked ? 'currentColor' : 'none'" class="q-mr-xs" />
+              {{ likeCount + (likeCount === 1 ? ' like' : ' likes') }}
+            </q-btn>
           </q-item-label>
         </div>
       </q-item-section>
@@ -247,7 +253,7 @@ export default defineComponent({
           $q.notify({
             message: 'Beitrag wurde gespeichert',
             color: 'green',
-            icon: 'fa-solid fa-check'
+            icon: 'check'
           })
           textRef.value = response.data.text
           dialog.value = false
@@ -260,7 +266,7 @@ export default defineComponent({
         $q.notify({
           message: 'Beitrag wurde gelöscht',
           color: 'green',
-          icon: 'fa-solid fa-check'
+          icon: 'check'
         })
         trashDialog.value = false
         dialog.value = false

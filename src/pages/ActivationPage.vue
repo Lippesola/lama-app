@@ -1,5 +1,5 @@
 <template>
-  <div class="q-pa-md text-h4">Mitarbeiterverwaltung</div>
+  <div class="q-pa-md text-h4">Mitarbeiter-Freischaltung</div>
   <div class="q-pa-md" style="max-width: 600px">
     <q-list separator>
       <UserActivationItem

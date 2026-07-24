@@ -412,7 +412,7 @@ export default {
         $q.notify({
           color: "red-4",
           textColor: "white",
-          icon: "fa-solid fa-circle-xmark ",
+          icon: "circle-xmark",
           message: "Bitte überprüfe deine Angaben",
         });
         return;
@@ -469,7 +469,7 @@ export default {
             message: "Erfolgreich gespeichert!",
             timeout: 250,
             color: "green-4",
-            icon: "fa-solid fa-check",
+            icon: "check",
           });
           registrated.value = true;
         })
@@ -482,7 +482,7 @@ export default {
           $q.notify({
             color: "red-4",
             textColor: "white",
-            icon: "fa-solid fa-circle-xmark ",
+            icon: "circle-xmark",
             message: errMsg,
           });
         });

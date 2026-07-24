@@ -11,30 +11,34 @@
         {{ user.firstName }} {{ user.lastName }}
         <q-icon
             v-if="groupUser.type === 2"
-            name="fas fa-bolt"
             color="yellow"
             title="GL"
-        />
+        >
+            <AppIcon name="bolt" />
+        </q-icon>
         </q-item-label>
         <q-item-label caption>
         <q-icon
-            :name="'fas fa-' + (user.gender === 'w' ? 'venus' : 'mars')"
             :color="user.gender === 'w' ? 'pink' : 'blue'"
             :title="user.gender === 'w' ? 'weiblich' : 'männlich'"
-        />
+        >
+            <AppIcon :name="user.gender === 'w' ? 'venus' : 'mars'" />
+        </q-icon>
         <q-icon
-            :name="'fas fa-guitar'"
             :color="getSkillColor(user.guitar)"
             :title="$constants.engagement.roles.guitar.options.find(o => o.value === user.guitar).label"
             class="q-pl-xs"
-        />
+        >
+            <AppIcon name="guitar" />
+        </q-icon>
         <q-icon
             v-if="week"
-            :name="'fas fa-calendar-alt'"
             :color="getSkillColor(user[week === 1 ? 'teens' : 'kids'])"
             :title="$constants.engagement.participation[week === 1 ? 'teens' : 'kids'].options.find(o => o.value === user[week === 1 ? 'teens' : 'kids']).label"
             class="q-pl-xs"
-        />
+        >
+            <AppIcon name="calendar-alt" />
+        </q-icon>
         </q-item-label>
     </q-item-section>
     <q-item-section side no-wrap>

@@ -8,12 +8,13 @@
           </div>
           <q-space />
           <q-btn
-            icon="fa-solid fa-times"
             flat
             dense
             class="q-ma-none"
             @click="dialog = false"
-          />
+          >
+            <AppIcon name="times" />
+          </q-btn>
         </div>
         <q-input
           class="q-py-md "

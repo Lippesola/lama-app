@@ -174,7 +174,7 @@ export default {
           $q.notify({
             color: 'green-4',
             textColor: 'white',
-            icon: 'fa-solid fa-check',
+            icon: 'check',
 
             message: 'Gespeichert'
           })
@@ -191,7 +191,7 @@ export default {
           $q.notify({
             color: 'red-4',
             textColor: 'white',
-            icon: 'fa-solid fa-circle-xmark ',
+            icon: 'circle-xmark',
             message: errMsg
           })
         })

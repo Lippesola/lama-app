@@ -52,11 +52,11 @@
           Wenn du noch keine SOLA ID hast, kannst du dich hier einfach registrieren.
         </div>
         <q-btn
-          icon="fa-solid fa-question-circle"
           flat
           dense
           @click="dialog=true"
         >
+        <AppIcon name="circle-question" />
         <div class="q-pl-md text-caption">
           Hab ich eine SOLA ID?
         </div>

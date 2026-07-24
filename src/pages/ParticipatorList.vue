@@ -3,6 +3,7 @@
     <q-table
       title="participatorList"
       flat
+      class="sticky-header-table"
       :rows="rows"
       :columns="columns"
       :filter="filter"
@@ -22,12 +23,11 @@
             flat
             round
             dense
-            :icon="
-              'fa-solid ' + (props.inFullscreen ? 'fa-compress' : 'fa-expand')
-            "
             @click="props.toggleFullscreen"
             class="q-ml-md"
-          />
+          >
+            <AppIcon :name="props.inFullscreen ? 'compress' : 'expand'" />
+          </q-btn>
         </div>
         <div class="row" style="width: 100%">
           <q-select
@@ -76,10 +76,11 @@
         <q-space />
         <q-btn
           color="primary"
-          icon="fa-solid fa-download"
-          label="Exportieren"
           @click="exportList()"
-        />
+        >
+          <AppIcon name="download" class="q-mr-xs" />
+          Exportieren
+        </q-btn>
       </template>
     </q-table>
   </div>

@@ -37,6 +37,7 @@ export default configure(function (/* ctx */) {
       'settings',
       'userYearStatus',
       'permissions',
+      'icons',
     ],
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#css
@@ -48,14 +49,14 @@ export default configure(function (/* ctx */) {
     extras: [
       // 'ionicons-v4',
       // 'mdi-v5',
-      'fontawesome-v6',
+      // 'fontawesome-v6', // replaced by lucide-vue-next, see src/boot/icons.js
       // 'eva-icons',
       // 'themify',
       // 'line-awesome',
       // 'roboto-font-latin-ext', // this or either 'roboto-font', NEVER both!
 
       'roboto-font', // optional, you are not bound to it
-      // 'material-icons', // optional, you are not bound to it
+      'material-icons', // needed for Quasar-internal icons (e.g. q-select/q-date arrows, clear buttons)
     ],
 
     // Full list of options: https://v2.quasar.dev/quasar-cli-vite/quasar-config-js#build

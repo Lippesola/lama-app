@@ -5,7 +5,7 @@
       :img="avatar"
       :title="(user.nickname || user.firstName) + ' ' + user.lastName"
     />
-    <q-avatar v-if="!avatar" rounded size="48px" color="primary" text-color="white" icon="fa-solid fa-user"></q-avatar>
+    <q-avatar v-if="!avatar" rounded size="48px" color="primary" text-color="white"><AppIcon name="user" /></q-avatar>
     <q-avatar v-if="avatar" rounded size="48px" color="primary" text-color="white">
       <img class="cursor-pointer" :src="avatar" @click="dialog = true" style="object-fit: cover;" />
     </q-avatar>
@@ -27,15 +27,15 @@
         Legende:
       </span>
       <span class="q-pa-md">
-        <q-icon color="positive" name="fa-solid fa-circle"></q-icon>
+        <q-icon color="positive"><AppIcon name="circle" /></q-icon>
         Ja
       </span>
       <span class="q-pa-md">
-        <q-icon color="warning" name="fa-solid fa-circle"></q-icon>
+        <q-icon color="warning"><AppIcon name="circle" /></q-icon>
         Vielleicht
       </span>
       <span class="q-pa-md">
-        <q-icon color="negative" name="fa-solid fa-circle"></q-icon>
+        <q-icon color="negative"><AppIcon name="circle" /></q-icon>
         Nein
       </span>
     </div>
@@ -59,7 +59,7 @@
     </q-list>
     <q-list class="q-gutter-md row">
       <UserDetailItem
-      icon="fa-solid fa-file"
+      icon="file"
       :value="wishOtherText"
       label="Sonstiges"
       color="primary"
@@ -76,7 +76,7 @@
     </q-list>
     <q-list class="q-py-lg row">
       <UserDetailItem
-        icon="fa-solid fa-file"
+        icon="file"
         :value="comment"
         label="Weitere Anmerkungen"
         color="primary"

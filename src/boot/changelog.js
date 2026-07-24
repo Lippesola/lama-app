@@ -1,7 +1,12 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.12.0";
+const version = "v1.12.1";
 const changelog = {
+  "v1.12.1": [
+    "Die Icons in LAMA wurden modernisiert und einheitlicher gestaltet",
+    "In den Tabellen werden Headerleisten im Vollbild immer angezeigt",
+    "Ausstehende Freischaltungen für Mitarbeiter oder Helfer werden jetzt im Menü angezeigt",
+  ],
   "v1.12.0": [
     "Teilnehmerdaten können jetzt direkt in LAMA bearbeitet werden",
     "Die Verwaltungsansicht für Papierkram ist übersichtlicher gestaltet",

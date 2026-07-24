@@ -37,25 +37,25 @@ export default boot(async ({ app }) => {
     firstName: {
       id: "firstName",
       title: "Vorname",
-      icon: "fa-solid fa-id-card",
+      icon: "id-card",
       access: "",
     },
     lastName: {
       id: "lastName",
       title: "Nachname",
-      icon: "fa-solid fa-id-card",
+      icon: "id-card",
       access: "",
     },
     nickname: {
       id: "nickname",
       title: "Spitzname",
-      icon: "fa-solid fa-signature",
+      icon: "signature",
       access: "",
     },
     gender: {
       id: "gender",
       title: "Geschlecht",
-      icon: "fa-solid fa-person-half-dress",
+      icon: "person-half-dress",
       options: {
         m: "Männlich",
         w: "Weiblich",
@@ -65,55 +65,55 @@ export default boot(async ({ app }) => {
     mail: {
       id: "mail",
       title: "E-Mail",
-      icon: "fa-solid fa-envelope",
+      icon: "envelope",
       access: "",
     },
     birthday: {
       id: "birthday",
       title: "Geburtstag",
-      icon: "fa-solid fa-cake-candles",
+      icon: "cake-candles",
       access: "",
     },
     street: {
       id: "street",
       title: "Straße",
-      icon: "fa-solid fa-location-dot",
+      icon: "location-dot",
       access: "",
     },
     zipCode: {
       id: "zipCode",
       title: "PLZ",
-      icon: "fa-solid fa-location-dot",
+      icon: "location-dot",
       access: "",
     },
     city: {
       id: "city",
       title: "Ort",
-      icon: "fa-solid fa-location-dot",
+      icon: "location-dot",
       access: "",
     },
     phone: {
       id: "phone",
       title: "Telefonnummer",
-      icon: "fa-solid fa-phone",
+      icon: "phone",
       access: "",
     },
     mobile: {
       id: "mobile",
       title: "Handynummer",
-      icon: "fa-solid fa-mobile-screen-button",
+      icon: "mobile-screen-button",
       access: "",
     },
     church: {
       id: "church",
       title: "Gemeinde",
-      icon: "fa-solid fa-church",
+      icon: "church",
       access: "",
     },
     churchContact: {
       id: "churchContact",
       title: "Gemeindekontakt",
-      icon: "fa-solid fa-church",
+      icon: "church",
       options: {
         true: "Ja",
         false: "Nein",
@@ -123,13 +123,13 @@ export default boot(async ({ app }) => {
     job: {
       id: "job",
       title: "Beruf",
-      icon: "fa-solid fa-briefcase",
+      icon: "briefcase",
       access: "",
     },
     vegetarian: {
       id: "vegetarian",
       title: "Vegetarier",
-      icon: "fa-solid fa-utensils",
+      icon: "utensils",
       options: {
         true: "Ja",
         false: "Nein",
@@ -139,7 +139,7 @@ export default boot(async ({ app }) => {
     lactose: {
       id: "lactose",
       title: "Laktoseintoleranz",
-      icon: "fa-solid fa-utensils",
+      icon: "utensils",
       options: {
         true: "Ja",
         false: "Nein",
@@ -149,7 +149,7 @@ export default boot(async ({ app }) => {
     plate: {
       id: "plate",
       title: "Kennzeichen",
-      icon: "fa-solid fa-car",
+      icon: "car",
       access: "",
     },
   };
@@ -159,7 +159,7 @@ export default boot(async ({ app }) => {
       prepare1: {
         id: "prepare1",
         title: "1. Vorbereitungswochenende (VW)",
-        icon: "fa-solid fa-calendar",
+        icon: "calendar",
         hint: `${date2String(constants.events.prepare1)}`,
         options: [
           { value: 0, label: "Nein" },
@@ -171,7 +171,7 @@ export default boot(async ({ app }) => {
       prepare2: {
         id: "prepare2",
         title: "2. Vorbereitungswochenende (VW)",
-        icon: "fa-solid fa-calendar",
+        icon: "calendar",
         hint: `${date2String(constants.events.prepare2)}`,
         options: [
           { value: 0, label: "Nein" },
@@ -183,7 +183,7 @@ export default boot(async ({ app }) => {
       prepare3: {
         id: "prepare3",
         title: "3. Vorbereitungswochenende (VW)",
-        icon: "fa-solid fa-calendar",
+        icon: "calendar",
         hint: `${date2String(constants.events.prepare3)}`,
         options: [
           { value: 0, label: "Nein" },
@@ -195,7 +195,7 @@ export default boot(async ({ app }) => {
       training: {
         id: "training",
         title: "Schulungstage",
-        icon: "fa-solid fa-chalkboard-user",
+        icon: "chalkboard-user",
         hint: `Vor allem für neue Mitarbeiter empfohlen. ${date2String(
           constants.events.training,
         )}`,
@@ -209,7 +209,7 @@ export default boot(async ({ app }) => {
       build: {
         id: "build",
         title: "Aufbau",
-        icon: "fa-solid fa-person-digging",
+        icon: "person-digging",
         hint: `Grundsätzlich gilt: Wer beim Teens-SOLA dabei ist, ist auch beim Aufbau dabei. ${date2String(
           constants.events.build,
         )}`,
@@ -222,7 +222,7 @@ export default boot(async ({ app }) => {
       teens: {
         id: "teens",
         title: "Teens-SOLA",
-        icon: "fa-solid fa-campground",
+        icon: "campground",
         hint: `${date2String(constants.events.teens)}`,
         options: [
           { value: 0, label: "Nein" },
@@ -234,7 +234,7 @@ export default boot(async ({ app }) => {
       kids: {
         id: "kids",
         title: "Kids-SOLA",
-        icon: "fa-solid fa-campground",
+        icon: "campground",
         hint: `${date2String(constants.events.kids)}`,
         options: [
           { value: 0, label: "Nein" },
@@ -246,7 +246,7 @@ export default boot(async ({ app }) => {
       cleanup: {
         id: "cleanup",
         title: "Abbau",
-        icon: "fa-solid fa-person-digging",
+        icon: "person-digging",
         hint: `Grundsätzlich gilt: Wer beim Kids-SOLA dabei ist, ist auch beim Abbau dabei. ${date2String(
           constants.events.cleanup,
         )}`,
@@ -262,7 +262,7 @@ export default boot(async ({ app }) => {
       driver: {
         id: "driver",
         title: "Fahrgemeinschaft",
-        icon: "fa-solid fa-car",
+        icon: "car",
         hint: `Fährst du zu den Terminen mit dem Auto und kannst ggf. Leute mitnehmen?`,
         options: [
           { value: 0, label: "Nein" },
@@ -275,7 +275,7 @@ export default boot(async ({ app }) => {
       groupLeader: {
         id: "groupLeader",
         title: "Gruppenleiter (GL)",
-        icon: "fa-solid fa-star",
+        icon: "star",
         hint: `Kannst du dir vorstellen eine Gruppe / ein Team zu leiten?`,
         options: [
           { value: 0, label: "Nein" },
@@ -285,7 +285,7 @@ export default boot(async ({ app }) => {
       dayLeader: {
         id: "dayLeader",
         title: "Tagesleiter",
-        icon: "fa-solid fa-star",
+        icon: "star",
         hint: `Deine Aufgabe ist es, auf dem Platz durch das Programm eines Tages zu leiten.`,
         options: [
           { value: 0, label: "Nein" },
@@ -295,7 +295,7 @@ export default boot(async ({ app }) => {
       dayTeamLeader: {
         id: "dayTeamLeader",
         title: "Planungsleiter",
-        icon: "fa-solid fa-star",
+        icon: "star",
         hint: `Die Tage werden von mehreren Teams geplant. Kannst du eines davon leiten?`,
         options: [
           { value: 0, label: "Nein" },
@@ -305,7 +305,7 @@ export default boot(async ({ app }) => {
       guitar: {
         id: "guitar",
         title: "Gitarre",
-        icon: "fa-solid fa-guitar",
+        icon: "guitar",
         hint: `Traust du dir zu, alleine am Lagerfeuer Gitarre zu spielen?`,
         options: [
           { value: 0, label: "Nein" },
@@ -317,7 +317,7 @@ export default boot(async ({ app }) => {
       singing: {
         id: "singing",
         title: "Gesang",
-        icon: "fa-solid fa-microphone",
+        icon: "microphone",
         hint: `Kannst du den Gesang in deiner Gruppe anleiten?`,
         options: [
           { value: 0, label: "Nein" },
@@ -327,7 +327,7 @@ export default boot(async ({ app }) => {
       band: {
         id: "band",
         title: "Band",
-        icon: "fa-solid fa-music",
+        icon: "music",
         hint: `Möchtest du in der Band mitwirken? Wenn ja: gib bitte bei "Sonstige Anmerkungen" an, wie du dich einbringen möchtest.`,
         options: [
           { value: 0, label: "Nein" },
@@ -337,7 +337,7 @@ export default boot(async ({ app }) => {
       drama: {
         id: "drama",
         title: "Anspiel",
-        icon: "fa-solid fa-masks-theater",
+        icon: "masks-theater",
         hint: `Siehst du dich im Anspielteam?`,
         options: [
           { value: 0, label: "Nein" },
@@ -351,7 +351,7 @@ export default boot(async ({ app }) => {
       wishTent: {
         id: "wishTent",
         title: "Zelt-MA",
-        icon: "fa-solid fa-tent",
+        icon: "tent",
         hint: `Hier bist du direkt mit den Teilnehmern in einer Gruppe`,
         options: [
           { value: 0, label: "Nein" },
@@ -363,7 +363,7 @@ export default boot(async ({ app }) => {
       wishKitchen: {
         id: "wishKitchen",
         title: "Küche",
-        icon: "fa-solid fa-utensils",
+        icon: "utensils",
         hint: `Bei einer Woche Action darf die gute Verpflegung natürlich nicht fehlen`,
         options: [
           { value: 0, label: "Nein" },
@@ -375,7 +375,7 @@ export default boot(async ({ app }) => {
       wishOffice: {
         id: "wishOffice",
         title: "Lagerbüro",
-        icon: "fa-solid fa-print",
+        icon: "print",
         hint: `Es fallen immer ein paar Aufgaben an, die im Hintergrund erleidgt werden müssen. Vor allem im Bereich IT und Verwaltung`,
         options: [
           { value: 0, label: "Nein" },
@@ -387,7 +387,7 @@ export default boot(async ({ app }) => {
       wishMedia: {
         id: "wishMedia",
         title: "Medienteam",
-        icon: "fa-solid fa-camera",
+        icon: "camera",
         hint: `Vor allem, wenn du Lust auf Fotografieren und Filmen hast, bist du hier richtig`,
         options: [
           { value: 0, label: "Nein" },
@@ -399,7 +399,7 @@ export default boot(async ({ app }) => {
       wishMedic: {
         id: "wishMedic",
         title: "Sani",
-        icon: "fa-solid fa-suitcase-medical",
+        icon: "suitcase-medical",
         hint: `Hier kümmerst du dich um verletzte und kranke Teilnehmer und Mitarbeiter`,
         options: [
           { value: 0, label: "Nein" },
@@ -411,7 +411,7 @@ export default boot(async ({ app }) => {
       wishInfrastructure: {
         id: "wishInfrastructure",
         title: "Springer",
-        icon: "fa-solid fa-screwdriver-wrench",
+        icon: "screwdriver-wrench",
         hint: `Handwerk, Strom, Gas, Wasser - Die Springer kümmern sich unter anderem um eine funktionierende Infrastruktur`,
         options: [
           { value: 0, label: "Nein" },
@@ -423,7 +423,7 @@ export default boot(async ({ app }) => {
       wishPrayer: {
         id: "wishPrayer",
         title: "Gebetsteam",
-        icon: "fa-solid fa-praying-hands",
+        icon: "praying-hands",
         hint: `Neben Gebeten für das SOLA, hat das Gebetsteam ein offenes Ohr für alle, organisiert die freiwillige Gebetszeit und schaut, was sonst noch gebraucht wird`,
         options: [
           { value: 0, label: "Nein" },
@@ -435,7 +435,7 @@ export default boot(async ({ app }) => {
       wishAcademy: {
         id: "wishAcademy",
         title: "SOLA-Akademie",
-        icon: "fa-solid fa-praying-hands",
+        icon: "praying-hands",
         hint: `Die SOLA-Akademie findet während des Teens-SOLAs statt und dient dazu, ältere Teens auf die Mitarbeit bei den Kids in diesem Jahr vorzubereiten.`,
         options: [
           { value: 0, label: "Nein" },
@@ -447,7 +447,7 @@ export default boot(async ({ app }) => {
       wishOther: {
         id: "wishOther",
         title: "Sonstiges",
-        icon: "fa-solid fa-circle-question",
+        icon: "circle-question",
         hint: `Wenn dir nichts zusagt oder du spezielle Wünsche hast, schreib sie gerne unten in das Feld für sonstige Anmerkungen`,
         options: [
           { value: 0, label: "Nein" },
@@ -462,25 +462,25 @@ export default boot(async ({ app }) => {
     criminalRecord: {
       id: "criminalRecord",
       title: "Führungszeugnis",
-      icon: "fa-solid fa-handcuffs",
+      icon: "handcuffs",
       interval: 5,
     },
     selfCommitment: {
       id: "selfCommitment",
       title: "Verhaltenskodex",
-      icon: "fa-solid fa-file-signature",
+      icon: "file-signature",
       interval: 5,
     },
     privacyCommitment: {
       id: "privacyCommitment",
       title: "Datenschutz",
-      icon: "fa-solid fa-file-shield",
+      icon: "file-shield",
       interval: 1,
     },
     parentalConsent: {
       id: "parentalConsent",
       title: "U18-Zettel",
-      icon: "fa-solid fa-file-signature",
+      icon: "file-signature",
       interval: 1,
     },
   };
