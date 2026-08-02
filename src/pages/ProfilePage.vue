@@ -85,7 +85,8 @@
   <q-expansion-item
     expand-separator
     label="Kommentar (intern)"
-    class="text-h6 q-mb-md"
+    header-class="text-h6"
+    class="q-mb-md"
     :default-opened=false
     v-if="isLT"
   >

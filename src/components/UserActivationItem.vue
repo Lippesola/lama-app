@@ -5,6 +5,30 @@
     :title="name"
   />
 
+  <q-dialog v-model="commentDialog">
+    <q-card style="min-width: 350px; max-width: 700px; width: 90vw">
+      <q-card-section class="row items-center q-pb-none">
+        <div class="text-h6">Kommentar zu {{ name }}</div>
+        <q-space />
+        <q-btn flat round dense @click="cancelComment"><AppIcon name="times" /></q-btn>
+      </q-card-section>
+
+      <q-card-section>
+        <q-editor
+          v-model="comment"
+          min-height="10rem"
+          :toolbar="toolbarButtons"
+          placeholder="Kein Kommentar hinterlegt"
+        />
+      </q-card-section>
+
+      <q-card-section class="row q-gutter-sm">
+        <q-btn label="Speichern" @click="saveComment" color="primary" />
+        <q-btn label="Abbrechen" @click="cancelComment" flat />
+      </q-card-section>
+    </q-card>
+  </q-dialog>
+
   <q-item class="q-px-none" v-if="show === 'true'">
 
 
@@ -96,6 +120,20 @@
           </q-btn>
         </q-item-section>
 
+        <q-item-section side>
+          <q-btn
+            flat
+            dense
+            :color="hasComment ? 'primary' : 'grey-7'"
+            @click="commentDialog = true"
+          >
+            <AppIcon name="comment" />
+            <q-tooltip>
+              {{ hasComment ? 'Kommentar ansehen / bearbeiten' : 'Kommentar hinzufügen' }}
+            </q-tooltip>
+          </q-btn>
+        </q-item-section>
+
         <q-item-section>
         </q-item-section>
 
@@ -172,6 +210,28 @@ export default defineComponent({
     const mail = ref('')
     const name = ref('')
     const show = ref('true')
+    const commentDialog = ref(false)
+    const comment = ref('')
+    const savedComment = ref('')
+    const hasComment = ref(false)
+    const toolbarButtons = ref([
+      [
+        'bold',
+        'italic',
+        'underline',
+        'strike'
+      ],
+      [
+        'undo',
+        'redo'
+      ],
+      [
+        'unordered',
+        'ordered',
+        'outdent',
+        'indent'
+      ],
+    ])
     const $q = useQuasar();
     const { proxy } = getCurrentInstance()
     const c = proxy.$constants
@@ -193,6 +253,12 @@ export default defineComponent({
     }).then(function(response) {
       avatar.value = URL.createObjectURL(response.data, 'binary').toString('base64')
     }).catch((e) => {})
+
+    api.get('/userComment/' + props.uuid).then(function(response) {
+      comment.value = response.data.comment || ''
+      savedComment.value = comment.value
+      hasComment.value = comment.value.replace(/<[^>]*>/g, '').trim().length > 0
+    }).catch(function(e) {})
 
     function getAssigneeAvatar() {
       if (assignee.value) {
@@ -326,6 +392,34 @@ export default defineComponent({
       }).onDismiss(() => {
       })
     }
+    function saveComment() {
+      api.post('/userComment/' + props.uuid, {
+        comment: comment.value
+      }).then(function() {
+        savedComment.value = comment.value
+        hasComment.value = comment.value.replace(/<[^>]*>/g, '').trim().length > 0
+        commentDialog.value = false
+        $q.notify({
+          color: 'green-4',
+          textColor: 'white',
+          icon: 'check',
+          message: 'Kommentar gespeichert'
+        })
+      }).catch(function(e) {
+        $q.notify({
+          color: 'red-4',
+          textColor: 'white',
+          icon: 'circle-xmark',
+          message: e.response?.data || 'Fehler beim Speichern des Kommentars'
+        })
+      })
+    }
+
+    function cancelComment() {
+      comment.value = savedComment.value
+      commentDialog.value = false
+    }
+
     getAssigneeAvatar()
 
     return {
@@ -340,6 +434,12 @@ export default defineComponent({
       mail,
       show,
       name,
+      commentDialog,
+      comment,
+      hasComment,
+      toolbarButtons,
+      saveComment,
+      cancelComment,
     }
   }
 })

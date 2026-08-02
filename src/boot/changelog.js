@@ -1,7 +1,11 @@
 import { boot } from "quasar/wrappers";
 
-const version = "v1.12.1";
+const version = "v1.12.2";
 const changelog = {
+  "v1.12.2": [
+    "Interner Kommentar im Profil wird nicht mehr übermäßig groß dargestellt",
+    "Interner Kommentar kann jetzt auch direkt bei der Freischaltung eingesehen und bearbeitet werden",
+  ],
   "v1.12.1": [
     "Die Icons in LAMA wurden modernisiert und einheitlicher gestaltet",
     "In den Tabellen werden Headerleisten im Vollbild immer angezeigt",
