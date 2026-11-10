@@ -1,7 +1,11 @@
-import { boot } from "quasar/wrappers";
+import { defineBoot } from '#q-app'
 
-const version = "v1.12.2";
+const version = "v1.12.3";
 const changelog = {
+  "v1.12.3": [
+    "Registrierungsprozess wirft jetzt keinen Fehler mehr",
+    "Einige Abhängigkeiten wurden aktualisiert",
+  ],
   "v1.12.2": [
     "Interner Kommentar im Profil wird nicht mehr übermäßig groß dargestellt",
     "Interner Kommentar kann jetzt auch direkt bei der Freischaltung eingesehen und bearbeitet werden",
@@ -201,7 +205,7 @@ const changelog = {
   "v1.0.0": ["Init"],
 };
 
-export default boot(async ({ app }) => {
+export default defineBoot(async ({ app }) => {
   app.config.globalProperties.$version = version;
   app.config.globalProperties.$changelog = changelog;
 });

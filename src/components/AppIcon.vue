@@ -29,7 +29,7 @@ export default defineComponent({
   computed: {
     resolved() {
       const component = iconRegistry[this.name]
-      if (!component && process.env.DEV) {
+      if (!component && import.meta.env.QUASAR_DEV) {
         console.warn(`[AppIcon] unbekanntes Icon: "${this.name}"`)
       }
       return component || fallbackIcon

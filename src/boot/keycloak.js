@@ -1,8 +1,8 @@
-import VueKeycloak from '@dsb-norge/vue-keycloak-js/dist/dsb-vue-keycloak.esm.js'
+import VueKeycloak from '@dsb-norge/vue-keycloak-js'
 import { api } from './axios';
-import { boot } from 'quasar/wrappers';
+import { defineBoot } from '#q-app'
 
-export default boot(async ({ app, router, store }) => {
+export default defineBoot(async ({ app, router, store }) => {
 	app.config.globalProperties.$keycloakLogout = globalConfig.keycloak.url + 'realms/' + globalConfig.keycloak.realm + '/protocol/openid-connect/logout/logout-confirm'
 	router.beforeEach(async (to, from, next) => {
 	  if (to.matched.some(record => record.meta.requiresAuth)) {

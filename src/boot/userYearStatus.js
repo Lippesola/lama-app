@@ -1,7 +1,7 @@
-import { boot } from 'quasar/wrappers'
+import { defineBoot } from '#q-app'
 import { api } from './axios'
 
-export default boot( async ({ app }) => {
+export default defineBoot( async ({ app }) => {
 	if (!app.config.globalProperties.$keycloak.authenticated) return
 	await api.get('/userYear/' + app.config.globalProperties.$keycloak.tokenParsed.sub + '/' + app.config.globalProperties.$settings.currentYear)
 	.then(response => {

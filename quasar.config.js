@@ -9,10 +9,11 @@
 // https://v2.quasar.dev/quasar-cli-vite/quasar-config-js
 
 
-import { configure } from 'quasar/wrappers';
+import { fileURLToPath } from 'node:url';
+import { defineConfig } from '#q-app';
 
 
-export default configure(function (/* ctx */) {
+export default defineConfig(function (/* ctx */) {
   return {
     eslint: {
       // fix: true,
@@ -66,10 +67,16 @@ export default configure(function (/* ctx */) {
         node: 'node18'
       },
 
+      alias: Object.fromEntries(
+        ['src', 'layouts', 'pages', 'components', 'assets', 'boot', 'stores', 'router'].map(
+          (name) => [name, fileURLToPath(new URL(name === 'src' ? './src' : `./src/${name}`, import.meta.url))]
+        )
+      ),
+
       vueRouterMode: 'history', // available values: 'hash', 'history'
       // vueRouterBase,
       // vueDevtools,
-      // vueOptionsAPI: false,
+      vueOptionsAPI: true, // app-vite v3 defaults to false; this app uses the Options API
 
       // rebuildCache: true, // rebuilds Vite/linter/etc cache on startup
 

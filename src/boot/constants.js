@@ -1,4 +1,4 @@
-import { boot } from "quasar/wrappers";
+import { defineBoot } from '#q-app'
 import { api } from "./axios";
 import moment from "moment";
 var constants = {};
@@ -9,7 +9,7 @@ function date2String(event) {
   return s ? s + (e ? " - " + e : "") : "";
 }
 
-export default boot(async ({ app }) => {
+export default defineBoot(async ({ app }) => {
   constants["events"] = {};
 
   await api.get("/event").then((response) => {

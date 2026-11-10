@@ -1,9 +1,9 @@
-import { boot } from 'quasar/wrappers'
+import { defineBoot } from '#q-app'
 import { api } from './axios'
 
 var settings = {}
 
-export default boot( async ({ app }) => {
+export default defineBoot( async ({ app }) => {
 	//if (!app.config.globalProperties.$keycloak.authenticated) return
 	await api.get('/setting')
 	.then(response => {

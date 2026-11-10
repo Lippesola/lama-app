@@ -1,4 +1,4 @@
-import { boot } from 'quasar/wrappers'
+import { defineBoot } from '#q-app'
 import AppIcon from 'src/components/AppIcon.vue'
 import {
   ArrowDownAZ,
@@ -194,7 +194,7 @@ const stringIconMap = {
   'xmark': svgUri('<path d="M18 6 6 18"/><path d="m6 6 12 12"/>')
 }
 
-export default boot(({ app }) => {
+export default defineBoot(({ app }) => {
   app.component('AppIcon', AppIcon)
 
   const $q = app.config.globalProperties.$q
