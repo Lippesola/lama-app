@@ -20,6 +20,6 @@ COPY --chmod=755 nginx/40-lama-config.sh /docker-entrypoint.d/40-lama-config.sh
 
 EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
-  CMD wget -q --spider http://localhost:8080/ || exit 1
+  CMD wget -q --spider http://127.0.0.1:8080/ || exit 1
 
 LABEL org.opencontainers.image.source="https://github.com/Lippesola/lama-app"
