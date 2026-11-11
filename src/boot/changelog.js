@@ -397,19 +397,8 @@ function formatDate(value) {
   });
 }
 
-function formatDateTime(value) {
-  return new Date(value).toLocaleString('de-DE', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
-    timeZone: 'Europe/Berlin',
-  });
-}
-
 export default defineBoot(async ({ app }) => {
-  app.config.globalProperties.$buildInfo = `${formatDateTime(buildDate)} · ${gitSha}`;
+  app.config.globalProperties.$buildInfo = `${new Date(buildDate).toLocaleDateString('sv-SE', { timeZone: 'Europe/Berlin' })} · ${gitSha}`;
   app.config.globalProperties.$changelog = changelog.map((entry) => ({
     ...entry,
     label: formatDate(entry.date),
