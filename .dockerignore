@@ -1,0 +1,17 @@
+# Installed fresh by `npm ci` / produced by `quasar build` in the image
+node_modules
+.quasar
+dist
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Not needed in the build
+.git
+.github
+.vscode
+.idea
+Dockerfile
+.dockerignore
+README.md
+renovate.json

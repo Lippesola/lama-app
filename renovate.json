@@ -2,5 +2,37 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
-  ]
+  ],
+  "packageRules": [
+    {
+      "description": "Pin Docker images to digest",
+      "matchManagers": ["dockerfile"],
+      "pinDigests": true
+    },
+    {
+      "description": "Automerge non-major npm and Dockerfile updates",
+      "matchManagers": ["npm", "dockerfile"],
+      "matchUpdateTypes": ["minor", "patch", "pin", "pinDigest", "digest"],
+      "automerge": true,
+      "ignoreTests": true
+    },
+    {
+      "description": "nginx: only stable releases (even minor), skip odd mainline releases",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["nginxinc/nginx-unprivileged"],
+      "allowedVersions": "/^\\d+\\.\\d*[02468](\\.\\d+)?-alpine$/"
+    }
+  ],
+  "lockFileMaintenance": {
+    "enabled": true,
+    "schedule": ["before 4am on monday"],
+    "automerge": true,
+    "ignoreTests": true
+  },
+  "vulnerabilityAlerts": {
+    "description": "Raise security updates immediately; non-major ones are automerged by packageRules, major ones are not",
+    "schedule": ["at any time"],
+    "minimumReleaseAge": null,
+    "prCreation": "immediate"
+  }
 }
