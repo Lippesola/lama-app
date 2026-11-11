@@ -1,4 +1,4 @@
-FROM node:24.22.2-alpine AS build
+FROM node:24.22.2-alpine@sha256:a34ab6d7f6f4813f4d0c5469d74685604b962fbdbf5793a7bc7b4998ecb867c8 AS build
 WORKDIR /app
 
 # Copy dependency files first to cache the npm ci layer
@@ -9,7 +9,7 @@ COPY . .
 RUN npx quasar build
 
 # Runs as non-root user nginx (uid 101) and listens on 8080
-FROM nginxinc/nginx-unprivileged:1.30-alpine AS production
+FROM nginxinc/nginx-unprivileged:1.30-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03 AS production
 # html is owned by nginx so the entrypoint script can write config.js at startup
 COPY --from=build --chown=nginx:root /app/dist/spa /usr/share/nginx/html
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
