@@ -7,10 +7,10 @@
         <q-btn flat round dense v-close-popup><AppIcon name="times" /></q-btn>
       </q-card-section>
 
-      <q-card-section v-for="(changes, version) in $changelog" :key="version">
-        <div class="text-h6">{{ version }}</div>
-        <ul v-for="change in changes" :key="version+change">
-          <li>
+      <q-card-section v-for="entry in $changelog" :key="entry.date">
+        <div class="text-h6">{{ entry.label }}</div>
+        <ul>
+          <li v-for="change in entry.changes" :key="change">
             {{ change }}
           </li>
         </ul>

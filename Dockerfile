@@ -6,7 +6,9 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
-RUN npx quasar build
+# Commit shown in the app footer (.git is not part of the build context)
+ARG GIT_SHA=unknown
+RUN GIT_SHA=$GIT_SHA npx quasar build
 
 # Runs as non-root user nginx (uid 101) and listens on 8080
 FROM nginxinc/nginx-unprivileged:1.30-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03 AS production

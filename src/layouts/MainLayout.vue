@@ -147,7 +147,7 @@
         style="background-color: $grey-1;"
       >
         <q-btn
-          :label="$version"
+          :label="$buildInfo"
           no-caps
           flat
           text-color="grey"

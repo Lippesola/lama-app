@@ -10,7 +10,18 @@
 
 
 import { fileURLToPath } from 'node:url';
+import { execSync } from 'node:child_process';
 import { defineConfig } from '#q-app';
+
+// Commit the app is built from: GIT_SHA build arg in Docker/CI, local git otherwise
+function gitSha() {
+  if (process.env.GIT_SHA) return process.env.GIT_SHA.slice(0, 7);
+  try {
+    return execSync('git rev-parse --short=7 HEAD', { stdio: ['ignore', 'pipe', 'ignore'] }).toString().trim();
+  } catch {
+    return 'unknown';
+  }
+}
 
 
 export default defineConfig(function (/* ctx */) {
@@ -82,7 +93,11 @@ export default defineConfig(function (/* ctx */) {
 
       // publicPath: '/',
       // analyze: true,
-      // env: {},
+      defineEnv: {
+        // Shown as build time + commit in the menu footer
+        BUILD_DATE: new Date().toISOString(),
+        GIT_SHA: gitSha()
+      },
       // rawDefine: {}
       // ignorePublicFolder: true,
       // minify: false,
