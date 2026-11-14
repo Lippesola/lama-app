@@ -9,7 +9,7 @@
         {{ autosaveStatus }}
       </div>
     </transition>
-    <div class="col-sm- q-pa-md" style="max-width: 768px">
+    <div class="q-pa-md" style="width: 100%; max-width: 768px">
       <div class="q-py-md text-h4 text-primary">
         Motivationsbogen
         <q-btn
