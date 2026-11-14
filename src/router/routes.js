@@ -16,6 +16,7 @@ const routes = [
       { path: 'mail', component: () => import('pages/MailPage.vue') },
       { path: 'motivation', component: () => import('pages/MotivationPage.vue') },
       { path: 'motivation/:uuid', component: () => import('pages/MotivationPage.vue') },
+      { path: 'admin', component: () => import('pages/AdminPage.vue') },
       { path: 'misc', component: () => import('pages/MiscPage.vue') },
       { path: 'userlist', component: () => import('pages/UserList.vue') },
       { path: 'paperwork', component: () => import('pages/PaperworkPage.vue') },

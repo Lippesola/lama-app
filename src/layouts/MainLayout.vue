@@ -118,6 +118,16 @@
             v-bind="link"
           />
         </div>
+        <div v-if="$keycloak.tokenParsed.groups.includes('admin')">
+          <q-item-label header>
+            Admin-Bereich
+          </q-item-label>
+          <EssentialLink
+            v-for="link in adminLinks"
+            :key="link.title"
+            v-bind="link"
+          />
+        </div>
         <div v-if="!$keycloak.tokenParsed.groups.includes('Leitungsteam')">
           <EssentialLink
             v-if="$permissions.participator"
@@ -196,6 +206,13 @@ const linksList = ref([
     link: '/l/mail',
   }
 ]);
+const adminLinksList = [
+  {
+    title: 'Jahreswechsel',
+    icon: 'calendar',
+    link: '/l/admin'
+  }
+]
 const leaderLinksList = [
   {
     title: 'MA-Freischaltung',
@@ -315,6 +332,7 @@ export default defineComponent({
     return {
       essentialLinks: linksList,
       leaderLinks: leaderLinksList,
+      adminLinks: adminLinksList,
       leftDrawerOpen,
       avatar,
       showLayout,

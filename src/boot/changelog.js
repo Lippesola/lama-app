@@ -7,6 +7,14 @@ const gitSha = import.meta.env.GIT_SHA;
 // Newest entry first. Add new entries at the top with the release date (YYYY-MM-DD).
 const changelog = [
   {
+    date: "2026-11-14",
+    changes: [
+      "Neuer Admin-Bereich mit Assistent für den Jahreswechsel",
+      "Der Motivationsbogen wird im Registrierungsprozess jetzt automatisch zwischengespeichert",
+      "Eingaben in Textfeldern werden zuverlässiger übernommen",
+    ],
+  },
+  {
     date: "2026-11-10",
     changes: [
       "Registrierungsprozess wirft jetzt keinen Fehler mehr",

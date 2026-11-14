@@ -1,5 +1,14 @@
 <template>
   <div class="flex flex-center">
+    <transition name="fade">
+      <div
+        v-if="registrationFlow && autosaveStatus"
+        class="autosave-indicator text-caption"
+        :class="autosaveError ? 'text-negative' : 'text-grey-7'"
+      >
+        {{ autosaveStatus }}
+      </div>
+    </transition>
     <div class="col-sm- q-pa-md" style="max-width: 768px">
       <div class="q-py-md text-h4 text-primary">
         Motivationsbogen
@@ -48,7 +57,7 @@
 </template>
 
 <script>
-import { defineComponent, ref, getCurrentInstance } from "vue";
+import { defineComponent, ref, getCurrentInstance, onBeforeUnmount } from "vue";
 import { useQuasar } from "quasar";
 import DynamicInput from "components/DynamicInput.vue";
 
@@ -73,13 +82,19 @@ export default defineComponent({
     const c = proxy.$constants;
     const motivation = ref([]);
     const userMotivation = ref({});
+    let loaded = false;
     api
       .get("userMotivation/" + (paramUuid || uuid))
       .then((response) => {
         userMotivation.value = JSON.parse(response.data.motivation);
+        loaded = true;
       })
       .catch((error) => {
         console.log(error);
+        // Nothing stored yet: safe to start autosaving.
+        if (error?.response?.status === 404) {
+          loaded = true;
+        }
       });
     api.get("userYear/additionalInfo/" + (paramUuid || uuid))
       .then((response) => {
@@ -111,7 +126,59 @@ export default defineComponent({
             console.log(error);
           });
       })
+    const autosaveDelay = 3000;
+    let autosaveTimer = null;
+    const autosaveStatus = ref("");
+    const autosaveError = ref(false);
+    let hideTimer = null;
+    // Small, unobtrusive hint that hides itself again.
+    const showAutosaveStatus = (message, error, hideAfter) => {
+      clearTimeout(hideTimer);
+      autosaveStatus.value = message;
+      autosaveError.value = error;
+      if (hideAfter) {
+        hideTimer = setTimeout(() => (autosaveStatus.value = ""), hideAfter);
+      }
+    };
+    const cancelAutosave = () => {
+      if (autosaveTimer) {
+        clearTimeout(autosaveTimer);
+        autosaveTimer = null;
+      }
+    };
+    const autosave = () => {
+      autosaveTimer = null;
+      showAutosaveStatus("Speichert …", false, 0);
+      api
+        .post("userMotivation/" + uuid, {
+          motivation: JSON.stringify(userMotivation.value),
+        })
+        .then(() => {
+          showAutosaveStatus("✓ Gespeichert", false, 2000);
+        })
+        .catch((error) => {
+          console.log(error);
+          showAutosaveStatus("Automatisches Speichern fehlgeschlagen", true, 5000);
+        });
+    };
+    const scheduleAutosave = () => {
+      // Only drafts in the registration flow are autosaved, and only
+      // after the existing data has been loaded (avoids overwriting it).
+      if (!props.registrationFlow || !loaded) {
+        return;
+      }
+      cancelAutosave();
+      autosaveTimer = setTimeout(autosave, autosaveDelay);
+    };
+    onBeforeUnmount(() => {
+      // Flush pending changes instead of losing them on navigation.
+      if (autosaveTimer) {
+        cancelAutosave();
+        autosave();
+      }
+    });
     const saveUserMotivation = (draft) => {
+      cancelAutosave();
       api
         .post("userMotivation/" + uuid, {
           motivation: JSON.stringify(userMotivation.value),
@@ -162,8 +229,11 @@ export default defineComponent({
     };
     const updateInput = (value, id) => {
       userMotivation.value[id] = value;
+      scheduleAutosave();
     };
     return {
+      autosaveStatus,
+      autosaveError,
       motivation,
       userMotivation,
       saveUserMotivation,
@@ -172,3 +242,24 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.autosave-indicator {
+  position: fixed;
+  right: 16px;
+  top: 12px;
+  z-index: 2000;
+  padding: 2px 10px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.3s;
+}
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+</style>

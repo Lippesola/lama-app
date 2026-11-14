@@ -16,7 +16,7 @@
           :label="content"
           outlined
           :model-value="value"
-          @change="(e) => emitValue(e)"
+          @update:model-value="(e) => emitValue(e)"
         />
         <q-checkbox
           v-else-if="type.split('.')[0] == 'checkbox'"
