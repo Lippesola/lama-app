@@ -7,6 +7,13 @@ const gitSha = import.meta.env.GIT_SHA;
 // Newest entry first. Add new entries at the top with the release date (YYYY-MM-DD).
 const changelog = [
   {
+    date: "2026-11-15",
+    changes: [
+      "Wer in der Band mitwirken möchte, kann jetzt direkt in der Mitarbeiteranmeldung angeben, wie.",
+      "Im MVB werden frühere TM jetzt wie neue MA behandelt.",
+    ],
+  },
+  {
     date: "2026-11-14",
     changes: [
       "Neuer Admin-Bereich mit Assistent für den Jahreswechsel",

@@ -74,6 +74,14 @@
         :key="item.id"
       />
     </q-list>
+    <q-list class="q-py-lg row" v-if="bandInstrument">
+      <UserDetailItem
+        icon="music"
+        :value="bandInstrument"
+        label="Mitarbeit in der Band"
+        color="primary"
+      />
+    </q-list>
     <q-list class="q-py-lg row">
       <UserDetailItem
         icon="file"
@@ -111,6 +119,7 @@ export default {
     const settings = proxy.$settings
     const wishOtherText = ref('')
     const comment = ref('')
+    const bandInstrument = ref('')
 
     let profileList = {}
     let participationList = {}
@@ -176,6 +185,7 @@ export default {
       }))
       wishOtherText.value = response.data.wishOtherText
       comment.value = response.data.comment
+      bandInstrument.value = response.data.bandInstrument || ''
       loading.value = false
     })
 
@@ -215,7 +225,8 @@ export default {
       loading,
       user,
       wishOtherText,
-      comment
+      comment,
+      bandInstrument
     }
   }
 }

@@ -84,6 +84,14 @@
         />
       </div>
 
+      <q-input
+        v-if="roleSelect?.band?.value?.value"
+        v-model="bandInstrument"
+        outlined
+        label="Wie möchtest du in der Band mitmachen? (z.B. Instrument)"
+        class="q-mt-md"
+      />
+
       <div class="q-pt-xl text-h5">Sonstige Anmerkungen</div>
       <div class="q-pb-md text-body1"></div>
       <q-input
@@ -128,6 +136,7 @@ export default {
 
     const wishOtherText = ref("");
     const comment = ref("");
+    const bandInstrument = ref("");
     const participationList = c.engagement.participation;
     const roleList = c.engagement.roles;
     const wishList = c.engagement.wishes;
@@ -177,6 +186,7 @@ export default {
         });
         wishOtherText.value = response.data.wishOtherText;
         comment.value = response.data.comment;
+        bandInstrument.value = response.data.bandInstrument || "";
         loading.value = false;
       });
     return {
@@ -188,6 +198,7 @@ export default {
       wishSelect,
       wishOtherText,
       comment,
+      bandInstrument,
       error,
       loading,
       onSubmit() {
@@ -231,6 +242,9 @@ export default {
         }
         body["wishOtherText"] = wishOtherText.value;
         body["comment"] = comment.value;
+        body["bandInstrument"] = roleSelect.band.value?.value
+          ? bandInstrument.value
+          : "";
 
         api
           .post("/userYear/" + uuid + "/" + settings.currentYear, body)

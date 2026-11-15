@@ -328,7 +328,7 @@ export default defineBoot(async ({ app }) => {
         id: "band",
         title: "Band",
         icon: "music",
-        hint: `Möchtest du in der Band mitwirken? Wenn ja: gib bitte bei "Sonstige Anmerkungen" an, wie du dich einbringen möchtest.`,
+        hint: `Möchtest du in der Band mitwirken? Wenn ja: gib bitte an, wie du dich einbringen möchtest (z.B. Instrument).`,
         options: [
           { value: 0, label: "Nein" },
           { value: 1, label: "Ja" },
