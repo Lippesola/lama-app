@@ -11,7 +11,7 @@ ARG GIT_SHA=unknown
 RUN GIT_SHA=$GIT_SHA npx quasar build
 
 # Runs as non-root user nginx (uid 101) and listens on 8080
-FROM nginxinc/nginx-unprivileged:1.30-alpine@sha256:f5116ed4606f3eb015dd4a8e28cb9b351476dc0ad4bc6e9f93b19cec130cdf03 AS production
+FROM nginx/nginx-unprivileged:1.30.7-alpine@sha256:0c53a1f2890c3526bfd201440f0fd3970e5b78f80630f58284aad0d34b5ec7bd AS production
 # html is owned by nginx so the entrypoint script can write config.js at startup
 COPY --from=build --chown=nginx:root /app/dist/spa /usr/share/nginx/html
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf

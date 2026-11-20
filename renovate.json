@@ -19,7 +19,7 @@
     {
       "description": "nginx: only stable releases (even minor), skip odd mainline releases",
       "matchDatasources": ["docker"],
-      "matchPackageNames": ["nginxinc/nginx-unprivileged"],
+      "matchPackageNames": ["nginx/nginx-unprivileged"],
       "allowedVersions": "/^\\d+\\.\\d*[02468](\\.\\d+)?-alpine$/"
     }
   ],
